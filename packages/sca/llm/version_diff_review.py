@@ -35,6 +35,7 @@ from . import (
     UntrustedBlock,
     run_stage,
 )
+from .exemplars import exfil_destinations_block
 from .prompts import VERSION_DIFF_SYSTEM
 from .schemas import VersionDiffVerdict
 
@@ -109,6 +110,9 @@ def review_version_diff(
             kind="CHANGELOG",
             origin=f"{new_dep.ecosystem}/{new_dep.name} changelog",
         ))
+    exfil = exfil_destinations_block()
+    if exfil is not None:
+        blocks.append(exfil)
 
     result: StageResult = run_stage(
         client=client,

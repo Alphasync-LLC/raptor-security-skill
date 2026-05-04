@@ -29,6 +29,7 @@ from . import (
     UntrustedBlock,
     run_stage,
 )
+from .exemplars import exemplar_blocks_for_supply_chain
 from .prompts import TRIAGE_SYSTEM
 from .schemas import TriageItem, TriageResult
 
@@ -72,16 +73,20 @@ def triage_findings(
 
     content = findings_json + cross_text
 
+    blocks: list[UntrustedBlock] = [
+        UntrustedBlock(
+            content=content,
+            kind="FINDINGS_LIST",
+            origin="sca findings.json",
+        ),
+    ]
+    ecosystem = _dominant_ecosystem(sca_findings)
+    blocks.extend(exemplar_blocks_for_supply_chain(ecosystem))
+
     result: StageResult = run_stage(
         client=client,
         system=TRIAGE_SYSTEM,
-        untrusted_blocks=(
-            UntrustedBlock(
-                content=content,
-                kind="FINDINGS_LIST",
-                origin="sca findings.json",
-            ),
-        ),
+        untrusted_blocks=tuple(blocks),
         slots={
             "total_findings": TaintedString(
                 value=str(len(sca_findings)), trust="trusted",
@@ -96,6 +101,18 @@ def triage_findings(
         return None
 
     return result.model  # type: ignore[return-value]
+
+
+def _dominant_ecosystem(rows: List[Dict[str, Any]]) -> str:
+    """Most-frequent ecosystem across findings, for exemplar selection."""
+    counts: Dict[str, int] = {}
+    for row in rows:
+        eco = (row.get("sca") or {}).get("ecosystem", "")
+        if eco:
+            counts[eco] = counts.get(eco, 0) + 1
+    if not counts:
+        return "npm"
+    return max(counts, key=counts.get)  # type: ignore[arg-type]
 
 
 def _trim_for_llm(

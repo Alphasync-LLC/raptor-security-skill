@@ -29,8 +29,10 @@ from . import (
     StageResult,
     TaintedString,
     UntrustedBlock,
+    cross_family_check,
     run_stage,
 )
+from .exemplars import exfil_destinations_block
 from .prompts import INSTALL_HOOK_SYSTEM
 from .schemas import InstallHookVerdict
 
@@ -83,21 +85,28 @@ def _review_one(
     ecosystem: str,
 ) -> Optional[InstallHookVerdict]:
     """Run the LLM on a single install script."""
+    blocks: list[UntrustedBlock] = [
+        UntrustedBlock(
+            content=script_body,
+            kind="SCRIPT",
+            origin=f"{ecosystem}/{pkg_name} scripts.{script_key}",
+        ),
+    ]
+    exfil = exfil_destinations_block()
+    if exfil is not None:
+        blocks.append(exfil)
+    slots = {
+        "package_name": TaintedString(value=pkg_name, trust="untrusted"),
+        "ecosystem": TaintedString(value=ecosystem, trust="trusted"),
+        "hook_phase": TaintedString(value=script_key, trust="trusted"),
+    }
+
+    blocks_t = tuple(blocks)
     result: StageResult = run_stage(
         client=client,
         system=INSTALL_HOOK_SYSTEM,
-        untrusted_blocks=(
-            UntrustedBlock(
-                content=script_body,
-                kind="SCRIPT",
-                origin=f"{ecosystem}/{pkg_name} scripts.{script_key}",
-            ),
-        ),
-        slots={
-            "package_name": TaintedString(value=pkg_name, trust="untrusted"),
-            "ecosystem": TaintedString(value=ecosystem, trust="trusted"),
-            "hook_phase": TaintedString(value=script_key, trust="trusted"),
-        },
+        untrusted_blocks=blocks_t,
+        slots=slots,
         schema_cls=InstallHookVerdict,
         task_type="sca_install_hook_review",
     )
@@ -107,11 +116,23 @@ def _review_one(
                       ecosystem, pkg_name, result.error)
         return None
 
+    # Cross-family verification for malicious/suspicious verdicts.
+    result = cross_family_check(
+        client=client,
+        system=INSTALL_HOOK_SYSTEM,
+        untrusted_blocks=blocks_t,
+        slots=slots,
+        schema_cls=InstallHookVerdict,
+        primary_result=result,
+        verdict_field="verdict",
+        high_severity_values=("malicious", "suspicious"),
+        task_type="sca_install_hook_review",
+    )
+
     verdict: Optional[InstallHookVerdict] = result.model  # type: ignore[assignment]
     if verdict is None:
         return None
 
-    # Apply confidence haircut from preflight.
     if result.preflight_hit and verdict.confidence == "high":
         verdict = verdict.model_copy(update={"confidence": "medium"})
 
