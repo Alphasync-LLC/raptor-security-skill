@@ -261,18 +261,44 @@ def _plan_hygiene_pins(
     the "target" is the version already installed — we're just tightening
     the pin style, not changing the version.
 
-    Only acts on ``unpinned_dependency`` and ``loose_pin`` findings from
-    non-lockfile manifests (rewriting a lockfile makes no sense — the
-    lockfile is generated).
+    Acts on three hygiene kinds from non-lockfile manifests:
+
+      - ``unpinned_dependency`` — pin to current installed version
+      - ``loose_pin`` — tighten range to current installed version
+      - ``cross_manifest_inconsistency`` — find every manifest that
+        pins this ``(ecosystem, name)``, pick the highest version
+        among them, and pin all of them to that version. This makes
+        ``fix`` actually reconcile the divergence; without this case
+        operators would see the finding repeatedly without an
+        automated path to clear it.
     """
     plans: Dict[Tuple[str, str, str], _PlanEntry] = {}
+
+    # Pre-pass: build a (ecosystem, name) → [(manifest, version), …]
+    # index across ALL findings. Cross-manifest reconciliation needs
+    # this to enumerate every place the dep appears, not just the
+    # one manifest the cross_manifest_inconsistency finding points at.
+    all_dep_locations: Dict[Tuple[str, str], List[Tuple[str, str]]] = {}
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        sca = row.get("sca") or {}
+        eco = sca.get("ecosystem")
+        nm = sca.get("name")
+        ver = sca.get("version")
+        mf = row.get("file")
+        if not (eco and nm and ver and mf):
+            continue
+        if sca.get("is_lockfile"):
+            continue
+        all_dep_locations.setdefault((eco, nm), []).append((mf, ver))
 
     for row in rows:
         if not isinstance(row, dict):
             continue
         vt = row.get("vuln_type", "")
         kind = vt.removeprefix("sca:hygiene:")
-        if kind not in _HYGIENE_PIN_KINDS:
+        if kind not in _HYGIENE_PIN_KINDS and kind != "cross_manifest_inconsistency":
             continue
 
         sca = row.get("sca") or {}
@@ -284,6 +310,38 @@ def _plan_hygiene_pins(
         if not (ecosystem and name and version and manifest):
             continue
         if sca.get("is_lockfile"):
+            continue
+
+        if kind == "cross_manifest_inconsistency":
+            # Look up every manifest that pins this (eco, name); plan
+            # an update to all of them, targeting the highest version
+            # currently in use across the workspace.
+            locations = all_dep_locations.get((ecosystem, name), [])
+            if len(locations) < 2:
+                # Defensive — finding shouldn't fire for single-manifest
+                # cases, but if it does there's nothing to reconcile.
+                continue
+            target_version = _highest_version(
+                v for (_, v) in locations
+            ) or version
+            for (loc_manifest, _loc_ver) in locations:
+                key = (ecosystem, name, loc_manifest)
+                if key in vuln_plans or key in plans:
+                    continue
+                plans[key] = _PlanEntry(
+                    ecosystem=ecosystem,
+                    name=name,
+                    # ``installed`` is whatever this manifest pins
+                    # today; the rewriter uses (installed → target).
+                    installed=next(
+                        (v for (m, v) in locations
+                         if m == loc_manifest),
+                        version,
+                    ),
+                    target=target_version,
+                    manifest=Path(loc_manifest),
+                    advisory_ids=[],
+                )
             continue
 
         key = (ecosystem, name, manifest)
@@ -321,6 +379,29 @@ def _plan_hygiene_pins(
             plan.advisory_ids = list(vuln_match.advisory_ids)
 
     return plans
+
+
+def _highest_version(versions) -> Optional[str]:
+    """Return the highest version string by PEP 440 ordering when
+    available, falling back to lexicographic.
+
+    Used for cross-manifest reconciliation — versions like ``2.31``,
+    ``2.31.0``, ``2.33.1`` come from different manifest pins of the
+    same dep and need a single canonical pick.
+    """
+    versions = [v for v in versions if v]
+    if not versions:
+        return None
+    try:
+        from packaging.version import Version, InvalidVersion
+        try:
+            parsed = sorted(versions, key=Version)
+            return parsed[-1]
+        except InvalidVersion:
+            pass
+    except ImportError:
+        pass
+    return sorted(versions)[-1]
 
 
 # ---------------------------------------------------------------------------

@@ -163,6 +163,73 @@ class TestPlanHygienePins:
         assert plans[key].target == "9.0.3"
         assert plans[key].advisory_ids == ["GHSA-x"]
 
+    def test_cross_manifest_inconsistency_pins_all_to_highest(self):
+        """``cross_manifest_inconsistency`` finding triggers a sweep:
+        every manifest pinning that ``(ecosystem, name)`` gets a
+        rewrite plan to the highest version found across all of them.
+        """
+        # Three manifests pin requests at different versions. SCA
+        # surfaces the conflict on one of them (the "primary" file).
+        rows = [
+            # The cross-manifest finding itself, anchored to the
+            # primary manifest with version 2.31.0.
+            {
+                "vuln_type": "sca:hygiene:cross_manifest_inconsistency",
+                "file": "/project/requirements.txt",
+                "function": "requests",
+                "severity": "medium",
+                "sca": {
+                    "ecosystem": "PyPI", "name": "requests",
+                    "version": "2.31.0", "pin_style": "exact",
+                    "is_lockfile": False,
+                    "kind": "cross_manifest_inconsistency",
+                },
+            },
+            # Sibling rows that establish the per-manifest versions
+            # (these rows might be vuln findings, hygiene findings, or
+            # plain dep-presence findings — the planner sees them all).
+            _hygiene_row(name="requests", version="2.31.0",
+                          manifest="/project/requirements.txt",
+                          kind="loose_pin"),
+            _hygiene_row(name="requests", version="2.31",
+                          manifest="/project/packages/web/requirements.txt",
+                          kind="loose_pin"),
+            _hygiene_row(name="requests", version="2.33.1",
+                          manifest="/project/requirements-dev.txt",
+                          kind="loose_pin"),
+        ]
+        plans = optimise._plan_hygiene_pins(rows, vuln_plans={})
+        # Expect 3 plans (one per manifest), all targeting 2.33.1.
+        request_plans = [p for k, p in plans.items() if k[1] == "requests"]
+        assert len(request_plans) == 3, (
+            f"expected 3 requests plans, got {len(request_plans)}: "
+            f"{[(p.manifest.name, p.target) for p in request_plans]}"
+        )
+        for p in request_plans:
+            assert p.target == "2.33.1", \
+                f"plan for {p.manifest} targets {p.target}, not 2.33.1"
+
+    def test_cross_manifest_inconsistency_skipped_when_only_one_location(self):
+        """Defensive: if the finding fires but only one manifest is
+        actually visible in the findings list, don't synthesise a
+        single-manifest fake conflict."""
+        rows = [
+            {
+                "vuln_type": "sca:hygiene:cross_manifest_inconsistency",
+                "file": "/project/requirements.txt",
+                "function": "requests",
+                "severity": "medium",
+                "sca": {
+                    "ecosystem": "PyPI", "name": "requests",
+                    "version": "2.31.0", "pin_style": "exact",
+                    "is_lockfile": False,
+                    "kind": "cross_manifest_inconsistency",
+                },
+            },
+        ]
+        plans = optimise._plan_hygiene_pins(rows, vuln_plans={})
+        assert plans == {}
+
     def test_cross_manifest_no_propagation_different_version(self):
         """CVE propagation only applies when installed versions match."""
         rows = [
