@@ -145,6 +145,18 @@ MANIFEST_FILENAMES = {
     # field is what matters for OSV.
     ".pre-commit-config.yaml": "PreCommit",
     ".pre-commit-config.yml": "PreCommit",
+
+    # Cloud-native deployment artefacts. Same SCA-internal-
+    # placeholder convention — parsers emit per-Dependency
+    # ``ecosystem`` (``"Helm"`` / ``"OCI"``) which is what feeds
+    # downstream. ``OCI`` rows currently appear in the SBOM for
+    # visibility but the report's CVE matcher skips them; the
+    # B9-fetcher unification follow-up will hook them into the
+    # OS-package SBOM pipeline.
+    "Chart.yaml": "Helm",
+    "Chart.lock": "Helm",
+    ".gitlab-ci.yml": "GitLabCI",
+    ".gitlab-ci.yaml": "GitLabCI",
 }
 
 # Filenames that match additional patterns (extension-based).
@@ -337,4 +349,24 @@ def _classify(path: Path) -> Optional[str]:
     # since one file can mix pip and apt installs.
     if _is_inline_install_source(path):
         return "Inline"
+    # Docker Compose / overlay variants. ``docker-compose.dev.yml``
+    # etc. — too many shapes for static MANIFEST_FILENAMES; matched
+    # by predicate.
+    if _is_compose_file(name):
+        return "OCI"
     return None
+
+
+def _is_compose_file(name: str) -> bool:
+    """Match ``compose.yml`` / ``compose.yaml`` /
+    ``docker-compose*.yml`` / ``compose.<overlay>.yml``."""
+    lower = name.lower()
+    if not (lower.endswith(".yml") or lower.endswith(".yaml")):
+        return False
+    if lower.startswith("docker-compose"):
+        return True
+    if lower == "compose.yml" or lower == "compose.yaml":
+        return True
+    if lower.startswith("compose."):
+        return True
+    return False

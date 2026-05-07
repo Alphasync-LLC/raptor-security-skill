@@ -135,13 +135,16 @@ def _resolve(
 # Side-effect imports: each module calls register() at import time.
 # Order is irrelevant — the registry is keyed by filename.
 from . import cargo               # noqa: E402,F401
+from . import compose             # noqa: E402,F401
 from . import composer            # noqa: E402,F401
 from . import conan               # noqa: E402,F401
 from . import gemfile             # noqa: E402,F401
+from . import gitlab_ci           # noqa: E402,F401
 from . import gitmodules          # noqa: E402,F401
 from . import gomod               # noqa: E402,F401
 from . import gradle_dsl          # noqa: E402,F401
 from . import gradle_lockfile     # noqa: E402,F401
+from . import helm_chart          # noqa: E402,F401
 from . import inline_installs     # noqa: E402,F401
 from . import nuget               # noqa: E402,F401
 from . import package_json        # noqa: E402,F401
