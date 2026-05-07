@@ -135,6 +135,16 @@ MANIFEST_FILENAMES = {
     "conanfile.py": "ConanCenter",
     "conan.lock": "ConanCenter",
     ".gitmodules": "GitHub",       # SCA-internal — see gitmodules.py
+
+    # CI / dev-tooling — pre-commit hook configs. The parser
+    # resolves each ``repo:`` URL to its underlying registry
+    # package via ``data/precommit_repo_map.json``; emitted deps
+    # carry ``ecosystem="PyPI"`` / ``"npm"`` / ``"RubyGems"`` /
+    # ``"GitHub"`` (fallback) per row. The classification here is
+    # a placeholder ecosystem — the per-Dependency ``ecosystem``
+    # field is what matters for OSV.
+    ".pre-commit-config.yaml": "PreCommit",
+    ".pre-commit-config.yml": "PreCommit",
 }
 
 # Filenames that match additional patterns (extension-based).
