@@ -940,40 +940,64 @@ _DOCKERFILE_RUN_RE = re.compile(r"^\s*RUN\s+", re.IGNORECASE)
 def _extract_dockerfile_run_blocks(text: str) -> List[Tuple[int, str, bool]]:
     """Yield ``(start_line, body, commented)`` for every RUN instruction.
 
-    Honours backslash-continuation. A ``# RUN ...`` line is treated as a
-    commented RUN block (rare but cheap to support).
+    Live RUN instructions (and their backslash-continuations) come from
+    :func:`core.dockerfile.parse_dockerfile` — the shared substrate
+    handles tokenisation, line-continuation collapsing, and multi-stage
+    AS-name tracking. Commented RUN blocks (``# RUN pip install foo``)
+    are surfaced via a tiny pre-pass below; the core parser skips
+    comments by design (correct for most consumers, but SCA wants to
+    surface commented installs as info-severity findings).
     """
+    from core.dockerfile import parse_dockerfile as _parse_dockerfile_core
+
+    out: List[Tuple[int, str, bool]] = []
+
+    # Live RUN instructions — delegated.
+    for inst in _parse_dockerfile_core(text):
+        if inst.directive == "RUN" and inst.args:
+            out.append((inst.line, inst.args, False))
+
+    # Commented RUN blocks — small inline pass. Rare but cheap to
+    # preserve behaviour. Honours backslash continuation across
+    # commented lines (``# RUN foo \`` then ``#  bar``).
+    out.extend(_extract_commented_run_blocks(text))
+
+    out.sort(key=lambda x: x[0])
+    return out
+
+
+def _extract_commented_run_blocks(
+    text: str,
+) -> List[Tuple[int, str, bool]]:
+    """Scan for ``# RUN ...`` blocks. Returns the same shape as the
+    live-RUN extractor with ``commented=True``."""
     out: List[Tuple[int, str, bool]] = []
     raw = text.splitlines()
     i = 0
     while i < len(raw):
-        line = raw[i]
-        stripped = line.lstrip()
-        commented = stripped.startswith("#")
-        body_line = stripped.lstrip("#").lstrip() if commented else stripped
-        if not _DOCKERFILE_RUN_RE.match(body_line):
+        stripped = raw[i].lstrip()
+        if not stripped.startswith("#"):
+            i += 1
+            continue
+        body_line = stripped.lstrip("#").lstrip()
+        m = _DOCKERFILE_RUN_RE.match(body_line)
+        if m is None:
             i += 1
             continue
         start = i + 1
-        # Strip the leading "RUN ".
-        m = _DOCKERFILE_RUN_RE.match(body_line)
-        if m is None:                      # never None, but mypy comfort
-            i += 1
-            continue
         chunks = [body_line[m.end():]]
-        # Continuation handling.
         while chunks[-1].rstrip().endswith("\\"):
             chunks[-1] = chunks[-1].rstrip()[:-1]
             i += 1
             if i >= len(raw):
                 break
             cont_line = raw[i].lstrip()
-            if commented and cont_line.startswith("#"):
+            if cont_line.startswith("#"):
                 cont_line = cont_line.lstrip("#").lstrip()
             chunks.append(cont_line)
         joined = " ".join(c.strip() for c in chunks).strip()
         if joined:
-            out.append((start, joined, commented))
+            out.append((start, joined, True))
         i += 1
     return out
 
