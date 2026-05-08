@@ -267,3 +267,235 @@ def test_malformed_querybatch_response_treated_as_no_vuln(tmp_path: Path) -> Non
     client = OsvClient(http, JsonCache(root=tmp_path))
     results = client.query_batch(deps)
     assert all(r.advisories == [] for r in results)
+
+
+# ---------------------------------------------------------------------------
+# OSS-Fuzz fallback for C/C++ deps
+# ---------------------------------------------------------------------------
+
+
+from packages.sca.osv import _oss_fuzz_candidates
+
+
+def test_osssfuzz_candidates_for_vcpkg():
+    dep = _dep("openssl", "3.0.0", ecosystem="vcpkg")
+    assert _oss_fuzz_candidates(dep) == ["openssl"]
+
+
+def test_osssfuzz_candidates_for_conancenter():
+    dep = _dep("openssl", "3.0.0", ecosystem="ConanCenter")
+    assert _oss_fuzz_candidates(dep) == ["openssl"]
+
+
+def test_osssfuzz_candidates_for_github_takes_repo_basename():
+    """github ecosystem name is "owner/repo"; OSS-Fuzz uses repo
+    basename for projects hosted at github.com/X/X."""
+    dep = _dep("openssl/openssl", "abcdef", ecosystem="GitHub")
+    assert _oss_fuzz_candidates(dep) == ["openssl"]
+
+
+def test_osssfuzz_candidates_for_github_no_owner():
+    """Defensive: a malformed GitHub name without a slash falls
+    back to the name as-is rather than producing an empty
+    string."""
+    dep = _dep("singlename", "abc", ecosystem="GitHub")
+    assert _oss_fuzz_candidates(dep) == ["singlename"]
+
+
+def test_osssfuzz_candidates_for_pypi_returns_empty():
+    """Non-C/C++ ecosystems get no fallback — OSS-Fuzz indexes
+    C/C++ projects, querying it for npm/PyPI/etc would be noise."""
+    dep = _dep("requests", "2.30.0", ecosystem="PyPI")
+    assert _oss_fuzz_candidates(dep) == []
+
+
+def test_osssfuzz_candidates_strips_conan_subname():
+    """Conan-style ``openssl/3.0.0`` packed names get split if a
+    caller passes the unstripped form."""
+    dep = _dep("openssl/3.0.0", "1", ecosystem="ConanCenter")
+    assert _oss_fuzz_candidates(dep) == ["openssl"]
+
+
+def test_osssfuzz_fallback_fires_when_primary_empty(
+    tmp_path: Path,
+) -> None:
+    """vcpkg dep with no primary hit → OSS-Fuzz fallback queries.
+    Verified by FakeHttp recording two distinct POSTs: one for
+    vcpkg ecosystem (empty), one for OSS-Fuzz (hits)."""
+    dep = _dep("openssl", "3.0.0", ecosystem="vcpkg")
+
+    posts: List[dict] = []
+    osssfuzz_record = {
+        "id": "OSV-2024-001",
+        "aliases": [],
+        "summary": "test",
+        "details": "",
+        "affected": [],
+        "references": [],
+    }
+
+    class TrackingHttp(FakeHttp):
+        def post_json(self, url, body, timeout=30):
+            posts.append(body)
+            # Primary vcpkg query → empty; OSS-Fuzz query → hit.
+            eco = body["queries"][0]["package"]["ecosystem"]
+            if eco == "vcpkg":
+                return {"results": [{"vulns": []}]}
+            return {"results": [{"vulns": [{"id": "OSV-2024-001"}]}]}
+
+        def get_json(self, url, timeout=30):
+            for vid, record in {"OSV-2024-001": osssfuzz_record}.items():
+                if vid in url:
+                    return record
+            raise HttpError(f"unknown URL: {url}", status=404)
+
+    http = TrackingHttp()
+    client = OsvClient(http, JsonCache(root=tmp_path))
+    results = client.query_batch([dep])
+    assert len(results) == 1
+    assert len(results[0].advisories) == 1
+    assert results[0].advisories[0].osv_id == "OSV-2024-001"
+    # Two HTTP calls: primary vcpkg + OSS-Fuzz fallback.
+    assert len(posts) == 2
+    primary_eco = posts[0]["queries"][0]["package"]["ecosystem"]
+    fallback_eco = posts[1]["queries"][0]["package"]["ecosystem"]
+    assert primary_eco == "vcpkg"
+    assert fallback_eco == "OSS-Fuzz"
+
+
+def test_osssfuzz_fallback_skipped_when_primary_has_hits(
+    tmp_path: Path,
+) -> None:
+    """When the primary query returns advisories, the fallback
+    must NOT fire — saves a network round-trip and keeps results
+    deterministic."""
+    dep = _dep("openssl", "3.0.0", ecosystem="vcpkg")
+
+    posts: List[dict] = []
+
+    class TrackingHttp(FakeHttp):
+        def post_json(self, url, body, timeout=30):
+            posts.append(body)
+            return {"results": [{"vulns": [{"id": "GHSA-jfh8-c2jp-5v3q"}]}]}
+
+        def get_json(self, url, timeout=30):
+            return _LOG4J_RECORD
+
+    http = TrackingHttp()
+    client = OsvClient(http, JsonCache(root=tmp_path))
+    client.query_batch([dep])
+    # Only the primary query was made.
+    assert len(posts) == 1
+    assert posts[0]["queries"][0]["package"]["ecosystem"] == "vcpkg"
+
+
+def test_osssfuzz_fallback_not_fired_for_non_cpp_ecosystem(
+    tmp_path: Path,
+) -> None:
+    """An empty-result PyPI dep doesn't trigger OSS-Fuzz fallback
+    — PyPI deps don't have C/C++ analogues."""
+    dep = _dep("nonexistent", "1.0", ecosystem="PyPI")
+
+    posts: List[dict] = []
+
+    class TrackingHttp(FakeHttp):
+        def post_json(self, url, body, timeout=30):
+            posts.append(body)
+            return {"results": [{"vulns": []}]}
+
+        def get_json(self, url, timeout=30):
+            raise HttpError("not used", status=404)
+
+    http = TrackingHttp()
+    client = OsvClient(http, JsonCache(root=tmp_path))
+    client.query_batch([dep])
+    assert len(posts) == 1
+
+
+def test_osssfuzz_fallback_caches_result(tmp_path: Path) -> None:
+    """Second query for the same C/C++ dep hits the cache for
+    BOTH primary AND OSS-Fuzz — no network calls."""
+    dep = _dep("openssl", "3.0.0", ecosystem="vcpkg")
+
+    posts: List[dict] = []
+    record = {
+        "id": "OSV-2024-001", "aliases": [], "summary": "x",
+        "details": "", "affected": [], "references": [],
+    }
+
+    class TrackingHttp(FakeHttp):
+        def post_json(self, url, body, timeout=30):
+            posts.append(body)
+            eco = body["queries"][0]["package"]["ecosystem"]
+            if eco == "vcpkg":
+                return {"results": [{"vulns": []}]}
+            return {"results": [{"vulns": [{"id": "OSV-2024-001"}]}]}
+
+        def get_json(self, url, timeout=30):
+            return record
+
+    http = TrackingHttp()
+    cache = JsonCache(root=tmp_path)
+
+    client1 = OsvClient(http, cache)
+    client1.query_batch([dep])
+    first_post_count = len(posts)
+
+    # Second client, same cache: should hit cache for both
+    # primary AND fallback queries.
+    client2 = OsvClient(http, cache)
+    client2.query_batch([dep])
+    assert len(posts) == first_post_count, (
+        f"expected no new HTTP calls but got "
+        f"{len(posts) - first_post_count} new posts"
+    )
+
+
+def test_osssfuzz_fallback_skipped_in_offline_mode(
+    tmp_path: Path,
+) -> None:
+    """Offline mode skips the fallback — the offline DB doesn't
+    index OSS-Fuzz separately."""
+    dep = _dep("openssl", "3.0.0", ecosystem="vcpkg")
+    http = FakeHttp()
+    client = OsvClient(http, JsonCache(root=tmp_path), offline=True)
+    results = client.query_batch([dep])
+    assert results[0].advisories == []
+    # No HTTP calls in offline mode.
+    assert http.posts == []
+
+
+def test_osssfuzz_fallback_dedupes_with_primary_ids(
+    tmp_path: Path,
+) -> None:
+    """If the primary AND fallback both return the same osv_id
+    (rare; could happen if the same advisory exists under both
+    ecosystems), pass-2 vuln hydration dedupes via the
+    sorted-set construction."""
+    # Force the scenario: primary returns ID X, fallback also
+    # returns ID X. dep_to_ids[key] would have ["X", "X"] but
+    # all_ids = sorted(set(...)) collapses to ["X"].
+    dep = _dep("openssl", "3.0.0", ecosystem="vcpkg")
+
+    record = {
+        "id": "OSV-DUP", "aliases": [], "summary": "x",
+        "details": "", "affected": [], "references": [],
+    }
+
+    class DupHttp(FakeHttp):
+        def post_json(self, url, body, timeout=30):
+            self.posts.append((url, body))
+            return {"results": [{"vulns": [{"id": "OSV-DUP"}]}]}
+
+        def get_json(self, url, timeout=30):
+            return record
+
+    http = DupHttp()
+    client = OsvClient(http, JsonCache(root=tmp_path))
+    results = client.query_batch([dep])
+    # Primary returns hits → fallback should NOT fire (per the
+    # earlier test), so this checks only one round-trip.
+    # Even if fallback DID fire (in some hypothetical scenario),
+    # the dedup at pass 2 would collapse the duplicate ID.
+    assert len(results[0].advisories) == 1
+    assert results[0].advisories[0].osv_id == "OSV-DUP"

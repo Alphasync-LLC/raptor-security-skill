@@ -171,6 +171,21 @@ class OsvClient:
                     )
                     dep_to_ids[dep.key()] = ids
 
+        # Pass 1.5: OSS-Fuzz fallback for C/C++ deps. OSV's
+        # ``vcpkg`` and ``ConanCenter`` ecosystems are sparse;
+        # ``ecosystem="GitHub"`` (gitmodules + CMake FetchContent) has
+        # no OSV index at all. OSS-Fuzz indexes ~700 widely-used
+        # C/C++ projects under the ``OSS-Fuzz`` ecosystem, keyed by
+        # OSS-Fuzz project name (typically the upstream package
+        # name). For any dep above where the primary query came back
+        # empty, retry with an OSS-Fuzz candidate name.
+        #
+        # Cached separately (different query_key) so primary +
+        # fallback get independent TTL handling. IDs from both
+        # passes merge into ``dep_to_ids`` before pass 2's vuln
+        # hydration.
+        self._osssfuzz_fallback(unique_keys, dep_to_ids)
+
         # Offline-DB fallback: when ``offline=True`` and an OsvOfflineDB
         # is wired in, query it directly for any dep that didn't get a
         # hit from the per-query JSON cache. This bypasses the dep_to_ids
@@ -237,10 +252,138 @@ class OsvClient:
         ver = (dep.version or "*").replace("/", "_")
         return f"queries/{eco}/{name}/{ver}"
 
+    @staticmethod
+    def _osssfuzz_query_key(dep: Dependency, candidate: str) -> str:
+        """Cache key for the OSS-Fuzz fallback query.
+
+        Distinct from ``_query_key`` so primary + fallback have
+        independent TTL handling. Same candidate name across
+        different deps shares the same cache entry — OSS-Fuzz
+        ecosystem + name + version is the canonical key.
+        """
+        name = candidate.replace("/", "_")
+        ver = (dep.version or "*").replace("/", "_")
+        return f"queries/OSS-Fuzz/{name}/{ver}"
+
+    def _osssfuzz_fallback(
+        self,
+        unique_keys: Dict[str, Dependency],
+        dep_to_ids: Dict[str, List[str]],
+    ) -> None:
+        """Mutate ``dep_to_ids`` in place with OSS-Fuzz query results
+        for C/C++ deps that came back empty from the primary query.
+
+        Two-pass: cache first, then a single batch HTTP query for
+        the remainder. Each candidate name produces one OSS-Fuzz
+        query. When multiple deps share the same candidate name +
+        version (rare; happens when the same dep is declared in
+        both vcpkg.json and a sibling Conan file), the cache
+        deduplicates.
+
+        Adds, never removes — a dep that already has primary IDs
+        is skipped entirely. Merging at the dep_to_ids level is
+        deduplication-safe because pass 2 below builds
+        ``all_ids = sorted(set(...))`` before hydration.
+        """
+        if self._offline:
+            # The offline DB doesn't index OSS-Fuzz separately from
+            # the per-ecosystem JSON files. Skip the fallback rather
+            # than emit misleading offline-mode "no advisories" rows.
+            return
+
+        # Build candidate work: only deps with empty primary results
+        # AND a non-empty OSS-Fuzz candidate list.
+        work: List[Tuple[Dependency, str]] = []
+        for key, dep in unique_keys.items():
+            if dep_to_ids.get(key):
+                continue
+            for candidate in _oss_fuzz_candidates(dep):
+                work.append((dep, candidate))
+
+        if not work:
+            return
+
+        # Cache pass.
+        uncached: List[Tuple[Dependency, str]] = []
+        for dep, candidate in work:
+            cached = self._cache.get(
+                self._osssfuzz_query_key(dep, candidate),
+                ttl_seconds=self._query_ttl,
+            )
+            if cached is not None and isinstance(cached, list):
+                ids = [str(i) for i in cached]
+                if ids:
+                    dep_to_ids.setdefault(dep.key(), []).extend(ids)
+            else:
+                uncached.append((dep, candidate))
+
+        if not uncached:
+            return
+
+        # Batch HTTP pass — same chunk size as primary.
+        for chunk in _chunked(uncached, _BATCH_CHUNK_SIZE):
+            queries = [
+                {
+                    "package": {"name": candidate, "ecosystem": "OSS-Fuzz"},
+                    "version": dep.version,
+                }
+                for dep, candidate in chunk
+            ]
+            results = self._inner.query_batch(queries)
+            for (dep, candidate), ids in zip(chunk, results):
+                self._cache.put(
+                    self._osssfuzz_query_key(dep, candidate), ids,
+                    ttl_seconds=self._query_ttl,
+                )
+                if ids:
+                    dep_to_ids.setdefault(dep.key(), []).extend(ids)
+
 
 # ---------------------------------------------------------------------------
 # OSV record → Advisory translation
 # ---------------------------------------------------------------------------
+
+def _oss_fuzz_candidates(dep: Dependency) -> List[str]:
+    """Return OSS-Fuzz package-name candidates for a C/C++ dep.
+
+    OSS-Fuzz package names typically match the upstream library
+    name. We pick a single best-effort candidate per dep; if the
+    OSS-Fuzz project name differs (rare, but happens — e.g.
+    ``boringssl`` vs ``boringssl-with-bazel``), the query simply
+    returns no advisories and SCA falls through.
+
+    Mapping:
+      * ``vcpkg`` / ``ConanCenter`` ecosystems: dep.name as-is.
+        OSS-Fuzz coverage typically uses the upstream library
+        name and so do these registries.
+      * ``GitHub`` ecosystem (.gitmodules / FetchContent rows):
+        repo basename, e.g. ``"openssl/openssl"`` →
+        ``"openssl"``. This matches the OSS-Fuzz project name
+        for most projects that are hosted at
+        ``github.com/<name>/<name>`` (the common convention for
+        single-project orgs).
+      * Other ecosystems: empty list (no fallback).
+
+    Single-element list rather than multi-candidate to avoid
+    explosive query growth. Misses are tolerated; the fallback
+    is best-effort by design.
+    """
+    eco = dep.ecosystem
+    if eco in ("vcpkg", "ConanCenter"):
+        # Conan-style names sometimes carry a "/" separator
+        # ("openssl/3.0.0" → name "openssl", version "3.0.0") but
+        # the parser already splits these. Strip defensively in
+        # case a future caller passes the unstripped form.
+        return [dep.name.split("/", 1)[0]] if dep.name else []
+    if eco == "GitHub":
+        # ``dep.name`` is "owner/repo"; OSS-Fuzz uses the repo
+        # basename for projects hosted at github.com/X/X.
+        if "/" in dep.name:
+            _, repo = dep.name.split("/", 1)
+            return [repo] if repo else []
+        return [dep.name] if dep.name else []
+    return []
+
 
 def parse_osv_record(record: Dict[str, Any]) -> Advisory:
     """Translate an OSV vulnerability record into our ``Advisory``.

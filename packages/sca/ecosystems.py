@@ -14,6 +14,12 @@ KNOWN_ECOSYSTEMS = (
     "RubyGems", "NuGet", "Packagist",
     # C/C++ ecosystems (C14):
     "vcpkg", "ConanCenter",
+    # ``OSS-Fuzz`` is a fallback ecosystem for C/C++ deps where the
+    # primary (vcpkg / ConanCenter / GitHub) returns no advisories.
+    # OSV indexes ~700 widely-used C/C++ projects under this
+    # ecosystem; ``packages.sca.osv`` retries empty C/C++ queries
+    # against it transparently.
+    "OSS-Fuzz",
     # CI / build pipelines:
     "GitHub Actions",
 )
