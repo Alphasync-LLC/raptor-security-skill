@@ -32,7 +32,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 
@@ -79,7 +79,7 @@ def build_corpus(
         http = default_client()
 
     if sources is None:
-        sources = ["kev", "epss"]
+        sources = ["kev", "epss", "exploitdb", "metasploit"]
 
     results: List[BuildResult] = []
     for source in sources:
@@ -88,6 +88,10 @@ def build_corpus(
                 results.append(_build_kev(out_dir, http))
             elif source == "epss":
                 results.append(_build_epss(out_dir, http))
+            elif source == "exploitdb":
+                results.append(_build_exploitdb(out_dir, http))
+            elif source == "metasploit":
+                results.append(_build_metasploit(out_dir, http))
             else:
                 results.append(BuildResult(
                     source=source, written=False,
@@ -152,6 +156,181 @@ def _build_kev(out_dir: Path, http: Any) -> BuildResult:
         out_dir / "kev_signals.json", output, source="kev",
         record_count=len(signals),
     )
+
+
+def _build_exploitdb(out_dir: Path, http: Any) -> BuildResult:
+    """Fetch the Exploit-DB index CSV and emit a CVE-keyed
+    boolean-signal file.
+
+    **Strict licensing posture:** Exploit-DB's license is
+    research/personal-use, NOT redistribution. We download the
+    public INDEX (which is metadata about public exploits — the
+    fact that an exploit exists for CVE-X) and emit ONLY:
+
+      * ``has_exploitdb_entry: bool``
+      * ``edb_ids: [int, ...]`` (entry IDs, public references)
+
+    We never store exploit BODIES, payloads, shellcode, or any
+    exploit content. The Tier 2 license-check
+    (:mod:`packages.sca.calibration._license_check`) enforces this
+    at commit time by rejecting field names like ``body`` /
+    ``shellcode`` / ``exploit_code`` anywhere in the corpus.
+
+    Source: ``files_exploits.csv`` from the upstream
+    ``exploit-database/exploitdb`` GitLab mirror. The CSV columns
+    include ``codes`` which carries CVE references.
+    """
+    import csv
+    import io
+
+    EDB_CSV_URL = (
+        "https://gitlab.com/exploit-database/exploitdb/-/raw/main/"
+        "files_exploits.csv"
+    )
+    raw = http.get_bytes(EDB_CSV_URL, max_bytes=64 * 1024 * 1024)
+    text = raw.decode("utf-8", errors="replace")
+    reader = csv.DictReader(io.StringIO(text))
+    cve_to_ids: Dict[str, List[int]] = {}
+    rows_seen = 0
+    for row in reader:
+        rows_seen += 1
+        edb_id_raw = row.get("id")
+        codes_raw = row.get("codes") or ""
+        if not edb_id_raw:
+            continue
+        try:
+            edb_id = int(edb_id_raw)
+        except (TypeError, ValueError):
+            continue
+        # ``codes`` is semicolon-separated; entries that map to a
+        # CVE look like ``CVE-2021-44228``. Filter to CVE refs
+        # only (other codes include OSVDB ids).
+        for code in codes_raw.split(";"):
+            code = code.strip()
+            if code.startswith("CVE-"):
+                cve_to_ids.setdefault(code, []).append(edb_id)
+    signals = {
+        cve: {
+            "has_exploitdb_entry": True,
+            "edb_ids": sorted(set(ids)),
+        }
+        for cve, ids in cve_to_ids.items()
+    }
+    output = {
+        "_source": {
+            "name": "Exploit-DB index",
+            "url": EDB_CSV_URL,
+            "license": (
+                "Exploit-DB content is research/personal-use only. "
+                "We embed ONLY boolean signals + entry-ID references "
+                "(public observable facts). No exploit content stored."
+            ),
+            "fetched_at": _utcnow(),
+            "provenance": (
+                "Exploit-Database files_exploits.csv index. We map "
+                "CVE references in the ``codes`` column to entry "
+                "IDs; no exploit bodies are read or stored."
+            ),
+            "rows_scanned": rows_seen,
+        },
+        "signals": dict(sorted(signals.items())),
+    }
+    return _write_if_changed(
+        out_dir / "exploitdb_signals.json", output,
+        source="exploitdb", record_count=len(signals),
+    )
+
+
+def _build_metasploit(out_dir: Path, http: Any) -> BuildResult:
+    """Fetch the Metasploit Framework module metadata index and
+    emit a CVE-keyed boolean-signal file.
+
+    **Strict licensing posture:** the MSF Framework codebase is
+    BSD-3-Clause. We could embed it freely, but we choose not to:
+    the corpus only needs the FACT that a module exists per CVE.
+    Storing module names + CVE refs is sufficient for calibration
+    (signal: "exploitation has been weaponised") without
+    redistributing the framework's data.
+
+    Source: ``modules_metadata_base.json`` from the upstream
+    ``rapid7/metasploit-framework`` GitHub repo. JSON keyed by
+    module path; each module has a ``references`` list with
+    ``CVE-...`` entries.
+    """
+    MSF_URL = (
+        "https://raw.githubusercontent.com/rapid7/metasploit-framework/"
+        "master/db/modules_metadata_base.json"
+    )
+    data = http.get_json(MSF_URL)
+    if not isinstance(data, dict):
+        raise RuntimeError(
+            f"unexpected MSF index shape: {type(data).__name__}"
+        )
+    cve_to_modules: Dict[str, List[str]] = {}
+    for module_path, meta in data.items():
+        if not isinstance(meta, dict):
+            continue
+        refs = meta.get("references") or []
+        if not isinstance(refs, list):
+            continue
+        for ref in refs:
+            cve_id = _msf_ref_to_cve(ref)
+            if cve_id is None:
+                continue
+            cve_to_modules.setdefault(cve_id, []).append(module_path)
+    signals = {
+        cve: {
+            "has_msf_module": True,
+            "module_paths": sorted(set(mods)),
+        }
+        for cve, mods in cve_to_modules.items()
+    }
+    output = {
+        "_source": {
+            "name": "Metasploit Framework module metadata",
+            "url": MSF_URL,
+            "license": (
+                "Metasploit Framework is BSD-3-Clause. We embed only "
+                "module-path references + booleans (a public fact "
+                "about the framework's contents); no MSF code is "
+                "stored."
+            ),
+            "fetched_at": _utcnow(),
+            "provenance": (
+                "rapid7/metasploit-framework "
+                "modules_metadata_base.json. We extract the "
+                "CVE→module-path mapping; framework code itself is "
+                "not redistributed."
+            ),
+            "modules_scanned": len(data),
+        },
+        "signals": dict(sorted(signals.items())),
+    }
+    return _write_if_changed(
+        out_dir / "metasploit_signals.json", output,
+        source="metasploit", record_count=len(signals),
+    )
+
+
+def _msf_ref_to_cve(ref: Any) -> Optional[str]:
+    """MSF references arrive in two shapes:
+
+      * String: ``"CVE-2021-44228"`` or ``"OSVDB-12345"``
+      * Object: ``{"type": "CVE", "ref": "2021-44228"}``
+
+    Return a normalised CVE-id string or None for non-CVE refs.
+    """
+    if isinstance(ref, str):
+        if ref.startswith("CVE-"):
+            return ref
+        return None
+    if isinstance(ref, dict):
+        if ref.get("type") == "CVE":
+            cve_num = ref.get("ref") or ""
+            if cve_num and not cve_num.startswith("CVE-"):
+                cve_num = f"CVE-{cve_num}"
+            return cve_num or None
+    return None
 
 
 def _build_epss(out_dir: Path, http: Any) -> BuildResult:

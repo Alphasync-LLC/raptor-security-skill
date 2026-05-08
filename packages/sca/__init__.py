@@ -73,6 +73,9 @@ SCA_ALLOWED_HOSTS = (
     "repo.maven.apache.org",                        # Maven/Gradle source jars
     "repo1.maven.org",                              # Maven Central mirror
     "api.github.com",                               # GHA ref→SHA resolution
+    # Calibration-corpus ground-truth sources (Tier 2: boolean-
+    # signal-only consumption, no exploit content stored).
+    "gitlab.com",                                   # Exploit-DB index
 )
 
 

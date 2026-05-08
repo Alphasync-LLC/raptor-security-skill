@@ -26,19 +26,39 @@ attribution requirements for sources where the data license requires it.
 - **Maintainer:** Forum of Incident Response and Security Teams (FIRST.org)
 - **Use:** Embedded subset (CVEs with EPSS ≥ 0.05).
 
-### Tier 2 sources — boolean signals only (not embedded)
+### `exploitdb_signals.json` — Exploit-DB index
 
-The following sources are **not** redistributed. We only record
-boolean signals + canonical URLs, which are public observable facts:
+- **License:** Exploit-DB content is research/personal-use only.
+  We embed **only** boolean signals + entry-ID references (public
+  observable facts that an exploit exists for a given CVE).
+- **Source:** <https://gitlab.com/exploit-database/exploitdb>
+- **Index file:** `files_exploits.csv` from upstream main branch.
+- **What's stored:** `{cve_id: {has_exploitdb_entry: true, edb_ids: [N, ...]}}`.
+- **What's NEVER stored:** exploit bodies, payloads, shellcode, or
+  any exploit content. The license-compliance check
+  (`packages/sca/calibration/_license_check.py`) rejects any file
+  containing forbidden field names (`body`, `payload`, `shellcode`,
+  `exploit_code`, `poc_code`).
 
-- **Exploit-DB** — license is research/personal-use. We record
-  `has_exploitdb_entry: true/false` per CVE plus the entry URL.
-  No exploit content is stored.
-- **Metasploit Framework** — module BSD-licensed. We record
-  `has_msf_module: true/false` per CVE plus the module path. No
-  Metasploit code is stored.
+### `metasploit_signals.json` — Metasploit Framework module metadata
+
+- **License:** Metasploit Framework is BSD-3-Clause. We could
+  redistribute it freely but choose not to: the corpus only needs
+  the FACT that a module exists per CVE. Storing module-path
+  references + booleans is sufficient for calibration without
+  vendoring the framework.
+- **Source:** <https://github.com/rapid7/metasploit-framework>
+- **Index file:** `db/modules_metadata_base.json` from upstream
+  master branch.
+- **What's stored:** `{cve_id: {has_msf_module: true, module_paths: ["exploits/...", ...]}}`.
+- **What's NEVER stored:** Metasploit Framework code (modules,
+  payloads, evasion, post-exploitation, etc.). Same forbidden-
+  field-check applies.
+
+### Tier 2 — future additions
+
 - **GitHub PoC repos** — per-repo licenses vary. URL list only,
-  no clones.
+  no clones. Not yet wired (see corpus follow-up plan).
 
 ## RAPTOR-generated artefacts
 

@@ -10,15 +10,23 @@ import pytest
 
 from packages.sca.calibration.build import (
     _bytes_equal_excluding_timestamp,
+    _build_exploitdb,
     _build_kev,
     _build_epss,
+    _build_metasploit,
+    _msf_ref_to_cve,
     _write_if_changed,
     build_corpus,
 )
 
 
 class _StubHttp:
-    """Returns canned responses for known URLs; raises for unknown."""
+    """Returns canned responses for known URLs; raises for unknown.
+
+    ``responses`` keys are URLs. Each value can be:
+      * a dict → returned by ``get_json``
+      * bytes → returned by ``get_bytes`` (max_bytes ignored in stub)
+    """
 
     def __init__(self, responses: Dict[str, Any]) -> None:
         self._responses = responses
@@ -26,7 +34,20 @@ class _StubHttp:
     def get_json(self, url: str) -> Any:
         if url not in self._responses:
             raise AssertionError(f"unexpected URL: {url}")
-        return self._responses[url]
+        v = self._responses[url]
+        if isinstance(v, (dict, list)):
+            return v
+        raise AssertionError(f"non-JSON response staged for {url}")
+
+    def get_bytes(self, url: str, *, max_bytes: int = 0) -> bytes:
+        if url not in self._responses:
+            raise AssertionError(f"unexpected URL: {url}")
+        v = self._responses[url]
+        if isinstance(v, bytes):
+            return v
+        if isinstance(v, str):
+            return v.encode("utf-8")
+        raise AssertionError(f"non-bytes response staged for {url}")
 
 
 # ---------------------------------------------------------------------------
@@ -219,6 +240,163 @@ def test_bytes_equal_excluding_timestamp_detects_real_change() -> None:
         "signals": {"CVE-2024-1": {"kev": True}, "CVE-2024-2": {"kev": True}},
     }, sort_keys=True).encode()
     assert not _bytes_equal_excluding_timestamp(a, b)
+
+
+# ---------------------------------------------------------------------------
+# Exploit-DB builder
+# ---------------------------------------------------------------------------
+
+
+_EDB_CSV = (
+    "id,file,description,date_published,author,type,platform,port,"
+    "date_added,date_updated,verified,codes,tags,aliases,screenshot_url,"
+    "application_url,source_url\n"
+    "12345,exploits/x.py,Foo,2024-01-01,jdoe,remote,windows,80,"
+    "2024-01-02,2024-01-02,1,CVE-2024-1111;OSVDB-9999,,,,,\n"
+    "12346,exploits/y.py,Bar,2024-02-01,jdoe,remote,linux,443,"
+    "2024-02-02,2024-02-02,1,CVE-2024-1111;CVE-2024-2222,,,,,\n"
+    "99999,exploits/z.py,No-CVE,2024-03-01,jdoe,local,linux,,"
+    "2024-03-02,2024-03-02,0,OSVDB-12345,,,,,\n"
+)
+
+
+def test_build_exploitdb_extracts_cve_to_edb_id_mapping(tmp_path: Path) -> None:
+    http = _StubHttp({
+        "https://gitlab.com/exploit-database/exploitdb/-/raw/main/"
+        "files_exploits.csv": _EDB_CSV,
+    })
+    result = _build_exploitdb(tmp_path, http)
+    assert result.source == "exploitdb"
+    assert result.written is True
+    data = json.loads((tmp_path / "exploitdb_signals.json").read_text())
+    # CVE-2024-1111 has TWO EDB entries (12345, 12346); deduped + sorted.
+    assert data["signals"]["CVE-2024-1111"]["edb_ids"] == [12345, 12346]
+    assert data["signals"]["CVE-2024-1111"]["has_exploitdb_entry"] is True
+    # CVE-2024-2222 has one entry (12346).
+    assert data["signals"]["CVE-2024-2222"]["edb_ids"] == [12346]
+    # Non-CVE codes (OSVDB-) don't produce signals.
+    assert "OSVDB-9999" not in data["signals"]
+    # Source block carries the strict-licensing note.
+    assert "research/personal-use" in data["_source"]["license"]
+
+
+def test_build_exploitdb_no_exploit_content_emitted(tmp_path: Path) -> None:
+    """The output must NOT contain any of the forbidden field
+    names that would indicate exploit content."""
+    http = _StubHttp({
+        "https://gitlab.com/exploit-database/exploitdb/-/raw/main/"
+        "files_exploits.csv": _EDB_CSV,
+    })
+    _build_exploitdb(tmp_path, http)
+    text = (tmp_path / "exploitdb_signals.json").read_text().lower()
+    for forbidden in ("body", "payload", "shellcode", "exploit_code",
+                       "poc_code"):
+        assert forbidden not in text, (
+            f"forbidden field {forbidden!r} appears in exploitdb_signals"
+        )
+
+
+def test_build_exploitdb_idempotent(tmp_path: Path) -> None:
+    http = _StubHttp({
+        "https://gitlab.com/exploit-database/exploitdb/-/raw/main/"
+        "files_exploits.csv": _EDB_CSV,
+    })
+    r1 = _build_exploitdb(tmp_path, http)
+    r2 = _build_exploitdb(tmp_path, http)
+    assert r1.written is True
+    assert r2.written is False
+
+
+# ---------------------------------------------------------------------------
+# Metasploit builder
+# ---------------------------------------------------------------------------
+
+
+_MSF_INDEX = {
+    "exploits/multi/http/log4shell": {
+        "name": "Log4Shell",
+        "references": [
+            {"type": "CVE", "ref": "2021-44228"},
+            {"type": "URL", "ref": "https://example.com"},
+        ],
+    },
+    "exploits/windows/smb/ms17_010": {
+        "name": "EternalBlue",
+        "references": [
+            "CVE-2017-0144",
+            "CVE-2017-0143",
+            "MSB-MS17-010",
+        ],
+    },
+    "auxiliary/scanner/foo": {
+        # Module with no CVE references — produces no signal.
+        "name": "Foo scanner",
+        "references": ["URL: https://example.com"],
+    },
+}
+
+
+def test_build_metasploit_extracts_cve_to_module_mapping(tmp_path: Path) -> None:
+    http = _StubHttp({
+        "https://raw.githubusercontent.com/rapid7/metasploit-framework/"
+        "master/db/modules_metadata_base.json": _MSF_INDEX,
+    })
+    result = _build_metasploit(tmp_path, http)
+    assert result.source == "metasploit"
+    assert result.written is True
+    data = json.loads(
+        (tmp_path / "metasploit_signals.json").read_text(),
+    )
+    sigs = data["signals"]
+    assert "CVE-2021-44228" in sigs
+    assert sigs["CVE-2021-44228"]["module_paths"] == [
+        "exploits/multi/http/log4shell",
+    ]
+    assert sigs["CVE-2017-0144"]["module_paths"] == [
+        "exploits/windows/smb/ms17_010",
+    ]
+    # Modules with no CVE refs don't emit a signal.
+    assert all(
+        cve.startswith("CVE-") for cve in sigs.keys()
+    )
+
+
+def test_build_metasploit_no_module_code_emitted(tmp_path: Path) -> None:
+    """Output is paths + booleans only — no module code / payload."""
+    http = _StubHttp({
+        "https://raw.githubusercontent.com/rapid7/metasploit-framework/"
+        "master/db/modules_metadata_base.json": _MSF_INDEX,
+    })
+    _build_metasploit(tmp_path, http)
+    text = (tmp_path / "metasploit_signals.json").read_text().lower()
+    for forbidden in ("body", "payload", "shellcode", "exploit_code"):
+        assert forbidden not in text
+
+
+def test_msf_ref_to_cve_handles_string_form():
+    assert _msf_ref_to_cve("CVE-2021-44228") == "CVE-2021-44228"
+
+
+def test_msf_ref_to_cve_handles_object_form():
+    assert _msf_ref_to_cve(
+        {"type": "CVE", "ref": "2021-44228"},
+    ) == "CVE-2021-44228"
+
+
+def test_msf_ref_to_cve_normalises_unprefixed_object_ref():
+    """Some MSF entries omit the ``CVE-`` prefix in the object
+    form. Normalise so downstream comparisons work."""
+    assert _msf_ref_to_cve(
+        {"type": "CVE", "ref": "2017-0144"},
+    ) == "CVE-2017-0144"
+
+
+def test_msf_ref_to_cve_rejects_non_cve():
+    assert _msf_ref_to_cve("OSVDB-12345") is None
+    assert _msf_ref_to_cve(
+        {"type": "URL", "ref": "https://example.com"},
+    ) is None
+    assert _msf_ref_to_cve(None) is None
 
 
 def test_write_if_changed_skips_unchanged(tmp_path: Path) -> None:
