@@ -217,6 +217,7 @@ def _run_analyse(argv: List[str]) -> int:
         enable_epss=not args.no_epss,
         enable_reachability=not args.no_reachability,
         enable_supply_chain=not args.no_supply_chain,
+        emit_html_report=args.html,
         include_commented=args.include_commented,
         enable_inline_installs=not args.no_inline_installs,
         enable_dockerfile_from=not args.no_dockerfile_from,
@@ -383,6 +384,12 @@ def _parse_analyse_args(argv: Sequence[str]) -> argparse.Namespace:
         help="skip mechanical supply-chain heuristics",
     )
     parser.add_argument(
+        "--html", action="store_true",
+        help="write a self-contained report.html alongside "
+             "report.md (suitable for CI artefact uploads / "
+             "compliance attachments)",
+    )
+    parser.add_argument(
         "--include-commented", action="store_true",
         help="parse commented-out version-pinned lines (e.g. "
              "`# z3-solver==4.16.0.0`) as deps; matching CVEs surface "
@@ -524,6 +531,12 @@ def _print_summary(result) -> None:
         f"{result.cache_misses} misses",
         f"raptor-sca: findings.json     {result.findings_path}",
         f"raptor-sca: report.md         {result.report_path}",
+        *(
+            [f"raptor-sca: report.html       "
+             f"{result.report_path.with_suffix('.html')}"]
+            if (result.report_path.with_suffix('.html')).exists()
+            else []
+        ),
         f"raptor-sca: sbom.cdx.json     {result.sbom_path}",
         f"raptor-sca: findings.sarif    {result.sarif_path}",
         "",

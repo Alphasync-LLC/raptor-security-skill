@@ -140,6 +140,10 @@ def _parse_analyse(argv):
                    help="skip module-level reachability scan")
     p.add_argument("--no-supply-chain", action="store_true",
                    help="skip mechanical supply-chain heuristics")
+    p.add_argument("--html", action="store_true",
+                   help="write a self-contained report.html alongside "
+                        "report.md (CI artefact uploads / compliance "
+                        "attachments)")
     p.add_argument("--include-commented", action="store_true",
                    help="parse commented-out version-pinned lines as deps; "
                         "matching CVEs surface at info severity")
@@ -255,6 +259,7 @@ def _run_analyse(argv):
         enable_epss=not args.no_epss,
         enable_reachability=not args.no_reachability,
         enable_supply_chain=not args.no_supply_chain,
+        emit_html_report=args.html,
         include_commented=args.include_commented,
         enable_inline_installs=not args.no_inline_installs,
         enable_transitive_expansion=not args.no_resolve_transitive,

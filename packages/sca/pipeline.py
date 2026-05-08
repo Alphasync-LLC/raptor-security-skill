@@ -79,6 +79,12 @@ class RunOptions:
                                           # eval. Disabled implicitly when
                                           # ``offline`` is set; explicit
                                           # disable via this flag.
+    emit_html_report: bool = False        # write report.html alongside
+                                           # report.md. Off by default —
+                                           # most tooling reads
+                                           # findings.json. Operators
+                                           # uploading to CI dashboards /
+                                           # compliance docs opt in.
     enable_reachability: bool = True
     enable_supply_chain: bool = True
     enable_suppressions: bool = True
@@ -537,6 +543,24 @@ def run_sca(
         cache_misses=cache.misses,
     )
     write_markdown_report(report_path, md)
+
+    # 9a. Optional HTML report — operators uploading to CI
+    # artefact dashboards / sending to compliance teams want a
+    # browser-renderable single-file. Default off because most
+    # tooling consumes findings.json directly; ``--html`` opts in.
+    if options.emit_html_report:
+        from .report_html import render_html_report, write_html_report
+        html = render_html_report(
+            target=target,
+            deps_analysed=len(joined),
+            vuln_findings=vuln_findings,
+            hygiene_findings=hygiene_findings,
+            supply_chain_findings=supply_chain_findings,
+            license_findings=license_findings,
+            cache_hits=cache.hits,
+            cache_misses=cache.misses,
+        )
+        write_html_report(output_dir / "report.html", html)
 
     sbom_path = output_dir / "sbom.cdx.json"
     write_sbom_json(
