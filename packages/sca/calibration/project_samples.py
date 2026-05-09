@@ -155,6 +155,34 @@ PROJECT_SAMPLES: List[ProjectSample] = [
         repo_url="https://github.com/lodash/lodash.git",
         git_ref="4.17.4", license_spdx="MIT",
     ),
+    # ---- Round-2 signal-density expansion (2026-05-09) -----------------
+    # Per-ecosystem audit of the 30/1175 signaled corpus showed PyPI
+    # at 0/18 and RubyGems at 2/309 (signal-poor relative to Maven's
+    # 17/290 and npm's 10/533). These entries target the lagging
+    # ecosystems with version pins old enough that their CVE pool has
+    # accrued public exploits / KEV listings — pushing toward the
+    # ~100-signaled-findings threshold where per-ecosystem refit
+    # becomes statistically viable.
+    ProjectSample(
+        name="django-1.11", ecosystem="PyPI",
+        repo_url="https://github.com/django/django.git",
+        git_ref="1.11.29", license_spdx="BSD-3-Clause",
+    ),
+    ProjectSample(
+        name="requests-2.18", ecosystem="PyPI",
+        repo_url="https://github.com/psf/requests.git",
+        git_ref="v2.18.0", license_spdx="Apache-2.0",
+    ),
+    ProjectSample(
+        name="rails-4.2", ecosystem="RubyGems",
+        repo_url="https://github.com/rails/rails.git",
+        git_ref="v4.2.0", license_spdx="MIT",
+    ),
+    ProjectSample(
+        name="spring-boot-1.5", ecosystem="Maven",
+        repo_url="https://github.com/spring-projects/spring-boot.git",
+        git_ref="v1.5.10.RELEASE", license_spdx="Apache-2.0",
+    ),
 ]
 
 
