@@ -40,6 +40,21 @@ _MAX_DISTANCE = 2
 
 # Per-ecosystem popular-name caches. Loaded lazily and re-used.
 _POPULAR_BY_ECO: Dict[str, List[str]] = {}
+# Per-ecosystem ``{length: [name, ...]}`` index. The Damerau-
+# Levenshtein cap ``_MAX_DISTANCE`` already implies
+# ``|len(query) - len(pop)| ≤ _MAX_DISTANCE``; pre-bucketing by
+# length lets ``_check_one`` walk only the candidate names whose
+# lengths are within ±_MAX_DISTANCE of the query — typically 5-15
+# names instead of the full ~100. Pre-fix, the inner loop ran the
+# full popular list per dep × 1300+ deps = 134k Damerau-Levenshtein
+# calls per scan. The dropped calls would have all returned ``cutoff``
+# from the first ``abs(la-lb) >= cutoff`` early-out anyway, so the
+# bucket index is purely a faster way to enforce a check the inner
+# function was already doing — output is byte-identical.
+_POPULAR_BY_LEN: Dict[str, Dict[int, List[str]]] = {}
+# Set view of the popular list for the O(1) "is it popular" test
+# in ``_check_one`` (was a list ``in`` linear scan pre-fix).
+_POPULAR_SET: Dict[str, set] = {}
 
 
 @dataclass(frozen=True)
@@ -74,29 +89,44 @@ def _check_one(dep: Dependency) -> Optional[TyposquatFinding]:
 
     name_norm = dep.name.lower()
     # Full name is in the popular list → it IS the popular package.
-    if name_norm in popular:
+    # Set lookup is O(1) — was a linear scan via ``in popular``
+    # against the underlying list before the index landed.
+    if name_norm in _popular_set(dep.ecosystem):
         return None
 
     candidates = [name_norm]
     if name_norm.startswith("@") and "/" in name_norm:
         candidates.append(name_norm.split("/", 1)[1])
 
+    by_len = _popular_by_len(dep.ecosystem)
     best: Optional[Tuple[int, str]] = None
     for cand in candidates:
-        for pop in popular:
-            if cand == pop:
-                # Bare-form exact match inside a non-popular scope. This
-                # is the ``@evil/lodash`` shape — scoped-namespace squat
-                # rather than a typo. Distance 0 is the strongest signal
-                # we have.
-                if best is None or 0 < best[0]:
-                    best = (0, pop)
+        # Walk only the length buckets that COULD contain a match.
+        # Damerau-Levenshtein with cutoff ``_MAX_DISTANCE`` requires
+        # ``|len(cand) - len(pop)| ≤ _MAX_DISTANCE``; the inner
+        # function's early-out enforces this anyway, so dropped
+        # candidates would all have returned ``cutoff`` and been
+        # skipped. Walking the buckets directly avoids the function-
+        # call overhead for those certain-fails.
+        cand_len = len(cand)
+        lo, hi = cand_len - _MAX_DISTANCE, cand_len + _MAX_DISTANCE
+        for length in range(lo, hi + 1):
+            shortlist = by_len.get(length)
+            if not shortlist:
                 continue
-            d = _damerau_levenshtein(cand, pop, _MAX_DISTANCE + 1)
-            if d > _MAX_DISTANCE:
-                continue
-            if best is None or d < best[0]:
-                best = (d, pop)
+            for pop in shortlist:
+                if cand == pop:
+                    # Bare-form exact match inside a non-popular scope.
+                    # ``@evil/lodash`` shape — scoped-namespace squat
+                    # rather than a typo.
+                    if best is None or 0 < best[0]:
+                        best = (0, pop)
+                    continue
+                d = _damerau_levenshtein(cand, pop, _MAX_DISTANCE + 1)
+                if d > _MAX_DISTANCE:
+                    continue
+                if best is None or d < best[0]:
+                    best = (d, pop)
 
     if best is None:
         return None
@@ -153,6 +183,36 @@ def _load_popular(ecosystem: str) -> List[str]:
     cleaned = [n.lower() for n in data if isinstance(n, str)]
     _POPULAR_BY_ECO[ecosystem] = cleaned
     return cleaned
+
+
+def _popular_set(ecosystem: str) -> set:
+    """Return the popular list as a set for O(1) ``in`` checks."""
+    cached = _POPULAR_SET.get(ecosystem)
+    if cached is not None:
+        return cached
+    popular = _load_popular(ecosystem)
+    s = set(popular)
+    _POPULAR_SET[ecosystem] = s
+    return s
+
+
+def _popular_by_len(ecosystem: str) -> Dict[int, List[str]]:
+    """Return the popular list indexed by name length.
+
+    Walking only the buckets at lengths within ``_MAX_DISTANCE`` of
+    the query length cuts the inner ``_damerau_levenshtein`` calls
+    by ~5-10× on a typical ~100-name popular list (lengths span
+    4-15 chars; ±2 buckets give ~5 length values vs the whole
+    list).
+    """
+    cached = _POPULAR_BY_LEN.get(ecosystem)
+    if cached is not None:
+        return cached
+    by_len: Dict[int, List[str]] = {}
+    for name in _load_popular(ecosystem):
+        by_len.setdefault(len(name), []).append(name)
+    _POPULAR_BY_LEN[ecosystem] = by_len
+    return by_len
 
 
 def _damerau_levenshtein(a: str, b: str, cutoff: int) -> int:
