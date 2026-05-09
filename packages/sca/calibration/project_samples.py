@@ -270,11 +270,66 @@ PROJECT_SAMPLES: List[ProjectSample] = [
         repo_url="https://github.com/mitmproxy/mitmproxy.git",
         git_ref="v5.0.0", license_spdx="MIT",
     ),
-    # NB: no RubyGems app added in round-3 — Discourse is GPL-2,
-    # Mastodon is AGPL, Redmine is GPL-2; no popular permissive-
-    # licensed Ruby app to point at. RubyGems density (1.7%) stays
-    # served by the rails-{4.2,5.2,7.1} library siblings until a
-    # permissive Ruby app surfaces.
+    # ---- App-shaped RubyGems sample -----------------------------------
+    # Discourse is GPL-2, Mastodon is AGPL, Redmine is GPL-2,
+    # OpenProject is GPL-3 — every popular Rails APP trends GPL/AGPL,
+    # so the corpus license check (permissive-only) ruled them out.
+    # ManageIQ is the exception: Apache-2.0, ~325 gems in its release
+    # lockfile. It ships ``Gemfile.lock.release`` instead of plain
+    # ``Gemfile.lock`` (gitignored dev lock, release-time copy
+    # committed to the tag) — the gemfile parser handles this via the
+    # ``Gemfile.lock*`` predicate (see ``parsers/gemfile.py``).
+    ProjectSample(
+        name="manageiq-jansa", ecosystem="RubyGems",
+        repo_url="https://github.com/ManageIQ/manageiq.git",
+        git_ref="jansa-1", license_spdx="Apache-2.0",
+    ),
+    # ---- Round-5 ecosystem-coverage gap fillers (2026-05-09) ---------
+    # Per-ecosystem audit found NuGet + Packagist at zero coverage and
+    # Cargo + Maven library-dominated. Each pick below targets a real
+    # APP (not a framework / library) with a deep, version-pinned
+    # dependency graph so the per-ecosystem refit thresholds are
+    # reachable without further rounds.
+
+    # NuGet cold-start. Modern .NET trends toward Central Package
+    # Management (versions in ``Directory.Packages.props``, not
+    # csproj) which SCA's NuGet parser doesn't follow — so we pick
+    # PowerShell 6.2.0 (March 2019), pre-CPM era. 100% of its 63
+    # ``<PackageReference>`` rows carry inline ``Version=`` attributes;
+    # 5+ years for CVEs to accrue KEV / EDB / MSF / PoC signals.
+    ProjectSample(
+        name="powershell-6.2", ecosystem="NuGet",
+        repo_url="https://github.com/PowerShell/PowerShell.git",
+        git_ref="v6.2.0", license_spdx="MIT",
+    ),
+    # Packagist cold-start. Every popular PHP CMS / e-commerce
+    # platform (WordPress, Drupal, Joomla, Magento, PrestaShop) is
+    # GPL/OSL — same blocker as Ruby APPs. Pterodactyl Panel (game-
+    # server admin) is the exception: MIT, ships ``composer.lock``
+    # at the repo root, ~155 packages (105 prod + 50 dev).
+    ProjectSample(
+        name="pterodactyl-1.11", ecosystem="Packagist",
+        repo_url="https://github.com/pterodactyl/panel.git",
+        git_ref="v1.11.7", license_spdx="MIT",
+    ),
+    # Cargo app sample. tokio + serde are libraries with shallow trees;
+    # alacritty (terminal emulator) pulls 258 packages via Cargo.lock —
+    # x11, winit, gpu, font-rendering — diverse Rust app footprint.
+    ProjectSample(
+        name="alacritty-0.13", ecosystem="Cargo",
+        repo_url="https://github.com/alacritty/alacritty.git",
+        git_ref="v0.13.0", license_spdx="Apache-2.0",
+    ),
+    # Maven diversity. spring-boot-{1.5, 2.1, 3.x} all share the
+    # Spring universe (Spring Core / Boot / MVC / Data). Jenkins
+    # uses a completely different Java stack: Stapler web framework,
+    # Guice DI, JNA, args4j, Jenkins's own plugin loader — surfaces
+    # CVEs the spring-boot trees never touch.
+    ProjectSample(
+        name="jenkins-2.387", ecosystem="Maven",
+        repo_url="https://github.com/jenkinsci/jenkins.git",
+        git_ref="jenkins-2.387.1", license_spdx="MIT",
+    ),
 ]
 
 
