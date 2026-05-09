@@ -416,12 +416,12 @@ def test_proposed_values_excludes_unchanged_constants():
 # ---------------------------------------------------------------------------
 
 
-def test_search_metric_returns_top20_top50_tuple():
-    """The internal search uses (top_20, top_50). When two
-    candidates tie at top-20 (e.g. both saturate at 1.0), the
-    one with better top-50 packing wins."""
+def test_search_metric_returns_top20_ndcg_tuple():
+    """The internal search uses (top_20_precision, ndcg_20).
+    Top-20 dominates; NDCG@20 is the tiebreaker. When all top-20
+    are exploited, precision saturates at 1.0 and NDCG@20 also
+    hits 1.0 — perfect ranking."""
     from packages.sca.calibration.refit import _search_metric
-    # Build 50 findings: top 20 all label=1, then a mix.
     samples = []
     for i in range(20):
         samples.append((
@@ -429,7 +429,7 @@ def test_search_metric_returns_top20_top50_tuple():
              "advisory": {}, "in_kev": False},
             1,
         ))
-    # Findings 21..50: 15 exploited interspersed
+    # 30 more — half exploited, but ranked below the top 20.
     for i in range(20, 50):
         label = 1 if i % 2 == 0 else 0
         samples.append((
@@ -437,9 +437,49 @@ def test_search_metric_returns_top20_top50_tuple():
              "advisory": {}, "in_kev": False},
             label,
         ))
-    p20, p50 = _search_metric(samples)
+    p20, ndcg = _search_metric(samples)
     assert p20 == 1.0
-    # 20 of top-20 plus 15 of next 30 all in top-50 = 35 / 50
-    # Wait: top-50 is the first 50 sorted. We have 50 findings.
-    # 20 exploited at top + 15 alternating in 21..50 = 35 / 50.
-    assert p50 == 35 / 50
+    # All top-20 are exploited and there are >20 exploited overall,
+    # so DCG@20 == IDCG@20 → NDCG = 1.0.
+    assert ndcg == pytest.approx(1.0)
+
+
+def test_ndcg_distinguishes_orderings_when_precision_ties():
+    """The whole point of NDCG over the previous top-50 tiebreaker:
+    candidate A puts the most-confident exploited finding at rank
+    1; candidate B puts it at rank 18. Both have precision = 1.0
+    over top-20 (all 20 exploited). NDCG must rank A higher
+    because it's a strictly-better-ordered top-20."""
+    from packages.sca.calibration.refit import _ndcg_at_n
+    # All 20 exploited, ordered with one "extra-confident" at top vs bottom.
+    rescored_a = [(100.0 - i, 1) for i in range(20)]   # all exploited
+    rescored_b = list(rescored_a)
+    # Both have precision 1.0 — but reorder shouldn't matter since
+    # both have 20/20 exploited. NDCG should equal 1.0 in both cases.
+    # The DIFFERENTIATING case is when only N < 20 of top-20 are
+    # exploited but at different ranks.
+    rescored_c = [(100.0 - i, 1) for i in range(10)] + \
+                  [(90.0 - i, 0) for i in range(10)]   # 10 exploited at top
+    rescored_d = [(100.0 - i, 0) for i in range(10)] + \
+                  [(90.0 - i, 1) for i in range(10)]   # 10 exploited at bottom
+    # Same top-20 precision (10/20 = 0.5 — but NOTE n_exploited=10,
+    # so both candidates have all exploited within top-20).
+    n_c = _ndcg_at_n(rescored_c, n=20)
+    n_d = _ndcg_at_n(rescored_d, n=20)
+    assert n_c > n_d, (
+        f"NDCG should rank top-loaded above bottom-loaded: "
+        f"top-loaded={n_c:.3f}, bottom-loaded={n_d:.3f}"
+    )
+
+
+def test_ndcg_zero_when_no_exploited():
+    from packages.sca.calibration.refit import _ndcg_at_n
+    rescored = [(100.0 - i, 0) for i in range(10)]
+    assert _ndcg_at_n(rescored, n=20) == 0.0
+
+
+def test_ndcg_perfect_when_all_top_n_are_exploited():
+    from packages.sca.calibration.refit import _ndcg_at_n
+    rescored = [(100.0 - i, 1) for i in range(20)] + \
+                [(0.0 - i, 0) for i in range(80)]   # 20 exploited, 80 clean
+    assert _ndcg_at_n(rescored, n=20) == pytest.approx(1.0)

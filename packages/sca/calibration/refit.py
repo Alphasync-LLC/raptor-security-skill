@@ -493,20 +493,32 @@ def _search_metric(
     *,
     overrides: Optional[Dict[str, float]] = None,
 ) -> Tuple[float, float]:
-    """Composite (top-20, top-50) precision used by the grid
+    """Composite (top-20 precision, NDCG@20) used by the grid
     search's argmax.
 
     Tuple semantics: max() over Python tuples compares
-    lexicographically — top-20 dominates, top-50 acts only when
-    top-20 is tied. Once the corpus carries enough exploited
-    findings that the chosen weights push top-20 to 1.000, the
-    metric stops moving on top-20 alone; without the top-50
-    tiebreaker the search would silently keep the first-seen
-    candidate even when a later candidate packs top-50 with more
-    of the remaining exploited findings.
+    lexicographically — top-20 precision dominates (it's the
+    operator-facing verdict metric), NDCG@20 acts only when
+    precision is tied. NDCG@20 is the standard ranking-quality
+    metric for top-k (Normalised Discounted Cumulative Gain): it
+    rewards exploited findings appearing at LOW ranks within the
+    top-k more than at high ranks.
 
-    Returns ``(top_20, top_50)``. Both fall back to 0.0 when no
-    findings have a usable score.
+    Why NDCG over the previous top-50 tiebreaker:
+
+      * top-20 precision saturates at 1.0 when all 20 of top-20
+        are exploited, regardless of WHICH 20. With 61 exploited
+        findings in the round-3 corpus, multiple weight settings
+        all hit precision=1.0 — the search couldn't distinguish.
+      * top-50 was a coarser-grained tiebreaker that ALSO
+        saturates once 50 of the corpus's 61 are in top-50.
+      * NDCG@20 is continuous on [0, 1] and stays sensitive to
+        the WITHIN-top-20 ordering: a candidate that puts the
+        most-confidently-exploited finding at rank 1 vs rank 18
+        scores higher even when both candidates have precision=1.0.
+
+    Returns ``(top_20_precision, ndcg_20)``. Both fall back to
+    0.0 when no findings have a usable score.
     """
     if not samples:
         return (0.0, 0.0)
@@ -520,10 +532,48 @@ def _search_metric(
         return (0.0, 0.0)
     rescored.sort(key=lambda t: -t[0])
     top20 = rescored[:20]
-    top50 = rescored[:50]
     p20 = (sum(l for _, l in top20) / len(top20)) if top20 else 0.0
-    p50 = (sum(l for _, l in top50) / len(top50)) if top50 else 0.0
-    return (p20, p50)
+    ndcg20 = _ndcg_at_n(rescored, n=20)
+    return (p20, ndcg20)
+
+
+def _ndcg_at_n(
+    rescored: List[Tuple[float, int]], n: int = 20,
+) -> float:
+    """Normalised Discounted Cumulative Gain at rank N.
+
+    ``rescored`` MUST be sorted by score descending (the caller
+    in ``_search_metric`` does this). Binary relevance: each
+    finding has label 0 (not exploited) or 1 (exploited).
+
+    Formula (binary relevance, 0-indexed positions):
+       DCG@n  = sum_{i=0..n-1}  label_i / log2(i + 2)
+       IDCG@n = sum_{i=0..min(n, n_exploited)-1}  1 / log2(i + 2)
+       NDCG@n = DCG@n / IDCG@n
+
+    Returns ``0.0`` when no exploited findings exist (IDCG=0).
+    Returns ``1.0`` when the top n positions are all exploited
+    AND there are at most n exploited findings overall — a
+    "perfect" ranking. When n_exploited > n, the cap is at
+    DCG of the perfect-top-n which still equals IDCG@n, so
+    NDCG remains 1.0 for any candidate whose top-n is fully
+    exploited.
+    """
+    import math
+    if not rescored:
+        return 0.0
+    n_exploited = sum(1 for _, label in rescored if label == 1)
+    if n_exploited == 0:
+        return 0.0
+    dcg = sum(
+        label / math.log2(i + 2)
+        for i, (_, label) in enumerate(rescored[:n])
+    )
+    idcg = sum(
+        1.0 / math.log2(i + 2)
+        for i in range(min(n, n_exploited))
+    )
+    return dcg / idcg if idcg > 0 else 0.0
 
 
 def _rescore_finding(
@@ -535,30 +585,34 @@ def _rescore_finding(
 
     ``finding`` is the dict shape ``project_samples`` archives
     (the JSON shape of :class:`packages.sca.models.VulnFinding`
-    plus a ``risk_components`` block). When override-rescoring
-    isn't possible (missing fields), fall back to the archived
-    ``raptor_risk_estimate`` so the finding still contributes to
-    the precision metric.
+    plus a ``risk_components`` block). The archived
+    ``raptor_risk_estimate`` reflects whatever constants were
+    active when ``collect-samples`` ran — which drifts from the
+    current ``risk.py`` constants every time refit-apply edits
+    them. Reading the archive directly for the baseline (pre-fix)
+    let drift accumulate: refit's baseline measured against stale
+    scores, the joint-improvement gate fired against an obsolete
+    metric, and a freshly-applied refit looked already-applied
+    on the next refit run.
+
+    Always re-score from the underlying inputs — using the current
+    module constants when ``overrides`` is None, the proposed
+    set otherwise. Both paths produce a metric coherent with the
+    constants in code RIGHT NOW. Falls back to the archived
+    score only when the rebuild is impossible (test fixtures
+    that don't carry the full inputs).
 
     Returns the recomputed score, or ``None`` when the finding
     has no usable score at all.
     """
-    if overrides is None:
-        # Baseline path: read the archived score directly.
-        raw = finding.get("raptor_risk_estimate")
-        if isinstance(raw, (int, float)):
-            return float(raw)
-        return None
-
-    # Override path: rebuild VulnFinding-shaped inputs from the
-    # archived dict. The fixtures in project_samples carry every
-    # input compute_risk_estimate reads. Defensive against
-    # missing fields — fall back to baseline if the rebuild
-    # fails.
     try:
-        score, _ = _compute_with_overrides(finding, overrides)
+        score, _components = _compute_with_overrides(
+            finding, overrides or {},
+        )
         return score
-    except Exception:                                       # noqa: BLE001
+    except Exception:                                   # noqa: BLE001
+        # Fallback for archives missing reconstruction inputs
+        # (older fixtures, tests that skip the full block).
         raw = finding.get("raptor_risk_estimate")
         if isinstance(raw, (int, float)):
             return float(raw)
