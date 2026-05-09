@@ -241,6 +241,35 @@ PROJECT_SAMPLES: List[ProjectSample] = [
         repo_url="https://github.com/helm/helm.git",
         git_ref="v3.5.0", license_spdx="Apache-2.0",
     ),
+    # ---- Round-4 corpus expansion: post-2018 manifests, pre-2020 deps -
+    # Goal was pre-2018 permissive apps to surface CVEs that have
+    # had time to accrue exploit signals. Reality: pre-2018 Go apps
+    # predate go.mod (introduced 1.11/2018) so SCA can't parse
+    # their dep graph, and pre-2018 Python apps mostly use setup.py
+    # which SCA also doesn't parse. The viable window is therefore
+    # 2019-2020: late enough to ship go.mod / requirements.txt,
+    # early enough that the resolved CVEs have had ~5 years to
+    # accumulate KEV / EDB / MSF / PoC signals.
+    #
+    # Initial round-4 picks (etcd-3.0, moby-1.13, synapse-0.20,
+    # salt-2017.7) all returned 0 findings on collect because none
+    # ship a manifest format SCA parses at those tags. Replaced
+    # with go.mod-era Go apps + requirements.txt-shape Python.
+    ProjectSample(
+        name="prometheus-2.10", ecosystem="Go",
+        repo_url="https://github.com/prometheus/prometheus.git",
+        git_ref="v2.10.0", license_spdx="Apache-2.0",
+    ),
+    ProjectSample(
+        name="istio-1.4", ecosystem="Go",
+        repo_url="https://github.com/istio/istio.git",
+        git_ref="1.4.0", license_spdx="Apache-2.0",
+    ),
+    ProjectSample(
+        name="mitmproxy-5", ecosystem="PyPI",
+        repo_url="https://github.com/mitmproxy/mitmproxy.git",
+        git_ref="v5.0.0", license_spdx="MIT",
+    ),
     # NB: no RubyGems app added in round-3 — Discourse is GPL-2,
     # Mastodon is AGPL, Redmine is GPL-2; no popular permissive-
     # licensed Ruby app to point at. RubyGems density (1.7%) stays
