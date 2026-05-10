@@ -324,6 +324,62 @@ def test_find_dockerfiles_excludes_test_ci_parents(tmp_path: Path):
     )
 
 
+def test_fetch_tag_digest_cache_skips_network_on_rerun(tmp_path: Path):
+    """Once ``ubuntu:24.04 → sha256:abc...`` is cached, a re-scan
+    must skip the manifest+platform-drill HTTP round-trips entirely
+    and return the cached SBOM directly. TTL_FOREVER so CI loops
+    that scan the same Dockerfile every build save the OCI fetch
+    cost on the second build onwards."""
+    from core.json.cache import JsonCache
+    cache = JsonCache(root=tmp_path)
+
+    # First call: real fetch + extract. Use the existing fixture
+    # plumbing for a single-platform manifest with a dpkg layer.
+    layer_blob = _make_layer_blob({
+        "var/lib/dpkg/status": (
+            b"Package: alpine-base\nVersion: 3.18.0\n"
+            b"Status: install ok installed\n"
+        ),
+    })
+    layer_digest = "sha256:" + "1" * 64
+    target_digest = "sha256:" + "9" * 64
+    manifest = FakeManifestResp(
+        parsed={
+            "mediaType": "application/vnd.oci.image.manifest.v1+json",
+            "config": {"digest": "sha256:" + "c" * 64},
+            "layers": [{
+                "digest": layer_digest, "size": len(layer_blob),
+                "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+            }],
+        },
+        content_type="application/vnd.oci.image.manifest.v1+json",
+        digest=target_digest,
+    )
+    client = _make_client(
+        manifests={"24.04": manifest, target_digest: manifest},
+        blobs={layer_digest: layer_blob},
+    )
+    sbom1 = fetch_image_sbom(
+        "ubuntu:24.04", client=client, disk_cache=cache,
+    )
+    assert sbom1 is not None
+    first_call_count = client.fetch_manifest.call_count
+
+    # Second call: must skip the manifest fetch entirely — both
+    # the tag → digest and SBOM-by-digest caches are warm.
+    sbom2 = fetch_image_sbom(
+        "ubuntu:24.04", client=client, disk_cache=cache,
+    )
+    assert sbom2 is not None
+    assert sbom2.digest == target_digest
+    assert sbom2.packages == sbom1.packages
+    # No new fetch_manifest invocations.
+    assert client.fetch_manifest.call_count == first_call_count, (
+        "tag → digest + SBOM-by-digest caches must short-circuit "
+        "all network calls on re-scan"
+    )
+
+
 def test_fetch_negative_caches_failed_lookups(tmp_path: Path):
     """Once a manifest fetch fails, subsequent fetches for the same
     image ref must short-circuit on the disk cache rather than

@@ -400,6 +400,54 @@ def fetch_image_sbom(
         if disk_cache.get(negative_key, ttl_seconds=_NEGATIVE_TTL):
             return None
 
+    # Tag → digest cache check. Once we know that ``ubuntu:24.04``
+    # resolved to ``sha256:abc...`` on disk, subsequent scans can
+    # skip the manifest+platform-drill HTTP round-trips entirely
+    # and look up the SBOM directly by digest. The mapping is
+    # cached TTL_FOREVER because the resolved digest IS the image
+    # at that moment in time — even if the registry later moves
+    # the tag to a different digest, the OLD digest is still a
+    # valid (immutable, content-addressed) image whose SBOM
+    # remains accurate. Operators wanting to pick up a re-pushed
+    # tag run ``raptor-sca clean-cache``.
+    _TAG_DIGEST_KEY_PREFIX = "tag-digest:"
+    tag_digest_key = _TAG_DIGEST_KEY_PREFIX + image
+    if disk_cache is not None:
+        from core.json.cache import TTL_FOREVER
+        cached_digest = disk_cache.get(
+            tag_digest_key, ttl_seconds=TTL_FOREVER,
+        )
+        if isinstance(cached_digest, str) and cached_digest:
+            # Try to skip ALL network calls — if the SBOM-by-digest
+            # cache also has the platform-resolved blob, we return
+            # without ever touching the registry.
+            if (digest_cache is not None
+                    and cached_digest in digest_cache):
+                cached = digest_cache[cached_digest]
+                return ImageSbom(
+                    image_ref=image,
+                    digest=cached_digest,
+                    packages=cached.packages,
+                    layer_count_scanned=cached.layer_count_scanned,
+                )
+            disk_value = disk_cache.get(
+                cached_digest, ttl_seconds=TTL_FOREVER,
+            )
+            if isinstance(disk_value, dict):
+                restored = ImageSbom.from_dict(disk_value)
+                if digest_cache is not None:
+                    digest_cache[cached_digest] = restored
+                return ImageSbom(
+                    image_ref=image,
+                    digest=cached_digest,
+                    packages=restored.packages,
+                    layer_count_scanned=restored.layer_count_scanned,
+                )
+            # Tag → digest known but SBOM evicted; fall through to
+            # the normal fetch path below — we'll re-resolve via
+            # the registry. The cached mapping isn't wrong, just
+            # stale-paired.
+
     try:
         manifest_resp = client.fetch_manifest(ref)
     except Exception as e:                          # noqa: BLE001
@@ -457,6 +505,16 @@ def fetch_image_sbom(
             media_type, image,
         )
         return None
+
+    # Persist the tag → digest mapping now that we've resolved it.
+    # TTL_FOREVER because the digest IS immutable; operator-purge
+    # via ``raptor-sca clean-cache`` to refresh.
+    if disk_cache is not None and target_digest:
+        from core.json.cache import TTL_FOREVER
+        disk_cache.put(
+            tag_digest_key, target_digest,
+            ttl_seconds=TTL_FOREVER,
+        )
 
     # Cache short-circuit on the resolved digest. Two cache levels:
     #   * ``digest_cache`` — in-memory dict, per ``scan_dockerfiles``

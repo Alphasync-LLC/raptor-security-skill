@@ -153,6 +153,19 @@ def _parse_analyse(argv):
     p.add_argument("--no-inline-installs", action="store_true",
                    help="skip Dockerfile / devcontainer.json / shell / GHA "
                         "extraction of pip / apt / yum / dnf / apk installs")
+    p.add_argument(
+        "--no-dockerfile-from", "--no-image-scanning", "--no-base-images",
+        action="store_true", dest="no_dockerfile_from",
+        help="skip ALL image-source scanning — Dockerfile FROM, "
+             "docker-compose ``image:``, GitLab CI ``image:`` / "
+             "``services:``, and Kubernetes ``spec.containers[*].image``. "
+             "The default fetches each unique image from its registry "
+             "and pulls OS package state for OSV lookup. Disable when "
+             "registry access is restricted, when only source-level "
+             "deps matter for this run, or when image scanning is "
+             "dominating wallclock. Aliases: ``--no-image-scanning``, "
+             "``--no-base-images``.",
+    )
     p.add_argument("--no-resolve-transitive", action="store_true",
                    help="don't generate a lockfile for manifests that lack one")
     p.add_argument("--fallback-registry-metadata", action="store_true",
@@ -266,6 +279,7 @@ def _run_analyse(argv):
         emit_spdx_sbom=args.spdx,
         include_commented=args.include_commented,
         enable_inline_installs=not args.no_inline_installs,
+        enable_dockerfile_from=not args.no_dockerfile_from,
         enable_transitive_expansion=not args.no_resolve_transitive,
         fallback_registry_metadata=args.fallback_registry_metadata,
         use_offline_db=args.use_offline_db,

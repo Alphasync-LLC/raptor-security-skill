@@ -420,12 +420,18 @@ def _parse_analyse_args(argv: Sequence[str]) -> argparse.Namespace:
              "workflow extraction of pip / apt / yum / dnf / apk installs",
     )
     parser.add_argument(
-        "--no-dockerfile-from", action="store_true",
-        help="skip the Dockerfile FROM base-image scanner. The default "
-             "fetches each FROM image from its registry and pulls OS "
-             "package state (dpkg / apk / rpm) for OSV lookup. Disable "
-             "this when registry access is restricted or the operator "
-             "doesn't want network calls during scan.",
+        "--no-dockerfile-from", "--no-image-scanning", "--no-base-images",
+        action="store_true", dest="no_dockerfile_from",
+        help="skip ALL image-source scanning — Dockerfile FROM, "
+             "docker-compose ``image:``, GitLab CI ``image:`` / "
+             "``services:``, and Kubernetes ``spec.containers[*].image``. "
+             "The default fetches each unique image from its registry "
+             "and pulls OS package state (dpkg / apk / rpm) for OSV "
+             "lookup. Disable when registry access is restricted, when "
+             "the operator only cares about source-level deps, or when "
+             "image scanning is dominating wallclock and the findings "
+             "aren't needed for this run. Aliases: ``--no-image-scanning``, "
+             "``--no-base-images``.",
     )
     parser.add_argument(
         "--skip-review", action="store_true",
