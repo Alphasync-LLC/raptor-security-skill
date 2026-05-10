@@ -28,7 +28,16 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Sequence
 
+from core.security.prompt_output_sanitise import sanitise_string
+
 logger = logging.getLogger(__name__)
+
+# Cap on advisory text in SARIF result.message.text. Most advisory
+# summaries fit comfortably under this; longer ones get an ellipsis.
+# Larger than the default sanitise_string cap (500) because legitimate
+# CVE descriptions can be a couple of paragraphs and SARIF consumers
+# (GitHub Security tab) render the full text.
+_SARIF_MESSAGE_MAX_CHARS = 2000
 
 _SARIF_SCHEMA = (
     "https://docs.oasis-open.org/sarif/sarif/v2.1.0/os/schemas/"
@@ -237,7 +246,17 @@ def _row_to_result(
         "level": _LEVEL_BY_SEVERITY.get(
             (severity or "").lower(), "note",
         ),
-        "message": {"text": row.get("description") or rule_id},
+        # SARIF consumers (GitHub Security tab, IDE plugins) render
+        # ``message.text`` as markdown — autofetch markup, terminal-
+        # injection bytes, and BIDI control chars in OSV-sourced
+        # advisory text would survive unfiltered without this. The
+        # description is concatenated upstream from advisory.summary
+        # (untrusted third-party data); sanitise_string defangs all
+        # three families before emission.
+        "message": {"text": sanitise_string(
+            row.get("description") or rule_id,
+            max_chars=_SARIF_MESSAGE_MAX_CHARS,
+        )},
         "locations": [{
             "physicalLocation": {
                 "artifactLocation": {"uri": rel},

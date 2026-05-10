@@ -23,6 +23,14 @@ emitting twice doubles operator confusion about which is canonical.
 from __future__ import annotations
 
 import json as _json
+
+from core.security.prompt_output_sanitise import sanitise_string
+
+# Cap on advisory text in CycloneDX vulnerability.description. Larger
+# than the sanitiser default (500) because Dependency-Track and other
+# consumers render the full description; matches the SARIF cap so the
+# two emitters stay in sync.
+_SBOM_DESCRIPTION_MAX_CHARS = 2000
 import logging
 from collections import OrderedDict
 from datetime import datetime, timezone
@@ -227,7 +235,14 @@ def _build_vulnerabilities(
                 for alias in primary.aliases[:5]
             ]
         if primary.summary:
-            entry["description"] = primary.summary
+            # CycloneDX consumers (Dependency-Track, OWASP CDX CLI)
+            # render ``description`` as markdown / rich text — raw
+            # OSV summaries are untrusted third-party content that
+            # could carry autofetch markup or terminal-injection
+            # bytes. sanitise_string defangs both before emission.
+            entry["description"] = sanitise_string(
+                primary.summary, max_chars=_SBOM_DESCRIPTION_MAX_CHARS,
+            )
         if primary.severity:
             entry["ratings"] = [{
                 "source": {"name": "OSV"},
