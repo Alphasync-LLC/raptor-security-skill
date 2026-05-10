@@ -24,6 +24,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence
 
 from core.json import JsonCache
+from core.progress import HackerProgressBar
 from . import SCA_CACHE_ROOT
 from .discovery import find_manifests
 from .epss import EpssClient
@@ -149,6 +150,14 @@ class RunOptions:
     enable_impact_analysis: bool = False        # LLM upgrade-impact
                                                 # analysis for version bumps.
                                                 # ``--impact-analysis``.
+    enable_progress: bool = True                 # multi-stage TTY
+                                                # progress display via
+                                                # ``HackerProgressBar``.
+                                                # Auto-disables on non-
+                                                # TTY stderr (pipes / CI
+                                                # logs / file redirect).
+                                                # ``--no-progress``
+                                                # forces off explicitly.
 
 
 @dataclass
@@ -221,9 +230,18 @@ def run_sca(
     kev_ttl = 0 if options.no_cache else 24 * 3600
     epss_ttl = 0 if options.no_cache else 24 * 3600
 
+    # Multi-stage TTY progress display. Auto-disables on non-TTY
+    # stderr (pipes / CI logs / file redirect); ``--no-progress``
+    # forces off explicitly.
+    progress = HackerProgressBar(
+        target=str(target),
+        disabled=(None if options.enable_progress else True),
+    )
+
     # 1. Discover + parse + join. Per-parser opts are toggled via
     #    module-level setters before walking — the dispatch table
     #    doesn't thread per-call options through itself.
+    progress.stage("discovery")
     from .parsers import requirements as _req_parser
     _req_parser.set_include_commented(options.include_commented)
     manifests = find_manifests(target)
@@ -232,6 +250,7 @@ def run_sca(
     raw_deps: List[Dependency] = []
     for m in manifests:
         raw_deps.extend(parse_manifest(m))
+    progress.done(f"{len(manifests)} manifests · {len(raw_deps)} deps")
 
     # 1a. Transitive expansion — for manifests without a sibling
     #     lockfile, run the matching cascade resolver in the sandbox
@@ -243,6 +262,7 @@ def run_sca(
     #     direct deps.
     transitive_statuses: List = []
     if options.enable_transitive_expansion or options.fallback_registry_metadata:
+        progress.stage("cascade")
         from .transitive import expand_missing_transitives
         new_transitives, transitive_statuses = expand_missing_transitives(
             manifests, raw_deps,
@@ -258,6 +278,11 @@ def run_sca(
                 len({d.ecosystem for d in new_transitives}),
             )
             raw_deps.extend(new_transitives)
+        ecos = len({d.ecosystem for d in new_transitives})
+        progress.done(
+            f"+{len(new_transitives)} transitive across {ecos} eco"
+            if new_transitives else "no new transitives"
+        )
 
     # 1b. LLM inline-install review — ask the LLM to find deps the
     #     mechanical parser missed in Dockerfiles, shell scripts, GHA
@@ -317,12 +342,15 @@ def run_sca(
                 len(manifests), len(joined))
 
     # 2. Hygiene (mechanical, no network).
+    progress.stage("hygiene")
     hygiene_findings = evaluate_hygiene(manifests, joined)
+    progress.done(f"{len(hygiene_findings)} findings")
 
     # 2a. Supply-chain mechanical heuristics (install hooks, typosquat,
     #     project-tree artefacts).
     supply_chain_findings = []
     if options.enable_supply_chain:
+        progress.stage("supply-chain")
         # Construct registry clients for the metadata-driven detectors
         # (recent_publish / maintainer_change / maintainer_account_change /
         # gha_action_outdated). Same offline + cache config as the OSV path.
@@ -339,6 +367,7 @@ def run_sca(
             github_actions_client=sc_gha,
             cache=cache,
         )
+        progress.done(f"{len(supply_chain_findings)} findings")
 
     # 2b. License-policy: enrich (network-dependent) + evaluate
     #     (mechanical). Enrichment fetches from PyPI / npm registry
@@ -351,6 +380,7 @@ def run_sca(
     #     values exist (manifest-supplied + cache-backed).
     license_findings: List = []
     if options.enable_license_policy:
+        progress.stage("license")
         from .license import (
             DEFAULT_POLICY, enrich_licenses, evaluate as evaluate_license,
             load_policy,
@@ -380,6 +410,7 @@ def run_sca(
                     exc_info=True,
                 )
         license_findings = evaluate_license(joined, policy)
+        progress.done(f"{len(license_findings)} findings")
 
     # 3. Canonical dep set: lockfile-preferred, deduped per (eco, name, ver).
     canonical = select_canonical_for_osv(joined)
@@ -399,6 +430,7 @@ def run_sca(
         ecosystems_in_use = {d.ecosystem for d in canonical}
         offline_db.ensure_fresh(ecosystems_in_use)
 
+    progress.stage("osv", total=len(canonical))
     osv_client = OsvClient(
         http, cache,
         offline=options.offline,
@@ -406,6 +438,9 @@ def run_sca(
         offline_db=offline_db,
     )
     osv_results = osv_client.query_batch(canonical)
+    progress.tick(done=len(canonical))
+    affected = sum(1 for r in osv_results if r.advisories)
+    progress.done(f"{affected}/{len(canonical)} deps with advisories")
 
     # 5. KEV / EPSS enrichment (best-effort; degrades on failure).
     kev: Optional[KevClient] = None
@@ -426,6 +461,7 @@ def run_sca(
     #    advisory matched against them.
     reachability_map = None
     if options.enable_reachability and any(r.advisories for r in osv_results):
+        progress.stage("reach")
         cve_dep_keys = {
             r.dep_key for r in osv_results if r.advisories
         }
@@ -444,8 +480,10 @@ def run_sca(
             logger.info("sca.pipeline: /understand context-map "
                          "augmented %d reachability verdicts",
                          len(reachability_map))
+        progress.done(f"{len(reachability_map)} verdicts")
 
     # 7. Build VulnFindings.
+    progress.stage("findings")
     vuln_findings = build_vuln_findings(
         canonical, osv_results, kev=kev, epss=epss,
         reachability=reachability_map,
@@ -488,6 +526,27 @@ def run_sca(
             exc_info=True,
         )
 
+    # Surface KEV / critical findings as flashes so the operator
+    # sees a live tickertape of the high-priority hits during the
+    # rest of the run.
+    kev_count = sum(1 for f in vuln_findings
+                     if f.in_kev and not f.suppressed)
+    for f in vuln_findings:
+        if f.in_kev and not f.suppressed:
+            # Prefer a CVE alias for operator readability; fall
+            # back to the OSV id when no CVE alias is published.
+            adv_id = "?"
+            if f.advisories:
+                first = f.advisories[0]
+                cve = next((a for a in first.aliases
+                             if a.startswith("CVE-")), None)
+                adv_id = cve or first.osv_id
+            progress.flash(
+                "KEV",
+                f"{adv_id} {f.dependency.name}@{f.dependency.version}",
+            )
+    progress.done(f"{len(vuln_findings)} vuln · {kev_count} KEV")
+
     # 7a. Apply operator suppression overlay (`.raptor-sca-suppress.yml`).
     suppressed_total = 0
     if options.enable_suppressions:
@@ -511,6 +570,7 @@ def run_sca(
     llm_cost = 0.0
 
     if options.enable_llm_review and not options.offline:
+        progress.stage("llm-review")
         llm_reviews_run, llm_reviews_failed, llm_cost = _run_llm_stages(
             supply_chain_findings=supply_chain_findings,
             vuln_findings=vuln_findings,
@@ -521,8 +581,14 @@ def run_sca(
             output_dir=output_dir,
             target=target,
         )
+        progress.done(
+            f"{llm_reviews_run} runs · ${llm_cost:.2f}"
+            + (f" · {llm_reviews_failed} failed"
+                if llm_reviews_failed else "")
+        )
 
     if options.enable_triage and not options.offline:
+        progress.stage("triage")
         triage_run, triage_cost = _run_triage(
             vuln_findings=vuln_findings,
             hygiene_findings=hygiene_findings,
@@ -530,10 +596,12 @@ def run_sca(
             output_dir=output_dir,
         )
         llm_cost += triage_cost
+        progress.done(f"${triage_cost:.2f}")
 
     # 8b. LLM upgrade-impact analysis — for vuln findings with a known
     #     fixed_version, classify whether the bump will break the project.
     if options.enable_impact_analysis and not options.offline:
+        progress.stage("impact-analysis")
         impact_cost = _run_upgrade_impact(
             vuln_findings=vuln_findings,
             canonical=canonical,
@@ -541,8 +609,10 @@ def run_sca(
             output_dir=output_dir,
         )
         llm_cost += impact_cost
+        progress.done(f"${impact_cost:.2f}")
 
     # 9. Write artefacts.
+    progress.stage("emit")
     findings_path = output_dir / "findings.json"
     report_path = output_dir / "report.md"
     write_findings_json(
@@ -618,6 +688,11 @@ def run_sca(
         supply_chain_findings=supply_chain_findings,
         options=options,
     )
+    total = (len(vuln_findings) + len(hygiene_findings)
+              + len(supply_chain_findings) + len(license_findings))
+    progress.done("findings.json · report.md · sbom · sarif")
+    progress.end(f"{len(vuln_findings)} vuln · {kev_count} KEV "
+                  f"· {total} findings total")
 
     return RunResult(
         target=target,

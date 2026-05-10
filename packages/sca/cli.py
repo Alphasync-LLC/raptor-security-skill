@@ -234,12 +234,27 @@ def _run_analyse(argv: List[str]) -> int:
         review_maintainers=args.review_maintainers,
         enable_llm_inline_installs=args.llm_inline_installs,
         enable_impact_analysis=args.impact_analysis,
+        enable_progress=not args.no_progress,
     )
 
     try:
         result = run_sca(target=target, output_dir=output_dir, options=options)
     except Exception:                       # noqa: BLE001
-        logger.exception("raptor-sca: unrecoverable error during run")
+        # Surface which pipeline phase died so operators don't have
+        # to read the traceback to know whether it was an OSV lookup,
+        # reachability scan, LLM review, etc. Phase descriptions
+        # carry one-line operator-facing context.
+        from core.progress import last_stage_name
+        from .pipeline_phases import describe_phase
+        stage = last_stage_name()
+        if stage:
+            ctx = describe_phase(stage)
+            msg = (f"raptor-sca: unrecoverable error during {stage} "
+                    f"({ctx})" if ctx
+                    else f"raptor-sca: unrecoverable error during {stage}")
+        else:
+            msg = "raptor-sca: unrecoverable error during run"
+        logger.exception(msg)
         return 3
 
     if args.baseline:
@@ -248,6 +263,8 @@ def _run_analyse(argv: List[str]) -> int:
                 baseline_path=Path(args.baseline).resolve(),
                 current_findings=output_dir / "findings.json",
                 output_dir=output_dir,
+                emit_pr_comment=args.pr_comment,
+                pr_comment_label=args.pr_comment_label,
             )
         except Exception:                   # noqa: BLE001
             logger.exception("raptor-sca: baseline delta computation failed")
@@ -285,15 +302,25 @@ def _emit_baseline_delta(
     baseline_path: Path,
     current_findings: Path,
     output_dir: Path,
+    emit_pr_comment: bool = False,
+    pr_comment_label: Optional[str] = None,
 ) -> None:
     """Write ``baseline-delta.json`` + ``baseline-delta.md`` showing the
     NEW/CLEARED/CHANGED set since ``baseline_path``.
 
     Reuses the existing ``diff.compute_delta`` machinery so the delta
     semantics are consistent with the standalone ``raptor-sca diff`` command.
+
+    When ``emit_pr_comment`` is True, also writes ``pr-comment.md`` —
+    a tight GitHub-flavoured comment intended to be piped to ``gh pr
+    comment --body-file``. ``pr_comment_label`` overrides the header
+    label (default: ``raptor-sca``).
     """
     import json as _json
-    from .diff import compute_delta, _delta_to_dict, _render_markdown
+    from .diff import (
+        compute_delta, _delta_to_dict, _render_markdown,
+        render_pr_comment,
+    )
 
     if not baseline_path.exists():
         logger.warning("raptor-sca: baseline %s not found; skipping delta",
@@ -318,10 +345,15 @@ def _emit_baseline_delta(
         _render_markdown(str(baseline_path), str(current_findings), delta),
         encoding="utf-8",
     )
+    if emit_pr_comment:
+        (output_dir / "pr-comment.md").write_text(
+            render_pr_comment(delta, repo_label=pr_comment_label),
+            encoding="utf-8",
+        )
     logger.info(
-        "raptor-sca: baseline delta — %d new, %d resolved, %d suppression-added, "
-        "%d suppression-lifted",
-        len(delta.new), len(delta.resolved),
+        "raptor-sca: baseline delta — %d new, %d resolved, "
+        "%d persistent, %d suppression-added, %d suppression-lifted",
+        len(delta.new), len(delta.resolved), len(delta.persistent),
         len(delta.suppression_added), len(delta.suppression_lifted),
     )
 
@@ -387,6 +419,14 @@ def _parse_analyse_args(argv: Sequence[str]) -> argparse.Namespace:
         help="skip mechanical supply-chain heuristics",
     )
     parser.add_argument(
+        "--no-progress", action="store_true",
+        help="suppress the multi-stage TTY progress display. The "
+             "display is on by default for interactive runs and "
+             "auto-suppresses when stderr isn't a TTY (pipes / "
+             "CI logs / file redirect); this flag forces off "
+             "explicitly.",
+    )
+    parser.add_argument(
         "--html", action="store_true",
         help="write a self-contained report.html alongside "
              "report.md (suitable for CI artefact uploads / "
@@ -413,6 +453,21 @@ def _parse_analyse_args(argv: Sequence[str]) -> argparse.Namespace:
              "NEW / CLEARED findings since the baseline. Steady-state CI "
              "pattern: keep CI logs quiet during weeks where nothing "
              "actually changed.",
+    )
+    parser.add_argument(
+        "--pr-comment", action="store_true",
+        help="when ``--baseline`` is set, additionally write "
+             "``pr-comment.md`` — a tight GitHub-flavoured comment "
+             "with verdict header, new-finding table, and persistent-"
+             "backlog summary, suitable for piping to ``gh pr "
+             "comment --body-file``. CI workflows post this on the PR "
+             "thread so reviewers see the security delta in-line.",
+    )
+    parser.add_argument(
+        "--pr-comment-label", default=None, metavar="LABEL",
+        help="header label for ``--pr-comment`` (default: 'raptor-sca'). "
+             "Operators add commit SHAs / repo names / PR numbers for "
+             "at-a-glance attribution in PR threads.",
     )
     parser.add_argument(
         "--no-inline-installs", action="store_true",

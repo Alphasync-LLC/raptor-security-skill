@@ -242,6 +242,11 @@ def _scan_one(
             target=clone_root, output_dir=sca_out,
             options=RunOptions(
                 enable_llm_review=False, enable_triage=False,
+                # Stress sweeps run dozens of scans back-to-back; the
+                # per-stage progress output noise dwarfs the actual
+                # diagnostics. Auto-disable would already kick in for
+                # non-TTY but explicit is safer.
+                enable_progress=False,
             ),
         )
     except Exception as e:                                  # noqa: BLE001
