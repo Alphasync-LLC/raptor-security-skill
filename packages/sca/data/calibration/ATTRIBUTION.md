@@ -94,6 +94,21 @@ attribution requirements for sources where the data license requires it.
 - **What's NEVER stored:** referenced exploit content. Operators
   inspecting the URL can navigate manually.
 
+### `stress_baseline.json` — SCA stress-test regression baseline
+
+- **License:** MIT (RAPTOR-generated). Per-sample scan diagnostics
+  (deps_analysed / vuln_findings / eco_breakdown /
+  elapsed_seconds_p50) — no third-party content.
+- **Source:** `packages.sca.calibration.stress.write_baseline` —
+  re-generated locally by operators running
+  `raptor-sca-stress --update-baseline` after intentional changes
+  to the samples list, parser logic, or scoring formula.
+- **What's stored:** ``{project_name: {ecosystem, deps_analysed,
+  vuln_findings, eco_breakdown: {eco: n}, elapsed_seconds_p50}}``.
+- **Captured commit:** the `_source.captured_with_commit` short
+  SHA pins the baseline to a specific code state so reviewers
+  can correlate regressions to changes between then and now.
+
 ### Tier 2 — future additions
 
 - **GitHub Advisory Database (GHSA) refs** — already covered indirectly
