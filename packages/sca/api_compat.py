@@ -250,9 +250,17 @@ def _fetch_pypi_requires_dist(
     Returns the raw requires_dist list (free-text PEP 508 specs)
     or None on fetch failure.
     """
+    # ``requires_dist`` for a published PyPI version is IMMUTABLE.
+    # PyPI forbids re-publishing the same version (PEP 440 + the
+    # filename-uniqueness rule); a yank only marks the version as
+    # withdrawn, doesn't change its metadata. So per-version
+    # requires_dist gets cached TTL_FOREVER. Operators wanting to
+    # force a refetch (debugging a corrupt cache) run
+    # ``raptor-sca clean-cache``.
+    from core.json.cache import TTL_FOREVER
     cache_key = f"pypi-requires-dist:{name.lower()}:{version}"
     if cache is not None:
-        cached = cache.get(cache_key, ttl_seconds=24 * 3600)
+        cached = cache.get(cache_key, ttl_seconds=TTL_FOREVER)
         if cached is not None:
             return list(cached) if cached else []
     try:
@@ -268,7 +276,7 @@ def _fetch_pypi_requires_dist(
         return []
     out = [r for r in reqs if isinstance(r, str)]
     if cache is not None:
-        cache.put(cache_key, out, ttl_seconds=24 * 3600)
+        cache.put(cache_key, out, ttl_seconds=TTL_FOREVER)
     return out
 
 

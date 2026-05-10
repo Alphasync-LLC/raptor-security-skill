@@ -283,3 +283,40 @@ def test_cache_used_for_requires_dist():
     http_call_count_after_first = len(http.calls)
     check_pypi_api_compat("foo", "1.0", "1.1", http=http, cache=cache)
     assert len(http.calls) == http_call_count_after_first
+
+
+def test_requires_dist_uses_ttl_forever():
+    """Per-version ``requires_dist`` is architecturally immutable
+    on PyPI (re-publishing is forbidden), so the cache TTL must be
+    TTL_FOREVER — operators get a refresh via
+    ``raptor-sca clean-cache``, not by waiting out a 24h window.
+    """
+    from core.json.cache import TTL_FOREVER
+    seen_ttls: list = []
+
+    class _TtlCapturingCache:
+        def __init__(self):
+            self._store: dict = {}
+
+        def get(self, key, *, ttl_seconds):
+            seen_ttls.append(("get", ttl_seconds))
+            return self._store.get(key)
+
+        def put(self, key, value, *, ttl_seconds):
+            seen_ttls.append(("put", ttl_seconds))
+            self._store[key] = value
+
+    cache = _TtlCapturingCache()
+    http = _StubHttp({
+        "/2.31.0/json": {"info": {"requires_dist": ["urllib3"]}},
+    })
+    from packages.sca.api_compat import _fetch_pypi_requires_dist
+    _fetch_pypi_requires_dist(
+        "requests", "2.31.0", http=http, cache=cache,
+    )
+    assert ("get", TTL_FOREVER) in seen_ttls, (
+        f"get path must use TTL_FOREVER; saw: {seen_ttls}"
+    )
+    assert ("put", TTL_FOREVER) in seen_ttls, (
+        f"put path must use TTL_FOREVER; saw: {seen_ttls}"
+    )
