@@ -234,6 +234,179 @@ def test_finding_id_includes_target_version() -> None:
     assert "PyPI" in findings[0].finding_id
 
 
+# ---------------------------------------------------------------------------
+# maintainer_change detector (npm-only initially)
+# ---------------------------------------------------------------------------
+
+def _npm_packument_with_maintainers(name: str, **versions) -> dict:
+    """Helper: build a minimal npm packument with per-version
+    maintainer lists. ``versions`` is keyword-keyed like
+    ``v1_0_0=[{"name":"alice"}]`` and we replace ``_`` with ``.``
+    to recover the version string."""
+    out = {"name": name, "versions": {}}
+    for kw, maintainers in versions.items():
+        ver = kw.lstrip("v").replace("_", ".")
+        out["versions"][ver] = {"maintainers": maintainers}
+    return out
+
+
+def test_maintainer_change_added_maintainer_fires() -> None:
+    """Target version added a new maintainer not in current's
+    maintainer list. Event-stream / ua-parser-js shape — the
+    operationally common takeover signal."""
+    now = datetime(2026, 5, 11, tzinfo=timezone.utc)
+    npm = _StubNpmClient({
+        "ua-parser-js": _npm_packument_with_maintainers(
+            "ua-parser-js",
+            v0_7_28=[{"name": "faisalman"}],
+            v0_7_29=[{"name": "faisalman"},
+                      {"name": "compromised-attacker"}],
+        ),
+    })
+    findings = evaluate_bump_supply_chain(
+        ecosystem="npm", name="ua-parser-js",
+        current_version="0.7.28", target_version="0.7.29",
+        pypi_client=None, npm_client=npm, now=now,
+    )
+    # Find the maintainer_change finding (recent_publish may also
+    # fire depending on dates; we just check this one is present).
+    mc = [f for f in findings if f.kind == "maintainer_change"]
+    assert len(mc) == 1
+    f = mc[0]
+    assert f.severity == "medium"
+    assert "compromised-attacker" in f.evidence["added"]
+    assert "compromised-attacker" in f.detail
+
+
+def test_maintainer_change_unchanged_set_silent() -> None:
+    """Same maintainers in both versions → no finding. The
+    common case for routine patch bumps."""
+    now = datetime(2026, 5, 11, tzinfo=timezone.utc)
+    npm = _StubNpmClient({
+        "lodash": _npm_packument_with_maintainers(
+            "lodash",
+            v4_17_20=[{"name": "jdalton"}],
+            v4_17_21=[{"name": "jdalton"}],
+        ),
+    })
+    findings = evaluate_bump_supply_chain(
+        ecosystem="npm", name="lodash",
+        current_version="4.17.20", target_version="4.17.21",
+        pypi_client=None, npm_client=npm, now=now,
+    )
+    assert [f for f in findings if f.kind == "maintainer_change"] == []
+
+
+def test_maintainer_change_removed_maintainer_fires() -> None:
+    """Target dropped a maintainer present in current. The
+    handover-out direction is equally informative (someone
+    retired / had their access revoked / left the project)."""
+    now = datetime(2026, 5, 11, tzinfo=timezone.utc)
+    npm = _StubNpmClient({
+        "x": _npm_packument_with_maintainers(
+            "x",
+            v1_0_0=[{"name": "alice"}, {"name": "bob"}],
+            v2_0_0=[{"name": "alice"}],
+        ),
+    })
+    findings = evaluate_bump_supply_chain(
+        ecosystem="npm", name="x",
+        current_version="1.0.0", target_version="2.0.0",
+        pypi_client=None, npm_client=npm, now=now,
+    )
+    mc = [f for f in findings if f.kind == "maintainer_change"]
+    assert len(mc) == 1
+    assert "bob" in mc[0].evidence["removed"]
+
+
+def test_maintainer_change_case_insensitive_match() -> None:
+    """Maintainer names are case-folded for comparison. ``Alice``
+    and ``alice`` should match — npm shows mixed casing in real
+    packuments depending on tooling."""
+    now = datetime(2026, 5, 11, tzinfo=timezone.utc)
+    npm = _StubNpmClient({
+        "x": _npm_packument_with_maintainers(
+            "x",
+            v1_0_0=[{"name": "Alice"}],
+            v2_0_0=[{"name": "alice"}],
+        ),
+    })
+    findings = evaluate_bump_supply_chain(
+        ecosystem="npm", name="x",
+        current_version="1.0.0", target_version="2.0.0",
+        pypi_client=None, npm_client=npm, now=now,
+    )
+    assert [f for f in findings if f.kind == "maintainer_change"] == []
+
+
+def test_maintainer_change_pypi_returns_no_finding() -> None:
+    """PyPI has no per-version maintainer history in the public
+    API. The detector returns no finding for PyPI bumps — the
+    bumper falls through to vuln-only verdict for these. (Future
+    follow-up: operator-side maintainer cache.)"""
+    now = datetime(2026, 5, 11, tzinfo=timezone.utc)
+    pypi = _StubPyPIClient({
+        "django": {"releases": {
+            "4.2.10": [{"upload_time_iso_8601": "2025-01-01T00:00:00Z"}],
+            "4.2.30": [{"upload_time_iso_8601": "2025-02-01T00:00:00Z"}],
+        }, "info": {"maintainer": "whoever"}},
+    })
+    findings = evaluate_bump_supply_chain(
+        ecosystem="PyPI", name="django",
+        current_version="4.2.10", target_version="4.2.30",
+        pypi_client=pypi, npm_client=None, now=now,
+    )
+    assert [f for f in findings if f.kind == "maintainer_change"] == []
+
+
+def test_maintainer_change_missing_version_silent() -> None:
+    """Either version missing from the packument → silent skip
+    (can't compare what isn't there)."""
+    now = datetime(2026, 5, 11, tzinfo=timezone.utc)
+    npm = _StubNpmClient({
+        "x": _npm_packument_with_maintainers(
+            "x",
+            v1_0_0=[{"name": "alice"}],
+        ),
+    })
+    findings = evaluate_bump_supply_chain(
+        ecosystem="npm", name="x",
+        current_version="1.0.0", target_version="2.0.0",   # absent
+        pypi_client=None, npm_client=npm, now=now,
+    )
+    assert [f for f in findings if f.kind == "maintainer_change"] == []
+
+
+def test_maintainer_change_recent_publish_compound_two_mediums() -> None:
+    """End-to-end check that the evaluator emits two mediums
+    when target is BOTH recently published AND has a different
+    maintainer set. This is the compound-red-flag case the
+    verdict ladder turns into Block."""
+    now = datetime(2026, 5, 11, tzinfo=timezone.utc)
+    npm = _StubNpmClient({
+        "x": {
+            "name": "x",
+            "versions": {
+                "1.0.0": {"maintainers": [{"name": "alice"}]},
+                "1.0.1": {"maintainers": [
+                    {"name": "alice"}, {"name": "attacker"},
+                ]},
+            },
+            "time": {
+                "1.0.1": "2026-05-09T00:00:00.000Z",   # 2 days ago
+            },
+        },
+    })
+    findings = evaluate_bump_supply_chain(
+        ecosystem="npm", name="x",
+        current_version="1.0.0", target_version="1.0.1",
+        pypi_client=None, npm_client=npm, now=now,
+    )
+    kinds = sorted(f.kind for f in findings)
+    assert kinds == ["maintainer_change", "recent_publish"]
+    assert all(f.severity == "medium" for f in findings)
+
+
 def test_pypi_chooses_earliest_upload_time_across_files() -> None:
     """A PyPI release can have multiple distribution files (.whl
     for each platform + .tar.gz source). The earliest upload

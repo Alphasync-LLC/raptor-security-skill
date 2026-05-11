@@ -94,6 +94,25 @@ def evaluate_bump_supply_chain(
             ecosystem, name, target_version,
         )
 
+    # maintainer_change between current and target. Per-ecosystem
+    # support:
+    #
+    #   * npm: ``versions[v].maintainers`` is per-version, so the
+    #     comparison is precise.
+    #   * PyPI: no per-version maintainer history in the public
+    #     API (``info.maintainer`` is package-level current
+    #     scalar). Best-effort would require an operator-side
+    #     historical cache; deferred.
+    #   * Other ecosystems: not yet wired.
+    change = _maintainer_change(
+        ecosystem=ecosystem, name=name,
+        current_version=current_version,
+        target_version=target_version,
+        npm_client=npm_client,
+    )
+    if change is not None:
+        findings.append(change)
+
     return findings
 
 
@@ -174,6 +193,77 @@ def _parse_iso(ts: str) -> Optional[datetime]:
 
 
 # ---------------------------------------------------------------------------
+# Per-ecosystem maintainer-change extraction
+# ---------------------------------------------------------------------------
+
+def _maintainer_change(
+    *,
+    ecosystem: str,
+    name: str,
+    current_version: str,
+    target_version: str,
+    npm_client,
+) -> Optional[SupplyChainFinding]:
+    """Compare maintainer sets at current and target versions.
+
+    Returns a single ``maintainer_change`` finding when the sets
+    differ (added maintainer = legitimate handover OR malicious
+    takeover — operator decides). Returns ``None`` when the data
+    is unavailable for the ecosystem, the metadata fetch failed,
+    or the sets are identical.
+    """
+    if ecosystem != "npm" or npm_client is None:
+        return None
+    meta = npm_client.get_metadata(name)
+    if not isinstance(meta, dict):
+        return None
+    versions = meta.get("versions") or {}
+    cur_entry = versions.get(current_version)
+    tgt_entry = versions.get(target_version)
+    if not isinstance(cur_entry, dict) or not isinstance(tgt_entry, dict):
+        return None
+
+    cur_names = _maintainer_name_set(cur_entry.get("maintainers"))
+    tgt_names = _maintainer_name_set(tgt_entry.get("maintainers"))
+    if not cur_names or not tgt_names:
+        # Either version has no recorded maintainers — can't
+        # meaningfully compare. Silent skip.
+        return None
+    added = sorted(tgt_names - cur_names)
+    removed = sorted(cur_names - tgt_names)
+    if not added and not removed:
+        return None
+
+    return _maintainer_change_finding(
+        ecosystem=ecosystem, name=name,
+        current_version=current_version,
+        target_version=target_version,
+        added=added, removed=removed,
+        current_maintainers=cur_names,
+        target_maintainers=tgt_names,
+    )
+
+
+def _maintainer_name_set(raw) -> set:
+    """Normalised name set from an npm packument's ``maintainers``
+    list. Each entry is ``{"name": "...", "email": "..."}``; we
+    key on the lowercased name (matches the scan-time
+    ``_maintainer_change_check`` convention)."""
+    if not isinstance(raw, list):
+        return set()
+    out: set = set()
+    for m in raw:
+        if isinstance(m, dict):
+            n = m.get("name")
+            if isinstance(n, str) and n.strip():
+                out.add(n.strip().lower())
+        elif isinstance(m, str):
+            # Some npm tooling shorthand emits "name <email>" strings.
+            out.add(m.split("<")[0].strip().lower())
+    return out
+
+
+# ---------------------------------------------------------------------------
 # Finding constructors
 # ---------------------------------------------------------------------------
 
@@ -235,5 +325,74 @@ def _recent_publish_finding(
         confidence=Confidence(
             "high",
             reason="publish timestamp from registry",
+        ),
+    )
+
+
+def _maintainer_change_finding(
+    *,
+    ecosystem: str,
+    name: str,
+    current_version: str,
+    target_version: str,
+    added,
+    removed,
+    current_maintainers: set,
+    target_maintainers: set,
+) -> SupplyChainFinding:
+    """Construct a ``maintainer_change`` finding for a bump where
+    the maintainer set at the target's publish time differs from
+    the set at the current version's publish time.
+
+    Severity ``medium``: legitimate handovers happen all the time
+    (project transfers, maintainer retirement). Compound red flag
+    when paired with recent_publish or install_hook_delta — the
+    verdict ladder's "two mediums = Block" path catches the
+    account-takeover shape.
+    """
+    placeholder_dep = Dependency(
+        ecosystem=ecosystem,
+        name=name,
+        version=target_version,
+        declared_in=Path("/<bump>"),
+        scope="main",
+        is_lockfile=False,
+        pin_style=PinStyle.EXACT,
+        direct=True,
+        purl=f"pkg:{ecosystem.lower()}/{name}@{target_version}",
+        parser_confidence=Confidence(
+            "high",
+            reason="bump-evaluator synthetic dep",
+        ),
+    )
+    bits = []
+    if added:
+        bits.append(f"added: {', '.join(added)}")
+    if removed:
+        bits.append(f"removed: {', '.join(removed)}")
+    detail = (
+        f"maintainer set differs between {current_version} and "
+        f"{target_version} — " + "; ".join(bits)
+    )
+    return SupplyChainFinding(
+        finding_id=(
+            f"sca:bump:maintainer_change:{ecosystem}:{name}"
+            f"@{current_version}->{target_version}"
+        ),
+        kind="maintainer_change",
+        dependency=placeholder_dep,
+        detail=detail,
+        evidence={
+            "current_version": current_version,
+            "target_version": target_version,
+            "added": added,
+            "removed": removed,
+            "current_maintainers": sorted(current_maintainers),
+            "target_maintainers": sorted(target_maintainers),
+        },
+        severity="medium",
+        confidence=Confidence(
+            "high",
+            reason="per-version maintainers from npm packument",
         ),
     )
