@@ -49,11 +49,18 @@ class RewriteEdit:
     the ARG name (``SEMGREP_VERSION``); for npm package.json it's
     the dep name (``lodash``); for Maven it's the group:artifact
     (``org.springframework:spring-core``).
+
+    ``extra`` is a kind-specific metadata escape-hatch. GHA's
+    SHA-pinned ``uses:`` lines carry ``"old_sha"`` /
+    ``"new_sha"`` here so the rewriter can update both the SHA
+    and the ``# was vX`` comment in one pass. Most edits ignore
+    ``extra`` and treat it as None.
     """
 
     locator: str
     old_value: str
     new_value: str
+    extra: Optional[dict] = None
 
 
 @dataclass(frozen=True)

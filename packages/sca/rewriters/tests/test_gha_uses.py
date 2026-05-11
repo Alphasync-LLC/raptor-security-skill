@@ -153,3 +153,119 @@ def test_yaml_file_outside_workflows_dir_not_routed(tmp_path: Path) -> None:
     edits = [RewriteEdit("actions/checkout", "v4", "v5")]
     results = rewrite(other, edits)
     assert results == []
+
+
+# ---------------------------------------------------------------------------
+# SHA-pinned with ``# was vX`` comment (Phase 3.b.2)
+# ---------------------------------------------------------------------------
+
+def test_sha_pinned_with_comment_rewrites_both_sha_and_tag(
+    tmp_path: Path,
+) -> None:
+    """Raptor's convention: ``uses: actions/checkout@<40hex>  # was v6``.
+    Bumping to v7 rewrites BOTH the SHA and the ``# was`` comment."""
+    wf = _workflow_path(tmp_path)
+    wf.write_text(
+        "      - uses: actions/checkout@"
+        "de0fac2e4500dabe0009e67214ff5f5447ce83dd  # was v6\n"
+    )
+    edits = [RewriteEdit(
+        locator="actions/checkout",
+        old_value="v6", new_value="v7",
+        extra={
+            "old_sha": "de0fac2e4500dabe0009e67214ff5f5447ce83dd",
+            "new_sha": "ffffffffffffffffffffffffffffffffffffffff",
+        },
+    )]
+    results = rewrite_gha_uses(wf, edits)
+    assert results[0].applied
+    text = wf.read_text()
+    assert "@ffffffffffffffffffffffffffffffffffffffff" in text
+    assert "# was v7" in text
+    # Old SHA + old tag fully gone.
+    assert "de0fac2e" not in text
+    assert "was v6" not in text
+
+
+def test_sha_pinned_preserves_yaml_indent_and_list_marker(
+    tmp_path: Path,
+) -> None:
+    """The YAML indent and ``- `` list marker stay intact through
+    the rewrite."""
+    wf = _workflow_path(tmp_path)
+    wf.write_text(
+        "        - uses: actions/checkout@"
+        "0000000000000000000000000000000000000000  # was v4\n"
+    )
+    edits = [RewriteEdit(
+        locator="actions/checkout",
+        old_value="v4", new_value="v5",
+        extra={
+            "old_sha": "0" * 40,
+            "new_sha": "1" * 40,
+        },
+    )]
+    rewrite_gha_uses(wf, edits)
+    text = wf.read_text()
+    assert text.startswith("        - uses:")
+    assert "@" + "1" * 40 in text
+
+
+def test_sha_pinned_value_mismatch_on_different_sha(tmp_path: Path) -> None:
+    """File has a DIFFERENT SHA than the plan expects → refuse.
+    Operator manually bumped, or plan is stale."""
+    wf = _workflow_path(tmp_path)
+    wf.write_text(
+        "      - uses: actions/checkout@"
+        "0000000000000000000000000000000000000000  # was v6\n"
+    )
+    edits = [RewriteEdit(
+        locator="actions/checkout",
+        old_value="v6", new_value="v7",
+        extra={
+            "old_sha": "1" * 40,            # doesn't match file
+            "new_sha": "2" * 40,
+        },
+    )]
+    results = rewrite_gha_uses(wf, edits)
+    assert not results[0].applied
+    assert "value_mismatch" in results[0].reason
+    assert "000000" in wf.read_text()       # file untouched
+
+
+def test_sha_pinned_value_mismatch_on_different_was_tag(
+    tmp_path: Path,
+) -> None:
+    """File's ``# was`` comment tag doesn't match plan's
+    ``old_value`` — refuse. Same suspend-on-stale-plan semantics."""
+    wf = _workflow_path(tmp_path)
+    wf.write_text(
+        "      - uses: actions/checkout@"
+        "0000000000000000000000000000000000000000  # was v5\n"
+    )
+    edits = [RewriteEdit(
+        locator="actions/checkout",
+        old_value="v6",                     # file has v5
+        new_value="v7",
+        extra={"old_sha": "0" * 40, "new_sha": "1" * 40},
+    )]
+    results = rewrite_gha_uses(wf, edits)
+    assert not results[0].applied
+    assert "value_mismatch" in results[0].reason
+
+
+def test_sha_pinned_no_change_when_already_at_target(tmp_path: Path) -> None:
+    """File already at target SHA + tag → no_change."""
+    wf = _workflow_path(tmp_path)
+    wf.write_text(
+        "      - uses: actions/checkout@"
+        "1111111111111111111111111111111111111111  # was v7\n"
+    )
+    edits = [RewriteEdit(
+        locator="actions/checkout",
+        old_value="v6", new_value="v7",
+        extra={"old_sha": "0" * 40, "new_sha": "1" * 40},
+    )]
+    results = rewrite_gha_uses(wf, edits)
+    assert not results[0].applied
+    assert results[0].reason == "no_change"

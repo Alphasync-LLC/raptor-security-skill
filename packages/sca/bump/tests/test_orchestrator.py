@@ -578,6 +578,85 @@ def test_gha_apply_writes_workflow_file(tmp_path: Path) -> None:
     assert "uses: actions/checkout@v5" in wf.read_text()
 
 
+# ---------------------------------------------------------------------------
+# GHA SHA-pinned with ``# was vX`` comment (Phase 3.b.2)
+# ---------------------------------------------------------------------------
+
+def test_gha_sha_pinned_with_comment_becomes_candidate(tmp_path: Path) -> None:
+    """Raptor's convention: SHA-pinned + ``# was vX`` comment.
+    Walker detects the shape, looks up upstream-latest tag,
+    resolves to target SHA, emits candidate with both."""
+    _workflow(tmp_path, "ci.yml",
+              "      - uses: actions/checkout@"
+              "de0fac2e4500dabe0009e67214ff5f5447ce83dd  # was v6\n")
+    http = _StubHttp({
+        "https://api.github.com/repos/actions/checkout/releases/latest":
+            {"tag_name": "v7"},
+        "https://api.github.com/repos/actions/checkout/git/refs/tags/v7":
+            {"object": {"type": "commit",
+                         "sha": "ffffffffffffffffffffffffffffffffffffffff"}},
+    })
+    report = run_bump(tmp_path, http=http)
+    gha_cands = [c for c in report.candidates if c.kind == "gha_uses"]
+    assert len(gha_cands) == 1
+    c = gha_cands[0]
+    assert c.locator == "actions/checkout"
+    assert c.current_version == "v6"
+    assert c.target_version == "v7"
+    assert c.extra["old_sha"] == "de0fac2e4500dabe0009e67214ff5f5447ce83dd"
+    assert c.extra["new_sha"] == "f" * 40
+
+
+def test_gha_sha_pinned_apply_writes_both_sha_and_comment(
+    tmp_path: Path,
+) -> None:
+    """End-to-end: ``--apply`` on a SHA-pinned with ``# was vX``
+    rewrites both the SHA and the comment tag."""
+    wf = _workflow(tmp_path, "ci.yml",
+              "      - uses: actions/checkout@"
+              "0000000000000000000000000000000000000000  # was v6\n")
+    http = _StubHttp({
+        "https://api.github.com/repos/actions/checkout/releases/latest":
+            {"tag_name": "v7"},
+        "https://api.github.com/repos/actions/checkout/git/refs/tags/v7":
+            {"object": {"type": "commit", "sha": "1" * 40}},
+    })
+    run_bump(tmp_path, http=http, apply=True)
+    text = wf.read_text()
+    assert "@" + "1" * 40 in text
+    assert "# was v7" in text
+    assert "0000" not in text
+
+
+def test_gha_sha_pinned_already_at_latest_no_candidate(tmp_path: Path) -> None:
+    """SHA-pinned at latest tag → not a candidate (the bumper
+    correctly handles the same-tag-but-different-SHA edge — only
+    if upstream actually advanced)."""
+    _workflow(tmp_path, "ci.yml",
+              "      - uses: actions/checkout@"
+              "1111111111111111111111111111111111111111  # was v7\n")
+    http = _StubHttp({
+        "https://api.github.com/repos/actions/checkout/releases/latest":
+            {"tag_name": "v7"},
+    })
+    report = run_bump(tmp_path, http=http)
+    assert [c for c in report.candidates if c.kind == "gha_uses"] == []
+
+
+def test_gha_sha_pinned_same_major_pin_skipped(tmp_path: Path) -> None:
+    """``# was v4`` and target is v4.x → same-major; skip
+    (operator chose major-only pinning)."""
+    _workflow(tmp_path, "ci.yml",
+              "      - uses: actions/checkout@"
+              "0000000000000000000000000000000000000000  # was v4\n")
+    http = _StubHttp({
+        "https://api.github.com/repos/actions/checkout/releases/latest":
+            {"tag_name": "v4.2.1"},
+    })
+    report = run_bump(tmp_path, http=http)
+    assert [c for c in report.candidates if c.kind == "gha_uses"] == []
+
+
 def test_gha_upstream_404_falls_back_to_tags(tmp_path: Path) -> None:
     """Some actions don't cut releases. Walker falls back to
     /tags (we already shipped ``latest_tag`` in Phase 2.a)."""

@@ -78,15 +78,24 @@ def rewrite_gha_uses(
 def _apply_one_uses(
     text: str, edit: RewriteEdit,
 ) -> "tuple[str, RewriteResult]":
-    """Apply one tag-pinned ``uses:`` edit. The locator is
-    ``<owner>/<repo>`` (e.g. ``actions/checkout``); the value
-    is the ref portion after ``@``.
+    """Apply one ``uses:`` edit — either tag-pinned or
+    SHA-pinned-with-comment.
 
-    Supports ``uses: foo/bar@v4`` and the path-suffixed form
-    ``uses: github/codeql-action/init@v4`` where the repo is
-    ``github/codeql-action`` and ``/init`` is a subpath. The
-    repo locator matches the prefix; the subpath stays
-    untouched."""
+    SHA+comment shape (Phase 3.b.2): when ``edit.extra`` carries
+    ``{"old_sha": ..., "new_sha": ...}``, the rewriter targets
+    ``uses: <repo>@<old_sha>  # was <old_value>`` and rewrites
+    BOTH the SHA and the ``# was vX`` comment in one pass.
+
+    Tag-pinned shape (Phase 3.b): ``edit.extra`` is None;
+    rewriter targets ``uses: <repo>@<old_value>`` and rewrites
+    the tag.
+
+    The locator is ``<owner>/<repo>`` (e.g.
+    ``actions/checkout``). Sub-action paths
+    (``github/codeql-action/init``) are matched as
+    ``<locator>/<subpath>@``; the subpath stays untouched."""
+    if edit.extra and edit.extra.get("old_sha"):
+        return _apply_sha_pinned(text, edit)
     # The locator may be the bare repo (``actions/checkout``)
     # OR the repo with a sub-action path (``github/codeql-action``
     # used as ``github/codeql-action/init``). Match the locator
@@ -147,6 +156,75 @@ _SHA_RE = re.compile(r"^[a-f0-9]{40}$")
 
 def _looks_like_sha(ref: str) -> bool:
     return _SHA_RE.match(ref) is not None
+
+
+def _apply_sha_pinned(
+    text: str, edit: RewriteEdit,
+) -> "tuple[str, RewriteResult]":
+    """Apply a SHA-pinned-with-``# was vX``-comment edit.
+
+    Targets the canonical raptor shape:
+
+        uses: actions/checkout@<40hex>  # was v6
+
+    Rewrites both the SHA and the ``# was vX`` comment in one
+    pass. Both edit.extra["old_sha"] and edit.extra["new_sha"]
+    are required.
+
+    The ``old_value`` / ``new_value`` are the human-readable
+    tags (``v6`` / ``v7``); SHAs are in extra.
+    """
+    locator = re.escape(edit.locator)
+    old_sha = edit.extra["old_sha"]
+    new_sha = edit.extra["new_sha"]
+    # The expected line shape: optional YAML list marker,
+    # ``uses:``, the locator (possibly with subpath), ``@<40hex>``,
+    # whitespace, comment containing ``was <tag>``. We MATCH on
+    # locator + 40-hex SHA, REWRITE both the SHA and the
+    # ``was <tag>`` value.
+    pattern = re.compile(
+        rf"^(\s*(?:-\s+)?uses:\s*{locator}(?:/[\w./-]+)?@)"
+        rf"([a-f0-9]{{40}})"             # current SHA
+        rf"(\s+#\s*was\s+)"               # the "# was " prefix
+        rf"([^\s#]+)"                     # current tag in the comment
+        rf"([\s#]|$)",                    # boundary
+        re.MULTILINE,
+    )
+    match = pattern.search(text)
+    if match is None:
+        return text, RewriteResult(
+            edit=edit, applied=False, reason="not_found",
+        )
+    file_sha = match.group(2)
+    file_tag = match.group(4)
+    if file_sha == new_sha and file_tag == edit.new_value:
+        return text, RewriteResult(
+            edit=edit, applied=False, reason="no_change",
+        )
+    if file_sha != old_sha:
+        return text, RewriteResult(
+            edit=edit, applied=False,
+            reason=(
+                f"value_mismatch: file SHA {file_sha[:12]}... "
+                f"differs from plan's old SHA {old_sha[:12]}..."
+            ),
+        )
+    if file_tag != edit.old_value:
+        return text, RewriteResult(
+            edit=edit, applied=False,
+            reason=(
+                f"value_mismatch: file '# was {file_tag}' "
+                f"differs from plan's old tag {edit.old_value!r}"
+            ),
+        )
+    # Rewrite both the SHA and the # was vX comment.
+    new_text = pattern.sub(
+        rf"\g<1>{new_sha}\g<3>{edit.new_value}\g<5>",
+        text, count=1,
+    )
+    return new_text, RewriteResult(
+        edit=edit, applied=True, reason="applied",
+    )
 
 
 def _atomic_write(path: Path, content: str) -> None:

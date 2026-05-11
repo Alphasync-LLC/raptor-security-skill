@@ -78,6 +78,10 @@ class BumpCandidate:
     current_version: str
     target_version: str
     upstream: Optional[UpstreamSource] = None
+    # Kind-specific metadata (e.g. SHA pair for SHA-pinned GHA
+    # uses lines). The apply path forwards this to
+    # ``RewriteEdit.extra`` so rewriters can read it.
+    extra: Optional[dict] = None
 
     @property
     def arg_name(self) -> str:
@@ -150,6 +154,7 @@ def run_bump(
                 locator=cand.locator,
                 old_value=cand.current_version,
                 new_value=cand.target_version,
+                extra=cand.extra,
             )
             rewrites = rewrite(cand.file, [edit])
             if rewrites:
@@ -457,6 +462,19 @@ _USES_RE = re.compile(
     r"(?P<ref>[^\s#]+)"                   # ref (up to ws / comment)
 )
 
+# Phase 3.b.2 — SHA-pinned with ``# was vX`` comment. The comment
+# carries the human-readable tag so the bumper can compute a new
+# tag → new SHA on the same axis.
+_USES_SHA_COMMENT_RE = re.compile(
+    r"^\s*(?:-\s+)?uses:\s*"
+    r"(?P<repo>[\w.-]+/[\w.-]+)"
+    r"(?P<subpath>(?:/[\w./-]+)?)"
+    r"@"
+    r"(?P<sha>[a-f0-9]{40})"
+    r"\s+#\s*was\s+"
+    r"(?P<tag>[^\s#]+)"
+)
+
 
 def _enumerate_gha_uses_candidates(
     *,
@@ -488,17 +506,80 @@ def _enumerate_gha_uses_candidates(
         UpstreamLookupError,
         latest_release,
         latest_tag,
+        resolve_tag_to_sha,
     )
 
     candidates: List[BumpCandidate] = []
     skipped: List[Tuple[str, Path, str]] = []
     for line in text.splitlines():
+        # Phase 3.b.2: SHA-pinned with ``# was vX`` comment.
+        # Detect first; if matched, propose new tag + new SHA.
+        sha_match = _USES_SHA_COMMENT_RE.match(line)
+        if sha_match is not None:
+            repo = sha_match.group("repo")
+            current_sha = sha_match.group("sha")
+            current_tag = sha_match.group("tag")
+            if parse_stable(current_tag) is None:
+                # Comment tag isn't semver — operator's not using
+                # the convention we recognize. Skip silently.
+                continue
+            target_tag = _lookup_latest_release_or_tag(
+                repo, http=http, cache=cache,
+                github_token=github_token,
+                uses_cache=uses_cache,
+                skipped=skipped, workflow=workflow,
+            )
+            if not target_tag:
+                continue
+            # Same-major-pin filter: ``# was v6`` and target
+            # ``v6.2.1`` would surface as a noisy same-major
+            # update (operator chose major-only). Skip those.
+            if _same_major_pin(current_tag, target_tag):
+                continue
+            if current_tag == target_tag:
+                continue
+            # Resolve target tag → commit SHA. Cache per
+            # (repo, target_tag) — multiple workflows often pin
+            # the same actions to the same SHAs.
+            sha_cache_key = ("tag_to_sha", repo, target_tag)
+            if sha_cache_key in uses_cache:
+                target_sha = uses_cache[sha_cache_key]
+            else:
+                try:
+                    target_sha = resolve_tag_to_sha(
+                        repo, target_tag, http=http, cache=cache,
+                        github_token=github_token,
+                    )
+                except UpstreamLookupError as e:
+                    skipped.append((
+                        repo, workflow,
+                        f"tag→SHA resolution failed: {e}",
+                    ))
+                    uses_cache[sha_cache_key] = None
+                    continue
+                uses_cache[sha_cache_key] = target_sha
+            if not target_sha:
+                continue
+            candidates.append(BumpCandidate(
+                kind="gha_uses",
+                locator=repo,
+                file=workflow,
+                current_version=current_tag,
+                target_version=target_tag,
+                upstream=None,
+                extra={
+                    "old_sha": current_sha,
+                    "new_sha": target_sha,
+                },
+            ))
+            continue
         match = _USES_RE.match(line)
         if match is None:
             continue
         repo = match.group("repo")
         ref = match.group("ref")
-        # SHA-pinned → Phase 3.b.2.
+        # SHA-pinned without our # was vX comment → can't
+        # safely bump (no human-readable anchor). Skip.
         if re.fullmatch(r"[a-f0-9]{40}", ref):
             continue
         # Branch-shaped → skip (auto-bumper doesn't surface
@@ -510,32 +591,12 @@ def _enumerate_gha_uses_candidates(
         # part numeric + optional v-prefix.
         if parse_stable(ref) is None:
             continue
-        cache_key = ("gha_uses", repo)
-        if cache_key in uses_cache:
-            target_ref = uses_cache[cache_key]
-        else:
-            target_ref = None
-            # GHA actions typically cut proper releases; fall back
-            # to tags if /releases/latest 404s.
-            try:
-                target_ref = latest_release(
-                    repo, http=http, cache=cache,
-                    github_token=github_token,
-                )
-            except UpstreamLookupError:
-                try:
-                    target_ref = latest_tag(
-                        repo, http=http, cache=cache,
-                        github_token=github_token,
-                    )
-                except (UpstreamLookupError, NoStableVersionsFound) as e:
-                    skipped.append((
-                        repo, workflow,
-                        f"upstream lookup failed: {e}"
-                    ))
-                    uses_cache[cache_key] = None
-                    continue
-            uses_cache[cache_key] = target_ref
+        target_ref = _lookup_latest_release_or_tag(
+            repo, http=http, cache=cache,
+            github_token=github_token,
+            uses_cache=uses_cache,
+            skipped=skipped, workflow=workflow,
+        )
         if not target_ref:
             continue
         # Normalise both to compare like-shapes. If the current
@@ -562,6 +623,45 @@ def _enumerate_gha_uses_candidates(
             upstream=None,
         ))
     return candidates, skipped
+
+
+def _lookup_latest_release_or_tag(
+    repo: str,
+    *,
+    http,
+    cache,
+    github_token: Optional[str],
+    uses_cache: dict,
+    skipped: List[Tuple[str, Path, str]],
+    workflow: Path,
+) -> Optional[str]:
+    """Look up the latest stable upstream version for a GitHub
+    repo. Tries ``/releases/latest`` first (proper GitHub
+    Releases); falls back to ``/tags`` (projects that tag without
+    releases). Caches per-repo via ``uses_cache``."""
+    from core.upstream_latest.github_releases import (
+        NoStableVersionsFound, UpstreamLookupError,
+        latest_release, latest_tag,
+    )
+    cache_key = ("gha_uses", repo)
+    if cache_key in uses_cache:
+        return uses_cache[cache_key]
+    target_ref = None
+    try:
+        target_ref = latest_release(
+            repo, http=http, cache=cache, github_token=github_token,
+        )
+    except UpstreamLookupError:
+        try:
+            target_ref = latest_tag(
+                repo, http=http, cache=cache, github_token=github_token,
+            )
+        except (UpstreamLookupError, NoStableVersionsFound) as e:
+            skipped.append((repo, workflow, f"upstream lookup failed: {e}"))
+            uses_cache[cache_key] = None
+            return None
+    uses_cache[cache_key] = target_ref
+    return target_ref
 
 
 def _same_major_pin(current: str, target: str) -> bool:
