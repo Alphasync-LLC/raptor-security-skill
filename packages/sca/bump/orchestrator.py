@@ -31,7 +31,7 @@ from pathlib import Path
 import re
 from typing import List, Optional, Tuple
 
-from ..models import SupplyChainFinding
+from ..models import SupplyChainFinding, VulnFinding
 from ..parsers.inline_installs._arg_version_pins import (
     _BUILTIN_ARG_MAP,
     _ARG_RE,
@@ -41,6 +41,7 @@ from ..registries.pypi import PyPIClient
 from ..rewriters import RewriteEdit, RewriteResult, rewrite
 from .evaluator import evaluate_bump_supply_chain
 from .upstream_map import UpstreamSource, lookup_upstream
+from .vuln_delta import evaluate_bump_vulns
 
 logger = logging.getLogger(__name__)
 
@@ -100,6 +101,7 @@ class BumpResult:
     verdict: int
     verdict_label: str
     bump_supply_chain_findings: List[SupplyChainFinding]
+    bump_vuln_findings: List[VulnFinding] = field(default_factory=list)
     error: Optional[str] = None
     rewrite_result: Optional[RewriteResult] = None
 
@@ -122,6 +124,9 @@ def run_bump(
     http,
     pypi_client: Optional[PyPIClient] = None,
     npm_client: Optional[NpmClient] = None,
+    osv_client=None,
+    kev_client=None,
+    epss_client=None,
     apply: bool = False,
     now: Optional[datetime] = None,
     cache=None,
@@ -147,6 +152,8 @@ def run_bump(
         result = _evaluate_one(
             cand,
             pypi_client=pypi_client, npm_client=npm_client,
+            osv_client=osv_client,
+            kev_client=kev_client, epss_client=epss_client,
             now=now,
         )
         if apply and result.verdict == _VERDICT_CLEAN:
@@ -407,21 +414,26 @@ def _evaluate_one(
     *,
     pypi_client: Optional[PyPIClient],
     npm_client: Optional[NpmClient],
+    osv_client=None,
+    kev_client=None,
+    epss_client=None,
     now: datetime,
 ) -> BumpResult:
     """Compute the verdict for one bump candidate.
 
     ARG-kind candidates with a ``_BUILTIN_ARG_MAP`` entry get the
     full bump-tier verdict (recent_publish via registry metadata,
-    maintainer_change / install_hook for npm). FROM-image-kind
-    and ARG-kind without an eco-map fall through to Clean (no
-    bump-tier signals available for OCI yet — operator review on
-    the suggest-only PR is the gate).
+    maintainer_change / install_hook for npm) PLUS the OSV
+    vuln-delta check when ``osv_client`` is supplied. FROM-image-
+    kind and ARG-kind without an eco-map fall through to Clean
+    (no bump-tier signals available for OCI yet — operator review
+    on the suggest-only PR is the gate).
     """
     eco_map = None
     if cand.kind == "arg":
         eco_map = _BUILTIN_ARG_MAP.get(cand.locator)
     findings: List[SupplyChainFinding] = []
+    new_vulns: List = []
     if eco_map is not None:
         ecosystem, package_name = eco_map
         try:
@@ -440,9 +452,31 @@ def _evaluate_one(
                 bump_supply_chain_findings=[],
                 error=f"evaluator raised: {e}",
             )
+        # OSV vuln-delta: catches "this bump would introduce a
+        # CVE the current pin doesn't have". The verdict ladder
+        # already escalates VulnFindings — KEV → Block, multiple-
+        # critical → Block, etc.
+        if osv_client is not None:
+            try:
+                new_vulns = evaluate_bump_vulns(
+                    ecosystem=ecosystem, name=package_name,
+                    current_version=cand.current_version,
+                    target_version=cand.target_version,
+                    osv_client=osv_client,
+                    kev_client=kev_client, epss_client=epss_client,
+                )
+            except Exception as e:            # noqa: BLE001
+                # Vuln delta is enrichment, not load-bearing —
+                # don't fail the whole evaluation if it goes
+                # sideways. Operator still gets the supply-chain
+                # verdict + an error breadcrumb.
+                logger.warning(
+                    "sca.bump: vuln-delta evaluation failed for %s: %s",
+                    cand.locator, e,
+                )
     from ..review import _compute_verdict
     verdict = _compute_verdict(
-        vuln_findings=[],
+        vuln_findings=new_vulns,
         typo_findings=[],
         bump_supply_chain_findings=findings,
     )
@@ -451,6 +485,7 @@ def _evaluate_one(
         verdict=verdict,
         verdict_label=_VERDICT_LABEL.get(verdict, str(verdict)),
         bump_supply_chain_findings=findings,
+        bump_vuln_findings=new_vulns,
     )
 
 
@@ -820,6 +855,17 @@ def render_report(report: BumpReport) -> str:
             # identical proposals would emit identical findings.)
             for sf in head.bump_supply_chain_findings:
                 lines.append(f"      [{sf.severity}] {sf.kind}: {sf.detail}")
+            # Surface newly-introduced CVEs (OSV vuln-delta) —
+            # the strongest "do not auto-bump" signal we have.
+            for vf in head.bump_vuln_findings:
+                adv = vf.advisories[0] if vf.advisories else None
+                cve = (adv.osv_id if adv else "?")
+                kev_marker = " KEV" if vf.in_kev else ""
+                lines.append(
+                    f"      [{vf.severity}{kev_marker}] "
+                    f"new-CVE {cve}: "
+                    f"{(adv.summary[:90] if adv and adv.summary else '')}"
+                )
     if report.skipped:
         lines.append("")
         lines.append("  Skipped:")

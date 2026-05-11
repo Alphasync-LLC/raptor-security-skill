@@ -812,6 +812,148 @@ def test_render_single_file_still_shows_filename_count(
     assert "(2 files)" not in rows[0]
 
 
+# ---------------------------------------------------------------------------
+# OSV vuln-delta integration (Phase 4)
+# ---------------------------------------------------------------------------
+
+class _StubOsv:
+    def __init__(self, advisories_for):
+        self._adv = advisories_for
+
+    def query_batch(self, deps):
+        from packages.sca.osv import OsvResult
+        return [OsvResult(d.key(),
+                          self._adv.get((d.ecosystem, d.name, d.version), []))
+                for d in deps]
+
+
+def _adv(osv_id, severity="high"):
+    from packages.sca.models import AffectedRange, Advisory, CVSSScore
+    return Advisory(
+        osv_id=osv_id, aliases=[], summary="x", details="",
+        affected=[AffectedRange(type="ECOSYSTEM",
+                                  events=[{"introduced": "0"}])],
+        severity=CVSSScore(score=7.5, vector="CVSS:3.1/AV:N",
+                            severity=severity),
+        fixed_versions=[], references=[],
+    )
+
+
+def test_bumper_escalates_on_new_cve_in_target(tmp_path: Path) -> None:
+    """Bump introduces a critical CVE the current pin doesn't
+    have → verdict escalates via the vuln_findings path. Critical
+    + no-fix → Block."""
+    (tmp_path / "Dockerfile").write_text(
+        "ARG SEMGREP_VERSION=1.50.0\n"
+    )
+    http = _StubHttp({
+        "https://api.github.com/repos/semgrep/semgrep/releases/latest":
+            {"tag_name": "v1.119.0"},
+    })
+    pypi = _StubPyPI({
+        "semgrep": {"releases": {
+            "1.119.0": [{"upload_time_iso_8601": "2025-12-01T00:00:00Z"}],
+        }},
+    })
+    osv = _StubOsv({
+        ("PyPI", "semgrep", "1.50.0"): [],
+        ("PyPI", "semgrep", "1.119.0"): [_adv("GHSA-new-crit", "critical")],
+    })
+    now = datetime(2026, 5, 11, tzinfo=timezone.utc)
+    report = run_bump(
+        tmp_path, http=http, pypi_client=pypi, osv_client=osv, now=now,
+    )
+    r = report.results[0]
+    # New CVE was emitted in bump_vuln_findings.
+    assert len(r.bump_vuln_findings) == 1
+    assert r.bump_vuln_findings[0].advisories[0].osv_id == "GHSA-new-crit"
+    # Verdict escalated (critical without fix → Block).
+    assert r.verdict == _VERDICT_BLOCK
+
+
+def test_bumper_no_escalation_when_cve_present_in_both(tmp_path: Path) -> None:
+    """CVE present in BOTH current and target → vuln-delta is
+    empty → verdict from supply-chain alone."""
+    (tmp_path / "Dockerfile").write_text(
+        "ARG SEMGREP_VERSION=1.50.0\n"
+    )
+    http = _StubHttp({
+        "https://api.github.com/repos/semgrep/semgrep/releases/latest":
+            {"tag_name": "v1.119.0"},
+    })
+    pypi = _StubPyPI({
+        "semgrep": {"releases": {
+            "1.119.0": [{"upload_time_iso_8601": "2025-12-01T00:00:00Z"}],
+        }},
+    })
+    shared = _adv("GHSA-shared", "critical")
+    osv = _StubOsv({
+        ("PyPI", "semgrep", "1.50.0"): [shared],
+        ("PyPI", "semgrep", "1.119.0"): [shared],
+    })
+    now = datetime(2026, 5, 11, tzinfo=timezone.utc)
+    report = run_bump(
+        tmp_path, http=http, pypi_client=pypi, osv_client=osv, now=now,
+    )
+    r = report.results[0]
+    assert r.bump_vuln_findings == []
+    assert r.verdict == _VERDICT_CLEAN
+
+
+def test_bumper_without_osv_client_falls_through_to_supply_chain(
+    tmp_path: Path,
+) -> None:
+    """``osv_client=None`` → no vuln-delta check, verdict comes
+    from supply-chain alone (matches pre-Phase-4 behaviour)."""
+    (tmp_path / "Dockerfile").write_text(
+        "ARG SEMGREP_VERSION=1.50.0\n"
+    )
+    http = _StubHttp({
+        "https://api.github.com/repos/semgrep/semgrep/releases/latest":
+            {"tag_name": "v1.119.0"},
+    })
+    pypi = _StubPyPI({
+        "semgrep": {"releases": {
+            "1.119.0": [{"upload_time_iso_8601": "2025-12-01T00:00:00Z"}],
+        }},
+    })
+    now = datetime(2026, 5, 11, tzinfo=timezone.utc)
+    report = run_bump(
+        tmp_path, http=http, pypi_client=pypi, now=now,
+    )
+    r = report.results[0]
+    assert r.bump_vuln_findings == []
+    assert r.verdict == _VERDICT_CLEAN
+
+
+def test_render_report_surfaces_new_cves_inline(tmp_path: Path) -> None:
+    """The verdict table shows ``new-CVE GHSA-...`` rows inline
+    so operators know WHY the bump is blocked without opening
+    another tool."""
+    (tmp_path / "Dockerfile").write_text(
+        "ARG SEMGREP_VERSION=1.50.0\n"
+    )
+    http = _StubHttp({
+        "https://api.github.com/repos/semgrep/semgrep/releases/latest":
+            {"tag_name": "v1.119.0"},
+    })
+    pypi = _StubPyPI({
+        "semgrep": {"releases": {
+            "1.119.0": [{"upload_time_iso_8601": "2025-12-01T00:00:00Z"}],
+        }},
+    })
+    osv = _StubOsv({
+        ("PyPI", "semgrep", "1.50.0"): [],
+        ("PyPI", "semgrep", "1.119.0"): [_adv("GHSA-new-bad", "critical")],
+    })
+    now = datetime(2026, 5, 11, tzinfo=timezone.utc)
+    report = run_bump(
+        tmp_path, http=http, pypi_client=pypi, osv_client=osv, now=now,
+    )
+    text = render_report(report)
+    assert "new-CVE GHSA-new-bad" in text
+
+
 def test_upstream_lookup_dedups_across_dockerfiles(tmp_path: Path) -> None:
     """Two Dockerfiles both pinning SEMGREP_VERSION should hit
     the upstream-latest endpoint ONCE — the orchestrator caches

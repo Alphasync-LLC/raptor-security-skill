@@ -85,8 +85,10 @@ def main(argv: Sequence[str]) -> int:
     import os
     github_token = args.github_token or os.environ.get("GITHUB_TOKEN")
 
+    from core.cve import EpssClient, KevClient
     from core.json import JsonCache
     from .. import SCA_CACHE_ROOT, default_client as _sca_default_http
+    from ..osv import OsvClient
     from ..registries.npm import NpmClient
     from ..registries.pypi import PyPIClient
     from .orchestrator import render_report, run_bump
@@ -100,6 +102,11 @@ def main(argv: Sequence[str]) -> int:
     cache = None if args.no_cache else JsonCache(root=cache_root)
     pypi_client = PyPIClient(http, cache, offline=False)
     npm_client = NpmClient(http, cache, offline=False)
+    # OSV vuln-delta gate: if the bump introduces new CVEs the
+    # current pin doesn't carry, the verdict escalates.
+    osv_client = OsvClient(http, cache, offline=False)
+    kev_client = KevClient(http, cache, offline=False)
+    epss_client = EpssClient(http, cache, offline=False)
 
     try:
         report = run_bump(
@@ -107,6 +114,9 @@ def main(argv: Sequence[str]) -> int:
             http=http,
             pypi_client=pypi_client,
             npm_client=npm_client,
+            osv_client=osv_client,
+            kev_client=kev_client,
+            epss_client=epss_client,
             apply=args.apply,
             cache=cache,
             github_token=github_token,
