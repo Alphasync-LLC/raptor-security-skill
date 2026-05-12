@@ -22,7 +22,12 @@ from __future__ import annotations
 from typing import List, Optional
 
 from core.build.build_flags import BuildFlagsContext
-from packages.source_intel.analyze import SourceIntelResult, WurEvidence
+from packages.source_intel.analyze import (
+    KIND_NONNULL,
+    KIND_WUR,
+    AttributeEvidence,
+    SourceIntelResult,
+)
 
 
 _STYLES = ("stage_d", "exploit_plan", "agentic_variant")
@@ -71,30 +76,46 @@ def derive_evidence_strings(
         )
         return _truncate(lines, max_lines)
 
-    # Filter WUR observations to the finding's function when supplied.
-    wur_obs = list(result.wur_functions)
+    # Filter to the finding's function when supplied.
+    observations = list(result.attributes)
     if finding_function:
-        wur_obs = [
-            ev for ev in wur_obs
+        observations = [
+            ev for ev in observations
             if ev.function_name == finding_function
         ]
     # Literal observations first, then known-alias.
-    wur_obs.sort(key=lambda ev: 0 if ev.match_source == "literal" else 1)
+    observations.sort(key=lambda ev: 0 if ev.match_source == "literal" else 1)
 
-    for ev in wur_obs:
-        lines.append(_render_wur_line(ev, build_flags, style))
+    for ev in observations:
+        line = _render_attribute_line(ev, build_flags, style)
+        if line is not None:
+            lines.append(line)
 
     # When source_intel ran but found nothing relevant — emit an
     # explicit "no signal" line so the consumer prompt template
     # carries the absence acknowledgement.
     if not lines:
         lines.append(
-            "Source_intel ran; no warn_unused_result evidence for "
+            "Source_intel ran; no attribute evidence for "
             f"{finding_function or '<finding function>'}. "
             f"Absence of evidence is NOT evidence of unhardened code."
         )
 
     return _truncate(lines, max_lines)
+
+
+def _render_attribute_line(
+    ev: AttributeEvidence,
+    build_flags: Optional[BuildFlagsContext],
+    style: str,
+) -> Optional[str]:
+    """Dispatch to the per-kind renderer. Unknown kinds return None
+    (silently dropped — render is best-effort)."""
+    if ev.kind == KIND_WUR:
+        return _render_wur_line(ev, build_flags, style)
+    if ev.kind == KIND_NONNULL:
+        return _render_nonnull_line(ev, build_flags, style)
+    return None
 
 
 # =====================================================================
@@ -103,7 +124,7 @@ def derive_evidence_strings(
 
 
 def _render_wur_line(
-    ev: WurEvidence,
+    ev: AttributeEvidence,
     build_flags: Optional[BuildFlagsContext],
     style: str,
 ) -> str:
@@ -139,6 +160,74 @@ def _render_wur_line(
     return (
         f"{prefix}: {fn_text} annotated as warn_unused_result via "
         f"{src_text}. {enforcement}"
+    )
+
+
+def _render_nonnull_line(
+    ev: AttributeEvidence,
+    build_flags: Optional[BuildFlagsContext],
+    style: str,
+) -> str:
+    """Render nonnull evidence.
+
+    Nonnull is a TWO-EDGED signal for memory corruption:
+      * Author intent — caller MUST pass non-null pointers.
+      * Compiler behaviour — when -O2+ AND -fdelete-null-pointer-checks
+        is ON (GCC userspace default), the compiler may eliminate
+        redundant null-checks inside the annotated function. A real
+        NULL reaching the function then dereferences without the
+        defensive branch the author may have written.
+      * In the kernel, -fno-delete-null-pointer-checks is in CFLAGS
+        since 4.9, so the elimination doesn't happen — defensive null
+        checks are preserved.
+
+    The Stage D consumer reads this evidence WITH the build-flag
+    context to determine effective semantics.
+    """
+    fn_text = (
+        f"function `{ev.function_name}`"
+        if ev.function_name
+        else f"function in {ev.location[0]} at line {ev.location[1]}"
+    )
+
+    null_check_phrase = _nonnull_null_check_phrase(build_flags)
+
+    if style == "stage_d":
+        prefix = "Author intent + compiler signal — nonnull"
+    elif style == "exploit_plan":
+        prefix = "Constraint — caller-must-be-non-null contract"
+    else:
+        prefix = "Variant hint — nonnull annotation"
+
+    return (
+        f"{prefix}: {fn_text} annotated nonnull (caller must pass "
+        f"non-null). {null_check_phrase}"
+    )
+
+
+def _nonnull_null_check_phrase(build_flags: Optional[BuildFlagsContext]) -> str:
+    """Compose the dead-code-elimination caveat for nonnull."""
+    if build_flags is None or build_flags.extraction_confidence == "absent":
+        return (
+            "Compiler-elimination status unknown (build flags not in "
+            "evidence); a NULL reaching this function may be more or "
+            "less exploitable depending on -fdelete-null-pointer-checks."
+        )
+    if build_flags.delete_null_pointer_checks is False:
+        return (
+            "Build flags include -fno-delete-null-pointer-checks — "
+            "defensive null checks inside the function are preserved; "
+            "any NULL dereference behaves as the source code shows."
+        )
+    if build_flags.delete_null_pointer_checks is True:
+        return (
+            "Build flags explicitly enable -fdelete-null-pointer-checks "
+            "— compiler may dead-code-eliminate redundant null checks "
+            "inside the function; a real NULL would reach the deref."
+        )
+    return (
+        "Compiler-elimination status not pinned by observed flags — "
+        "default depends on -O level and compiler version."
     )
 
 

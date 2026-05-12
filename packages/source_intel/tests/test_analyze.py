@@ -51,7 +51,7 @@ def test_function_has_wur_returns_observation():
         match_source="literal",
         raw_match="__attribute__((warn_unused_result))",
     )
-    r = SourceIntelResult(wur_functions=(ev,))
+    r = SourceIntelResult(attributes=(ev,))
     assert r.function_has_wur("foo") is ev
     assert r.function_has_wur("bar") is None
 
@@ -225,3 +225,58 @@ def test_e2e_real_spatch_detects_literal_wur(tmp_path):
         f"attr_warn_unused_result rule didn't fire on literal "
         f"GCC syntax; got: {list(r.wur_functions)!r}"
     )
+
+
+@pytest.mark.skipif(
+    not shutil.which("spatch"),
+    reason="spatch not installed — skip real-spatch E2E",
+)
+def test_e2e_real_spatch_detects_literal_nonnull(tmp_path):
+    """End-to-end: real spatch runs the shipped attr_nonnull rule
+    against a small C file with nonnull declarations in three forms
+    (bare, paramised, internal-alias). Pin against rule-corpus drift
+    and the multi-variant disjunction in the cocci rule."""
+    src = tmp_path / "nonnull_fixture.c"
+    src.write_text(
+        "__attribute__((nonnull)) int bare(int *p);\n"
+        "__attribute__((nonnull(1))) int paramised(int *p, int q);\n"
+        "__attribute__((__nonnull__(1, 2))) int internal(int *a, int *b);\n"
+    )
+
+    r = analyze(tmp_path)
+    assert not r.is_skipped
+    from packages.source_intel.analyze import KIND_NONNULL
+    nn_obs = r.attrs_of_kind(KIND_NONNULL)
+    names = {ev.function_name for ev in nn_obs if ev.match_source == "literal"}
+    assert names == {"bare", "paramised", "internal"}, (
+        f"attr_nonnull rule didn't fire on all three forms; "
+        f"got: {names!r}"
+    )
+
+
+@pytest.mark.skipif(
+    not shutil.which("spatch"),
+    reason="spatch not installed — skip real-spatch E2E",
+)
+def test_e2e_axis_dispatch_runs_multiple_rules(tmp_path):
+    """When the target has both WUR and nonnull annotations, BOTH
+    rules in the attrs/ axis fire — confirms the axis-dir iteration
+    correctly drives all rules per axis."""
+    src = tmp_path / "mixed.c"
+    src.write_text(
+        "__attribute__((warn_unused_result)) int alloc(int sz);\n"
+        "__attribute__((nonnull)) int validate(int *p);\n"
+    )
+
+    r = analyze(tmp_path)
+    from packages.source_intel.analyze import KIND_NONNULL, KIND_WUR
+    wur_names = {
+        ev.function_name for ev in r.attrs_of_kind(KIND_WUR)
+        if ev.match_source == "literal"
+    }
+    nn_names = {
+        ev.function_name for ev in r.attrs_of_kind(KIND_NONNULL)
+        if ev.match_source == "literal"
+    }
+    assert "alloc" in wur_names
+    assert "validate" in nn_names

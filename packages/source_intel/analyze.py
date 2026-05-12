@@ -41,22 +41,60 @@ SCHEMA_VERSION = 1
 # =====================================================================
 
 
-@dataclass(frozen=True)
-class WurEvidence:
-    """A single observation that a function carries warn_unused_result."""
+#: Recognised attribute kinds. Axis-N PRs add to this set; the cocci
+#: rule's COCCIRESULT message prefix (``<kind>:<function>``) must match
+#: one of these to be parsed.
+KIND_WUR = "wur"
+KIND_NONNULL = "nonnull"
 
+ALL_KINDS: Tuple[str, ...] = (KIND_WUR, KIND_NONNULL)
+
+
+@dataclass(frozen=True)
+class AttributeEvidence:
+    """A single observation of a compiler attribute on a function.
+
+    The ``kind`` field distinguishes evidence classes (``wur``,
+    ``nonnull``, …). Axis-1-expansion adds more kinds; the data shape
+    stays uniform so render / adapter code dispatches on ``kind``
+    rather than carrying class-specific subtypes.
+    """
+
+    kind: str  # one of ``ALL_KINDS``
     function_name: str
     location: Tuple[str, int]  # (file_path, line)
     match_source: str  # "literal" | "known_alias" | "project_alias"
-    raw_match: str  # the actual spelling matched (for provenance)
+    raw_match: str  # actual spelling for provenance
+
+
+def WurEvidence(  # noqa: N802 — back-compat factory for Phase 2 callers
+    function_name: str,
+    location: Tuple[str, int],
+    match_source: str,
+    raw_match: str,
+) -> AttributeEvidence:
+    """Back-compat factory: returns an :class:`AttributeEvidence` with
+    ``kind="wur"``. Phase 2 callers (tests, downstream code) used the
+    name ``WurEvidence`` as a constructor; that name is preserved as a
+    factory to avoid breaking imports.
+    """
+    return AttributeEvidence(
+        kind=KIND_WUR,
+        function_name=function_name,
+        location=location,
+        match_source=match_source,
+        raw_match=raw_match,
+    )
 
 
 @dataclass(frozen=True)
 class SourceIntelResult:
     """Per-target source-intelligence facts.
 
-    Phase 2 ships one evidence kind (``wur``); axis-N PRs extend the
-    record shape and bump ``schema_version`` accordingly.
+    Phase 2 shipped one evidence kind (``wur``); Phase 3 adds
+    ``nonnull`` and lays the substrate for more kinds. The data shape
+    is uniform — all attribute observations live in ``attributes`` and
+    consumers filter / lookup by ``kind``.
     """
 
     schema_version: int = SCHEMA_VERSION
@@ -66,20 +104,44 @@ class SourceIntelResult:
     skipped_reason: Optional[str] = None
     spatch_version: Optional[str] = None
 
-    #: All functions observed with WUR (literal or known alias).
-    wur_functions: Tuple[WurEvidence, ...] = ()
+    #: All attribute observations across all kinds.
+    attributes: Tuple[AttributeEvidence, ...] = ()
 
     @property
     def is_skipped(self) -> bool:
         return self.skipped_reason is not None
 
-    def function_has_wur(self, name: str) -> Optional[WurEvidence]:
-        """Lookup: is function ``name`` annotated WUR by anything we
-        recognised? Returns the first observation, or None.
+    @property
+    def wur_functions(self) -> Tuple[AttributeEvidence, ...]:
+        """Back-compat: WUR-only subset. Phase 2 callers / tests used
+        this accessor; preserved by filtering ``attributes`` on kind.
         """
-        for ev in self.wur_functions:
-            if ev.function_name == name:
-                return ev
+        return tuple(a for a in self.attributes if a.kind == KIND_WUR)
+
+    def attrs_of_kind(self, kind: str) -> Tuple[AttributeEvidence, ...]:
+        """Filter observations by attribute kind."""
+        return tuple(a for a in self.attributes if a.kind == kind)
+
+    def function_attrs(self, name: str) -> Tuple[AttributeEvidence, ...]:
+        """All attribute observations for a given function name."""
+        return tuple(a for a in self.attributes if a.function_name == name)
+
+    def function_has_wur(self, name: str) -> Optional[AttributeEvidence]:
+        """Lookup: is function ``name`` annotated WUR? Returns first
+        observation or None. Back-compat from Phase 2."""
+        for a in self.attributes:
+            if a.kind == KIND_WUR and a.function_name == name:
+                return a
+        return None
+
+    def function_has_kind(
+        self, name: str, kind: str,
+    ) -> Optional[AttributeEvidence]:
+        """Generalised lookup — returns first observation of ``kind``
+        on function ``name``, or None."""
+        for a in self.attributes:
+            if a.kind == kind and a.function_name == name:
+                return a
         return None
 
 
@@ -214,7 +276,7 @@ def analyze(
 
     rules_executed: List[str] = []
     rules_failed: List[Tuple[str, str]] = []
-    wur_observations: List[WurEvidence] = []
+    observations: List[AttributeEvidence] = []
 
     # spatch invocation per axis. ``no_includes=True`` matches the
     # existing PR-3 scan + PR-4 prereqs untrusted-target posture;
@@ -235,25 +297,19 @@ def analyze(
                     (result.rule, "; ".join(result.errors)[:500])
                 )
             for match in result.matches:
-                wur_observations.extend(_parse_match_to_wur(match))
+                observations.extend(_parse_match_to_attribute(match))
 
-    # Augment cocci output with curated-alias scanning. For each
-    # alias spelling observed in the target source, the function name
-    # is best-effort extracted from the surrounding context. Phase 2
-    # ships a conservative implementation: alias-scan results carry
-    # match_source=``known_alias`` and ``function_name=""`` when we
-    # can't precisely attribute them; axis-1-expansion will tighten
-    # attribution via per-alias cocci rules.
-    wur_observations.extend(
-        _scan_alias_observations(target)
-    )
+    # Augment cocci output with curated-alias scanning for WUR.
+    # Phase 3: alias-scan covers WUR only; per-attribute alias coverage
+    # comes with axis-1-expansion's project-alias discovery pass.
+    observations.extend(_scan_alias_observations(target))
 
     return SourceIntelResult(
         target=str(target),
         rules_executed=tuple(rules_executed),
         rules_failed=tuple(rules_failed),
         spatch_version=spatch_version(),
-        wur_functions=tuple(wur_observations),
+        attributes=tuple(observations),
     )
 
 
@@ -262,28 +318,48 @@ def analyze(
 # =====================================================================
 
 
-def _parse_match_to_wur(match: Any) -> List[WurEvidence]:
-    """Convert a cocci :class:`SpatchMatch` into ``WurEvidence`` records.
+#: Raw-match strings to record for each cocci-emitted kind. The cocci
+#: rules match a small fixed set of literal spellings, so we map kind
+#: → canonical provenance string once. (Per-spelling provenance lands
+#: with axis-1-expansion's alias-discovery pass — projects that use
+#: __must_check / __wur etc. would benefit from the exact spelling.)
+_KIND_TO_RAW_MATCH: Dict[str, str] = {
+    KIND_WUR: "__attribute__((warn_unused_result))",
+    KIND_NONNULL: "__attribute__((nonnull))",
+}
 
-    The shipped ``attr_warn_unused_result.cocci`` emits messages of the
-    form ``wur:<function_name>``; other shapes are ignored (future-
-    proof for extra rule message kinds).
+
+def _parse_match_to_attribute(match: Any) -> List[AttributeEvidence]:
+    """Convert a cocci :class:`SpatchMatch` into ``AttributeEvidence``
+    records.
+
+    The shipped attrs/*.cocci rules emit messages of the form
+    ``<kind>:<function_name>`` where ``<kind>`` is one of ``ALL_KINDS``.
+    Other message shapes are ignored (future-proof for non-attrs
+    axes that may share this parser path).
     """
     msg = (getattr(match, "message", "") or "").strip()
-    if not msg.startswith("wur:"):
+    if ":" not in msg:
         return []
-    func_name = msg[len("wur:"):].strip()
-    if not func_name:
+    kind, _, func_name = msg.partition(":")
+    kind = kind.strip()
+    func_name = func_name.strip()
+    if not func_name or kind not in ALL_KINDS:
         return []
-    return [WurEvidence(
+    return [AttributeEvidence(
+        kind=kind,
         function_name=func_name,
         location=(getattr(match, "file", ""), int(getattr(match, "line", 0))),
         match_source="literal",
-        raw_match="__attribute__((warn_unused_result))",
+        raw_match=_KIND_TO_RAW_MATCH.get(kind, ""),
     )]
 
 
-def _scan_alias_observations(target: Path) -> List[WurEvidence]:
+# Back-compat alias: tests that import the Phase 2 name keep working.
+_parse_match_to_wur = _parse_match_to_attribute
+
+
+def _scan_alias_observations(target: Path) -> List[AttributeEvidence]:
     """Curated-alias substring scan. Looks for known macro spellings
     in C/H files under ``target`` and emits one observation per file
     where any alias is seen.
@@ -299,7 +375,7 @@ def _scan_alias_observations(target: Path) -> List[WurEvidence]:
     primary evidence source — the alias scan is supplementary, not
     substitutive.
     """
-    observations: List[WurEvidence] = []
+    observations: List[AttributeEvidence] = []
     if not target.is_dir():
         # Single-file target — scan that file directly.
         if target.is_file() and target.suffix.lower() in _C_CPP_EXTS:
@@ -320,7 +396,7 @@ def _scan_alias_observations(target: Path) -> List[WurEvidence]:
     return observations
 
 
-def _scan_alias_in_file(path: Path) -> List[WurEvidence]:
+def _scan_alias_in_file(path: Path) -> List[AttributeEvidence]:
     """Best-effort: detect WUR alias spellings in a single C/H file.
 
     One observation per (file, alias_spelling) pair — multiple aliases
@@ -336,7 +412,7 @@ def _scan_alias_in_file(path: Path) -> List[WurEvidence]:
     except OSError:
         return []
 
-    observations: List[WurEvidence] = []
+    observations: List[AttributeEvidence] = []
     for spelling in ALL_WUR_ALIASES:
         if spelling in text:
             # First occurrence line — for prompt rendering's sake.
@@ -345,7 +421,8 @@ def _scan_alias_in_file(path: Path) -> List[WurEvidence]:
                 if spelling in line:
                     line_no = n
                     break
-            observations.append(WurEvidence(
+            observations.append(AttributeEvidence(
+                kind=KIND_WUR,
                 function_name="",  # see docstring — best-effort gap
                 location=(str(path), line_no),
                 match_source="known_alias",

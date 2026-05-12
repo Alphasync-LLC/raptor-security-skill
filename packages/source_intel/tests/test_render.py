@@ -10,7 +10,7 @@ from packages.source_intel.render import derive_evidence_strings
 
 
 def _result_with_wur(*evs):
-    return SourceIntelResult(wur_functions=tuple(evs))
+    return SourceIntelResult(attributes=tuple(evs))
 
 
 def _wur(function_name="alloc_thing", source="literal",
@@ -186,3 +186,73 @@ def test_max_lines_none_means_no_cap():
     ))
     lines = derive_evidence_strings(r, max_lines=None)
     assert len(lines) == 5
+
+
+# =====================================================================
+# Nonnull rendering (Phase 3a)
+# =====================================================================
+
+
+def _nonnull(function_name="alloc_thing"):
+    from packages.source_intel.analyze import KIND_NONNULL, AttributeEvidence
+    return AttributeEvidence(
+        kind=KIND_NONNULL,
+        function_name=function_name,
+        location=("a.c", 10),
+        match_source="literal",
+        raw_match="__attribute__((nonnull))",
+    )
+
+
+def test_nonnull_evidence_renders_with_two_edged_caveat():
+    """Nonnull renderer must convey the two-edged signal — both
+    "caller must pass non-null" AND the compiler-elimination caveat.
+    Without the caveat the LLM might infer hardening from author intent
+    alone."""
+    r = SourceIntelResult(attributes=(_nonnull("validate_input"),))
+    lines = derive_evidence_strings(r)
+    text = "\n".join(lines)
+    assert "nonnull" in text.lower()
+    assert "validate_input" in text
+
+
+def test_nonnull_caveat_preserved_when_delete_null_checks_off():
+    """With kernel's -fno-delete-null-pointer-checks observed, the
+    caveat changes — defensive null checks ARE preserved."""
+    bf = BuildFlagsContext(
+        source="compile_commands.json",
+        extraction_confidence="high",
+        delete_null_pointer_checks=False,
+    )
+    r = SourceIntelResult(attributes=(_nonnull(),))
+    lines = derive_evidence_strings(r, build_flags=bf)
+    text = "\n".join(lines)
+    assert "preserved" in text.lower()
+
+
+def test_nonnull_caveat_warns_when_delete_null_checks_on():
+    """With explicit -fdelete-null-pointer-checks, the renderer warns
+    that the compiler may eliminate null guards — a NULL deref would
+    actually fire."""
+    bf = BuildFlagsContext(
+        source="compile_commands.json",
+        extraction_confidence="high",
+        delete_null_pointer_checks=True,
+    )
+    r = SourceIntelResult(attributes=(_nonnull(),))
+    lines = derive_evidence_strings(r, build_flags=bf)
+    text = "\n".join(lines)
+    assert "eliminate" in text.lower()
+
+
+def test_nonnull_and_wur_both_rendered():
+    """A function with both annotations produces evidence lines for
+    each kind; both surface to the consumer."""
+    r = SourceIntelResult(attributes=(
+        _wur("validate_input"),
+        _nonnull("validate_input"),
+    ))
+    lines = derive_evidence_strings(r, finding_function="validate_input")
+    text = "\n".join(lines)
+    assert "warn_unused_result" in text
+    assert "nonnull" in text.lower()

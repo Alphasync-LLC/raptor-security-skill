@@ -28,26 +28,44 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
-from typing import Optional
+from typing import Dict, Optional, Tuple
 
 from core.dataflow.finding import Finding
 from core.dataflow.validator import ValidatorVerdict
-from packages.source_intel.analyze import SourceIntelResult, analyze
+from packages.source_intel.analyze import (
+    KIND_NONNULL,
+    KIND_WUR,
+    AttributeEvidence,
+    SourceIntelResult,
+    analyze,
+)
 from packages.source_intel.cache import SourceIntelCache
 
 logger = logging.getLogger(__name__)
 
 
-# CWE classes where source_intel axis 1 (warn_unused_result) gives a
-# meaningful verdict signal. Other CWEs surface evidence via the
-# render module but don't drive verdict.
-_WUR_RELEVANT_RULE_PREFIXES = (
-    "cpp/null-dereference",
-    "cpp/uncontrolled-",        # uncontrolled-allocation-size, etc.
-    "cpp/unchecked-return",
-    "cpp/unbounded-write",
-    "c/null-dereference",
-)
+# Per-attribute-kind CWE relevance: only emit a verdict signal when
+# the finding's rule_id is in the relevant set for the observed
+# attribute. This keeps the verdict policy scoped — WUR evidence on
+# a use-after-free finding does NOT support EXPLOITABLE.
+_KIND_RELEVANT_RULE_PREFIXES: Dict[str, Tuple[str, ...]] = {
+    KIND_WUR: (
+        "cpp/null-dereference",
+        "cpp/uncontrolled-",        # uncontrolled-allocation-size, etc.
+        "cpp/unchecked-return",
+        "cpp/unbounded-write",
+        "c/null-dereference",
+    ),
+    KIND_NONNULL: (
+        "cpp/null-dereference",
+        "c/null-dereference",
+    ),
+}
+
+# Back-compat — Phase 2 tests imported this name; preserved as the
+# union over all kinds, which matches the Phase 2 single-kind
+# semantics (Phase 2 dispatch was wur-only).
+_WUR_RELEVANT_RULE_PREFIXES = _KIND_RELEVANT_RULE_PREFIXES[KIND_WUR]
 
 
 # Repo-relative path prefixes that source_intel can scan; anything else
@@ -143,27 +161,36 @@ class SourceIntelValidator:
         finding: Finding,
         result: SourceIntelResult,
     ) -> ValidatorVerdict:
-        """Apply the Phase 2 verdict policy."""
+        """Apply the verdict policy: EXPLOITABLE only when a relevant
+        attribute observation references a function named in the
+        finding's snippet AND the rule_id is kind-relevant. Otherwise
+        UNCERTAIN — Phase 2/3 never returns NOT_EXPLOITABLE."""
         if result.is_skipped:
             return ValidatorVerdict.UNCERTAIN
 
-        if not _rule_id_is_wur_relevant(finding.rule_id):
-            return ValidatorVerdict.UNCERTAIN
+        snippet = (
+            (finding.source.snippet or "")
+            + " "
+            + (finding.sink.snippet or "")
+        )
 
-        # Match the finding's function to a WUR observation, if any.
-        # Phase 2 finding records don't carry an explicit `function`
-        # field — we derive it from the source step's snippet via
-        # the simplest possible heuristic: scan the snippet for any
-        # observed WUR function name.
-        snippet = (finding.source.snippet or "") + " " + (finding.sink.snippet or "")
-        for ev in result.wur_functions:
-            if ev.function_name and ev.function_name in snippet:
+        for ev in result.attributes:
+            if not ev.function_name:
+                continue
+            if ev.function_name not in snippet:
+                continue
+            if _rule_id_is_relevant_for_kind(finding.rule_id, ev.kind):
                 return ValidatorVerdict.EXPLOITABLE
 
         return ValidatorVerdict.UNCERTAIN
 
 
-def _rule_id_is_wur_relevant(rule_id: str) -> bool:
-    """Check whether a finding's rule_id is in the WUR-relevant set."""
+def _rule_id_is_relevant_for_kind(rule_id: str, kind: str) -> bool:
+    """Check whether ``rule_id`` is in the relevance set for ``kind``."""
     return any(rule_id.startswith(prefix)
-               for prefix in _WUR_RELEVANT_RULE_PREFIXES)
+               for prefix in _KIND_RELEVANT_RULE_PREFIXES.get(kind, ()))
+
+
+def _rule_id_is_wur_relevant(rule_id: str) -> bool:
+    """Back-compat shim — Phase 2 callers / tests."""
+    return _rule_id_is_relevant_for_kind(rule_id, KIND_WUR)

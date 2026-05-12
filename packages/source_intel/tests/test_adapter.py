@@ -93,7 +93,7 @@ def test_non_wur_relevant_rule_returns_uncertain(tmp_path):
                        "cpp/use-after-free", "free(p); p->x;")
 
     result_with_wur = SourceIntelResult(
-        wur_functions=(WurEvidence(
+        attributes=(WurEvidence(
             function_name="alloc_thing",
             location=("test.c", 1),
             match_source="literal",
@@ -118,7 +118,7 @@ def test_wur_function_in_snippet_returns_exploitable(tmp_path):
                        "p = alloc_thing();")
 
     result_with_wur = SourceIntelResult(
-        wur_functions=(WurEvidence(
+        attributes=(WurEvidence(
             function_name="alloc_thing",
             location=("test.c", 1),
             match_source="literal",
@@ -142,7 +142,7 @@ def test_wur_function_not_mentioned_in_snippet_returns_uncertain(tmp_path):
                        "p = unrelated_function();")
 
     result_with_wur = SourceIntelResult(
-        wur_functions=(WurEvidence(
+        attributes=(WurEvidence(
             function_name="alloc_thing",
             location=("test.c", 1),
             match_source="literal",
@@ -226,3 +226,57 @@ def test_validator_satisfies_runtime_protocol():
     from core.dataflow.validator import Validator
     v = SourceIntelValidator()
     assert isinstance(v, Validator)
+
+
+# =====================================================================
+# Nonnull kind dispatch (Phase 3a)
+# =====================================================================
+
+
+def test_nonnull_function_in_snippet_returns_exploitable_for_null_deref(tmp_path):
+    """A nonnull-annotated function referenced in a CWE-476 finding's
+    snippet should yield EXPLOITABLE — author marked the param
+    non-nullable; passing NULL is an exploit precondition."""
+    from packages.source_intel.analyze import KIND_NONNULL, AttributeEvidence
+
+    (tmp_path / "test.c").write_text("int v(int *p) { return *p; }\n")
+    finding = _finding(str(tmp_path / "test.c"),
+                       "cpp/null-dereference", "v(NULL)")
+
+    result = SourceIntelResult(attributes=(AttributeEvidence(
+        kind=KIND_NONNULL,
+        function_name="v",
+        location=("test.c", 1),
+        match_source="literal",
+        raw_match="__attribute__((nonnull))",
+    ),))
+    with patch(
+        "packages.source_intel.adapter.analyze",
+        return_value=result,
+    ):
+        v = SourceIntelValidator(repo_root=tmp_path)
+        assert v.validate(finding) == ValidatorVerdict.EXPLOITABLE
+
+
+def test_nonnull_evidence_irrelevant_for_use_after_free(tmp_path):
+    """Nonnull does NOT speak to UAF — even with a perfect function
+    match, the relevance check returns UNCERTAIN for CWE-416."""
+    from packages.source_intel.analyze import KIND_NONNULL, AttributeEvidence
+
+    (tmp_path / "test.c").write_text("int v(int *p) { return *p; }\n")
+    finding = _finding(str(tmp_path / "test.c"),
+                       "cpp/use-after-free", "v(p)")
+
+    result = SourceIntelResult(attributes=(AttributeEvidence(
+        kind=KIND_NONNULL,
+        function_name="v",
+        location=("test.c", 1),
+        match_source="literal",
+        raw_match="__attribute__((nonnull))",
+    ),))
+    with patch(
+        "packages.source_intel.adapter.analyze",
+        return_value=result,
+    ):
+        validator = SourceIntelValidator(repo_root=tmp_path)
+        assert validator.validate(finding) == ValidatorVerdict.UNCERTAIN
