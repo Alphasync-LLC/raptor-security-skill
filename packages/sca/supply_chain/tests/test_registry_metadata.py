@@ -383,6 +383,62 @@ def test_low_bus_factor_pypi() -> None:
     assert len(bf) == 1
 
 
+def test_low_bus_factor_strips_pep621_trailer() -> None:
+    """Malformed PEP-621 / PEP-639 metadata can leak into PyPI's
+    ``author`` field — the canonical example is
+    ``playwright==1.58.0`` which PyPI returns as
+    ``"Microsoft Corporation License-Expression: Apache-2.0"``.
+    The defensive strip extracts the real name (``Microsoft
+    Corporation``) so the finding's ``sole_maintainer`` evidence
+    is useful, not corrupted."""
+    pypi = _PyPIStub({
+        "info": {
+            "author": "Microsoft Corporation License-Expression: Apache-2.0",
+        },
+        "releases": {"1.0": [{"upload_time_iso_8601": _iso(180)}]},
+    })
+    out = scan_deps([_dep()], pypi_client=pypi, now=_NOW)
+    lbf = [f for f in out if f.kind == "low_bus_factor"]
+    assert len(lbf) == 1
+    assert lbf[0].evidence["sole_maintainer"] == "Microsoft Corporation"
+
+
+def test_low_bus_factor_strips_multiple_pep621_keys() -> None:
+    """Defensive strip must handle ``License-File:`` /
+    ``Author-email:`` / ``Maintainer-email:`` too (all known
+    PEP-621/PEP-639 trailer keys)."""
+    for trailer in (
+        "License-File: LICENSE",
+        "Author-email: foo@example.com",
+        "Maintainer-email: bar@example.com",
+        "License: MIT",
+    ):
+        pypi = _PyPIStub({
+            "info": {"author": f"Acme Corp {trailer}"},
+            "releases": {"1.0": [{"upload_time_iso_8601": _iso(180)}]},
+        })
+        out = scan_deps([_dep()], pypi_client=pypi, now=_NOW)
+        lbf = [f for f in out if f.kind == "low_bus_factor"]
+        assert len(lbf) == 1, f"with trailer={trailer!r}"
+        assert lbf[0].evidence["sole_maintainer"] == "Acme Corp", (
+            f"with trailer={trailer!r}, "
+            f"got {lbf[0].evidence['sole_maintainer']!r}"
+        )
+
+
+def test_low_bus_factor_pep621_strip_doesnt_eat_real_names() -> None:
+    """``License Co. Ltd.`` is a real name containing the word
+    ``License`` but no ``:`` after — must NOT be stripped."""
+    pypi = _PyPIStub({
+        "info": {"author": "License Co. Ltd."},
+        "releases": {"1.0": [{"upload_time_iso_8601": _iso(180)}]},
+    })
+    out = scan_deps([_dep()], pypi_client=pypi, now=_NOW)
+    lbf = [f for f in out if f.kind == "low_bus_factor"]
+    assert len(lbf) == 1
+    assert lbf[0].evidence["sole_maintainer"] == "License Co. Ltd."
+
+
 def test_low_bus_factor_pypi_comma_separated_authors_does_not_fire() -> None:
     """PyPI ``author`` is a free-text field; multi-person projects use
     a comma-separated list (``"Holger Krekel, Bruno Oliveira, …"``).

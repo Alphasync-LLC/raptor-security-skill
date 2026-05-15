@@ -360,6 +360,7 @@ def write_findings_json(
 
 def _vuln_finding_to_row(f: VulnFinding) -> Dict[str, Any]:
     primary = f.advisories[0] if f.advisories else None
+    title = _vuln_title(f, primary)
     return {
         "id": f.finding_id,
         "finding_id": f.finding_id,
@@ -371,6 +372,7 @@ def _vuln_finding_to_row(f: VulnFinding) -> Dict[str, Any]:
         "severity": f.severity,
         "suppressed": f.suppressed,
         "suppression_reason": f.suppression_reason,
+        "title": title,
         "description": _describe_vuln(f),
         # SCA-specific extension fields. Consumers that don't know about
         # them ignore them; the schema explicitly allows extras.
@@ -383,6 +385,9 @@ def _vuln_finding_to_row(f: VulnFinding) -> Dict[str, Any]:
             "is_lockfile": f.dependency.is_lockfile,
             "direct": f.dependency.direct,
             "pin_style": f.dependency.pin_style.value,
+            "declared_in": str(f.dependency.declared_in)
+                            if f.dependency.declared_in else None,
+            "source_kind": f.dependency.source_kind,
             "advisory": _advisory_summary(primary),
             "all_advisories": [_advisory_summary(a) for a in f.advisories],
             "in_kev": f.in_kev,
@@ -435,6 +440,7 @@ def _hygiene_finding_to_row(f: HygieneFinding) -> Dict[str, Any]:
         "severity": f.severity,
         "suppressed": f.suppressed,
         "suppression_reason": f.suppression_reason,
+        "title": _kind_title(f.kind, f.dependency.name),
         "description": f.detail,
         "sca": {
             "kind": f.kind,
@@ -462,6 +468,7 @@ def _supply_chain_finding_to_row(f: SupplyChainFinding) -> Dict[str, Any]:
         "severity": f.severity,
         "suppressed": f.suppressed,
         "suppression_reason": f.suppression_reason,
+        "title": _kind_title(f.kind, f.dependency.name),
         "description": f.detail,
         "sca": {
             "kind": f.kind,
@@ -475,10 +482,11 @@ def _supply_chain_finding_to_row(f: SupplyChainFinding) -> Dict[str, Any]:
 
 
 def _license_finding_to_row(f: Any) -> Dict[str, Any]:
+    kind_short = f.kind.replace('license_', '')
     return {
         "id": f.finding_id,
         "finding_id": f.finding_id,
-        "vuln_type": f"sca:license:{f.kind.replace('license_', '')}",
+        "vuln_type": f"sca:license:{kind_short}",
         "tool": "sca",
         "file": str(f.dependency.declared_in),
         "function": f.dependency.name,
@@ -486,6 +494,7 @@ def _license_finding_to_row(f: Any) -> Dict[str, Any]:
         "severity": f.severity,
         "suppressed": f.suppressed,
         "suppression_reason": f.suppression_reason,
+        "title": _kind_title(kind_short, f.dependency.name),
         "description": f.detail,
         "sca": {
             "kind": f.kind,
@@ -497,6 +506,35 @@ def _license_finding_to_row(f: Any) -> Dict[str, Any]:
             "confidence": _confidence_summary(f.confidence),
         },
     }
+
+
+def _vuln_title(f: VulnFinding, primary: Optional[Advisory]) -> str:
+    """Short human-readable title for a vuln finding.
+
+    ``{name}@{version} — {advisory summary}`` when an advisory is
+    present; ``{name}@{version} — vulnerable`` as the no-advisory
+    fallback.  Consumers (GitHub Code Scanning UI, PR-comment
+    renderers, ``raptor-sca diff``) display the title; the
+    ``description`` field carries the richer one-liner already.
+    """
+    head = f"{f.dependency.name}@{f.dependency.version or '*'}"
+    if primary is None or not primary.summary:
+        return f"{head} — vulnerable"
+    # Strip trailing periods so titles don't end with double-stops
+    # when consumers append their own punctuation.
+    return f"{head} — {primary.summary.rstrip('.')}"
+
+
+def _kind_title(kind: str, name: str) -> str:
+    """Short human-readable title for hygiene / supply_chain /
+    license findings.
+
+    Kinds are snake_case enums (``unpinned_dependency``,
+    ``typosquat_domain``, ``low_bus_factor``, ``unknown`` …); we
+    title-case the words and append the dep name so the title is
+    self-describing without reading the longer ``description``."""
+    pretty = kind.replace("_", " ").capitalize()
+    return f"{pretty}: {name}"
 
 
 def _describe_vuln(f: VulnFinding) -> str:

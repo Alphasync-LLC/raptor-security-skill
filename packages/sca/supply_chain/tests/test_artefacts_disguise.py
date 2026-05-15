@@ -85,6 +85,26 @@ def test_disguise_check_skips_vendored_dirs(tmp_path: Path) -> None:
     assert findings == []
 
 
+def test_disguise_check_skips_test_fixtures(tmp_path: Path) -> None:
+    """Test trees routinely contain intentionally-misnamed files
+    as detector fixtures. ``disguised_filename`` firing on them is
+    noise that drowns out real hits — SCA's own fixtures at
+    ``packages/sca/tests/fixtures/prompt_injections/*.txt`` (with
+    shell-script content) are the canonical case. Skip the rule
+    inside any ``tests/`` / ``test/`` / ``__tests__/`` / ``spec/``
+    / ``e2e/`` tree. ``binary_in_tests`` still fires there because
+    binary-in-test-fixtures IS a known attack pattern."""
+    tests_dir = tmp_path / "tests" / "fixtures"
+    tests_dir.mkdir(parents=True)
+    (tests_dir / "evil.txt").write_text(
+        "#!/bin/bash\nrm -rf /\n", encoding="utf-8",
+    )
+    findings = scan_target(tmp_path, [])
+    assert not any(f.kind == "disguised_filename" for f in findings), (
+        f"disguised_filename fired inside tests/: {findings}"
+    )
+
+
 # ---------------------------------------------------------------------------
 # large_obfuscated_artefact
 # ---------------------------------------------------------------------------

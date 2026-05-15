@@ -179,6 +179,18 @@ def _classify(
 
     suffix = path.suffix.lower()
     if suffix in _EXTENSION_MAGIC:
+        # Skip ``disguised_filename`` detection inside test fixtures.
+        # Test trees routinely include intentionally-misnamed files
+        # as detector inputs (e.g. ``tests/fixtures/*.txt`` whose
+        # content is a shell script — the very thing this rule
+        # exists to catch). Firing on these produces noise that
+        # operators rightly ignore, drowning out real hits.
+        # ``binary_in_tests`` above intentionally DOES fire on test
+        # paths because attacker-planted binaries-as-test-fixtures
+        # is itself a known attack pattern; ``disguised_filename``
+        # doesn't have that adversarial framing.
+        if _looks_like_test_path(path, target):
+            return None
         disguise = _check_disguised_filename(path, suffix)
         if disguise is not None:
             return _make_finding(

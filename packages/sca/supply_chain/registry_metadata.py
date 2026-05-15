@@ -207,6 +207,48 @@ def _reset_meta_cache_for_tests() -> None:
         _META_CACHE.clear()
 
 
+# Recognised PEP-621 / PEP-639 metadata keys that can leak into a
+# package's ``author`` field via malformed pyproject.toml at publish
+# time. We strip any of these (and everything after them) from
+# author / maintainer strings before treating the remainder as a
+# real person.
+_PEP621_TRAILER_KEYS = (
+    "License-Expression",
+    "License-File",
+    "License",
+    "Author-email",
+    "Maintainer-email",
+)
+
+
+def _strip_pep621_trailer(name: str) -> str:
+    """Strip a recognised PEP-621/PEP-639 key plus its value off the
+    end of a free-text author/maintainer string.
+
+    Example: ``"Microsoft Corporation License-Expression: Apache-2.0"``
+    → ``"Microsoft Corporation"``. The PyPI 1.58.0 JSON for playwright
+    shipped exactly this shape, which without the strip registered
+    as a single-maintainer with an unhelpful name.
+    """
+    for key in _PEP621_TRAILER_KEYS:
+        # Look for the key followed by ``:`` somewhere in the
+        # string; everything from that key onward is metadata, not
+        # name. Whitespace-tolerant — ``License-Expression:`` and
+        # ``License-Expression :`` and ``License-Expression\t:`` all
+        # match.
+        idx = name.find(key)
+        if idx == -1:
+            continue
+        # Require ``:`` after the key (with optional whitespace).
+        # Otherwise we'd wrongly strip a real name like
+        # ``License Co.`` that happens to contain ``License``.
+        after_key = name[idx + len(key):]
+        stripped = after_key.lstrip()
+        if stripped.startswith(":"):
+            return name[:idx].rstrip()
+    return name.strip()
+
+
 def _from_pypi(raw: dict) -> _Meta:
     """Normalise PyPI's JSON shape.
 
@@ -249,6 +291,15 @@ def _from_pypi(raw: dict) -> _Meta:
         # low_bus_factor. (npm exposes maintainers as a structured
         # array; this is a PyPI-only quirk.)
         names = [s.strip() for s in n.split(",") if s.strip()]
+        # Defensive: some packages malform their pyproject.toml so
+        # that PEP-621 / PEP-639 metadata trailers leak into the
+        # ``author`` field at publish time. PyPI 1.58.0 returns
+        # playwright's author as ``"Microsoft Corporation
+        # License-Expression: Apache-2.0"`` for exactly this
+        # reason. Strip the recognised trailing keys before
+        # treating the remainder as a real name.
+        names = [_strip_pep621_trailer(s) for s in names]
+        names = [s for s in names if s]
         email_list = [s.strip() for s in emails_raw.split(",") if s.strip()]
         for i, person in enumerate(names):
             maintainers.append({

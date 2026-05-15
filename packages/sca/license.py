@@ -59,6 +59,7 @@ to compliance ship a tighter policy.
 from __future__ import annotations
 
 import logging
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
@@ -783,10 +784,21 @@ def _spdx_from_pypi(meta: Optional[dict]) -> Optional[str]:
         return expr.strip()
     license_text = info.get("license")
     if isinstance(license_text, str) and license_text.strip():
-        # Only use when it looks like a single SPDX id (no spaces,
-        # short). Free-text descriptions like "see LICENSE file" are
-        # not useful to the policy engine.
         text = license_text.strip()
+        # Free-text name lookup (shared with Maven). Handles common
+        # forms like "Apache License 2.0" / "MIT License" /
+        # "Mozilla Public License Version 2.0" → SPDX id.
+        from_map = _MAVEN_NAME_TO_SPDX.get(text)
+        if from_map is not None:
+            return from_map
+        # Compound SPDX expression — "Apache-2.0 AND MIT",
+        # "MPL-2.0 OR Apache-2.0", "GPL-2.0 WITH Classpath-exception-2.0",
+        # etc. AND/OR/WITH are the SPDX-2.0 operators. The old
+        # filter rejected ANY space-containing string, dropping
+        # these valid compounds onto the floor.
+        if _looks_like_spdx_expression(text):
+            return text
+        # Single SPDX id (no spaces, short).
         if " " not in text and len(text) < 60:
             return text
     # Trove classifier fallback: "License :: OSI Approved :: MIT License"
@@ -799,6 +811,22 @@ def _spdx_from_pypi(meta: Optional[dict]) -> Optional[str]:
             if spdx is not None:
                 return spdx
     return None
+
+
+_SPDX_EXPR_RE = re.compile(
+    r"^[A-Za-z0-9.+\-]+(?:\s+(?:AND|OR|WITH)\s+[A-Za-z0-9.+\-]+)+$"
+)
+
+
+def _looks_like_spdx_expression(text: str) -> bool:
+    """True when ``text`` matches the SPDX-2.0 compound expression
+    grammar: ``<id> (AND|OR|WITH) <id> ...``.
+
+    Permissive: doesn't validate that the ids are real SPDX
+    identifiers, just that the *shape* is right. Aim is to accept
+    forms like ``"Apache-2.0 AND MIT"`` while still rejecting
+    free-text descriptions like ``"see LICENSE file"``."""
+    return bool(_SPDX_EXPR_RE.match(text.strip()))
 
 
 def _spdx_from_trove(classifier: str) -> Optional[str]:
