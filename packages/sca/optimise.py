@@ -101,6 +101,11 @@ def main(argv: Sequence[str]) -> int:
         enable_llm_inline_installs=(
             args.llm_inline_installs and not args.no_llm
         ),
+        # Propagate ``--include-commented`` so commented-line
+        # findings flow through to the planner + rewriter. The
+        # rewriter preserves the ``#`` prefix; only the version
+        # gets tightened.
+        include_commented=args.include_commented,
     )
     try:
         result = run_sca(target=target, output_dir=out_dir, options=options)
@@ -925,6 +930,15 @@ def _parse_args(argv: Sequence[str]) -> argparse.Namespace:
     p.add_argument("--no-cache", action="store_true",
                    help="bypass disk cache for this run")
     p.add_argument("--cache-root", help="override cache root")
+    p.add_argument("--include-commented", action="store_true",
+                   help="parse commented-out version-pinned lines "
+                        "(e.g. ``# pkg>=1.0`` in requirements.txt) as "
+                        "deps. Hygiene findings on commented entries "
+                        "are downgraded to ``info`` (see findings.py), "
+                        "and ``fix`` rewrites them while preserving the "
+                        "leading ``#``. Useful for projects that document "
+                        "optional installs in comment-form and want them "
+                        "auto-pinned alongside active deps.")
     p.add_argument("-v", "--verbose", action="count", default=0)
     return p.parse_args(argv)
 
