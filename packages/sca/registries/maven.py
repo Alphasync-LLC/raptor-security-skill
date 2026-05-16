@@ -226,7 +226,18 @@ def _add_pom_methods():
                     "version": ver, "scope": scope,
                     "optional": optional,
                 })
-        result = {"dependencies": deps}
+        # ``raw_xml`` lets downstream consumers (the POM inheritance
+        # resolver, primarily) re-parse the document to inspect
+        # ``<parent>``, ``<properties>``, and full ``<dependencyManagement>``
+        # — fields the dependency-only summary above doesn't carry.
+        # Decoded to ``str`` for cache portability across JSON-backed
+        # cache backends; ``errors='replace'`` to survive malformed
+        # encoding declarations in old POMs.
+        try:
+            raw_xml = resp.content.decode("utf-8", errors="replace")
+        except Exception:                                       # noqa: BLE001
+            raw_xml = None
+        result = {"dependencies": deps, "raw_xml": raw_xml}
         if self._cache is not None:
             self._cache.put(cache_key, result, ttl_seconds=self._ttl)
         return result

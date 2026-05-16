@@ -150,14 +150,78 @@ def parse(path: Path) -> List[Dependency]:
 
     # 5) Resolve local <dependencyManagement> inheritance — top-level
     # <dependency> entries that omit <version> inherit it from the
-    # matching <dependencyManagement> entry in the SAME POM. Parent-
-    # POM inheritance (fetching the parent from Maven Central) is a
-    # separate, network-dependent step; we handle the local case
-    # here because it's by far the most common shape and entirely
-    # offline-resolvable.
+    # matching <dependencyManagement> entry in the SAME POM.
     _resolve_local_dep_management(deps)
 
+    # 6) Resolve INHERITED dependency-management when a resolver is
+    # installed (set_inheritance_resolver). Walks the local +
+    # network parent chain plus BOM imports, then fills in versions
+    # for child deps still at ``version=None`` from the merged
+    # managed view. Closes the Spring Boot starter-parent case and
+    # the in-house multi-module-monorepo case. No-op when no
+    # resolver has been installed (default, tests, --offline).
+    from . import pom_inheritance as _inh
+    resolver = _inh.get_inheritance_resolver()
+    if resolver is not None:
+        try:
+            view = resolver.resolve(path, root)
+        except Exception as e:                              # noqa: BLE001
+            # The resolver is best-effort: any unexpected failure
+            # falls through to local-only behaviour. Operators
+            # see the deps they would have seen pre-resolver, not
+            # a crash.
+            logger.warning(
+                "sca.parsers.pom: inheritance resolver failed on "
+                "%s: %s", path, e,
+            )
+            view = None
+        if view is not None:
+            _apply_inherited_view(deps, properties, view)
+
     return deps
+
+
+def _apply_inherited_view(
+    deps: List[Dependency],
+    properties: Dict[str, str],
+    view: Any,
+) -> None:
+    """Fill in ``version=None`` deps from the inheritance view's
+    merged managed-map. Also extends ``properties`` with inherited
+    keys so later property resolution can pick them up (callers
+    that re-resolve properties on already-built deps would still
+    use this).
+
+    Properties are merged into the child's dict, but child values
+    win (we only ``setdefault``), so a child's own property
+    override stays authoritative."""
+    for k, v in view.properties.items():
+        properties.setdefault(k, v)
+
+    for dep in deps:
+        if dep.version is not None:
+            continue
+        # Maven coord — split package back into (group, artifact).
+        # Dependency.name shape is "groupId:artifactId" for the
+        # Maven ecosystem.
+        if ":" not in dep.name:
+            continue
+        group, artifact = dep.name.split(":", 1)
+        inherited = view.managed.get((group, artifact))
+        if not inherited:
+            continue
+        # Resolve any ${...} in the inherited value against the
+        # combined property set. (Most inherited versions are
+        # already concrete; this handles cases like
+        # ``spring-boot-dependencies`` declaring
+        # ``${jackson.version}``.)
+        from . import pom_inheritance as _inh
+        resolved = _inh._resolve_property(inherited, view)
+        if not resolved:
+            continue
+        dep.version = resolved
+        # Reflect the new version in the purl.
+        dep.purl = _build_purl(group, artifact, resolved)
 
 
 def _resolve_local_dep_management(deps: List[Dependency]) -> None:

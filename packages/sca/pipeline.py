@@ -244,12 +244,33 @@ def run_sca(
     progress.stage("discovery")
     from .parsers import requirements as _req_parser
     _req_parser.set_include_commented(options.include_commented)
-    manifests = find_manifests(target)
-    if not options.enable_inline_installs:
-        manifests = [m for m in manifests if m.ecosystem != "Inline"]
-    raw_deps: List[Dependency] = []
-    for m in manifests:
-        raw_deps.extend(parse_manifest(m))
+
+    # Install the Maven POM inheritance resolver. Closes the Spring
+    # Boot / multi-module-monorepo gap: child POMs with versions
+    # only declared in a parent (or BOM-import) would otherwise
+    # surface with ``version=None`` and miss every CVE downstream.
+    # Phase 1 (local relativePath) runs even when offline; Phases
+    # 2 (network parent) and 3 (BOM imports) need the Maven client.
+    from .parsers import pom_inheritance as _pom_inh
+    from .registries.maven import MavenClient as _MvnC
+    _maven_for_pom = _MvnC(http, cache, offline=options.offline)
+    _pom_inh.set_inheritance_resolver(
+        _pom_inh.PomInheritanceResolver(
+            _maven_for_pom, offline=options.offline,
+        ),
+    )
+    try:
+        manifests = find_manifests(target)
+        if not options.enable_inline_installs:
+            manifests = [m for m in manifests if m.ecosystem != "Inline"]
+        raw_deps: List[Dependency] = []
+        for m in manifests:
+            raw_deps.extend(parse_manifest(m))
+    finally:
+        # Clear the resolver so test runs of subsequent scans (or
+        # libraries that import pom.parse directly after pipeline)
+        # don't carry the previous run's cache + client.
+        _pom_inh.set_inheritance_resolver(None)
     progress.done(f"{len(manifests)} manifests · {len(raw_deps)} deps")
 
     # 1a. Transitive expansion — for manifests without a sibling
