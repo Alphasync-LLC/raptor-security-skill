@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "finding_id": "source_intel_axis2_distant-panic-beyond-gate-keep",
+  "verdict": "true_positive",
+  "rationale": "panic at line 132, sink at line 195 \u2014 distance ~63 lines, beyond the \u00b150 line proximity gate. Axis-2 must NOT dominate. Verdict UNCERTAIN. Tests the proximity gate's mega-function FP-prevention.",
+  "labeler": "claude",
+  "labeled_at": "2026-05-16"
+}
