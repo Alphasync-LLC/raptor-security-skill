@@ -841,7 +841,17 @@ def _privileged_capability_dominates(
         if sink_line else None
     )
 
-    _SAME_FUNCTION_LINE_PROXIMITY = 50
+    # Per-grade proximity gate — same shape as axis-2 abort:
+    #   * SAME_FUNCTION (default): ±50 line proximity.
+    #   * SAME_PATH (inside conditional branch): ±300 lines.
+    #   * DOMINATES (depth=1, no preceding return): no gate;
+    #     additionally requires cap_line < sink_line (a cap below
+    #     the bug can't dominate it).
+    proximity_by_grade: Dict[str, Optional[int]] = {
+        GRADE_SAME_FUNCTION: 50,
+        GRADE_SAME_PATH: 300,
+        GRADE_DOMINATES: None,
+    }
 
     for cap in result.capabilities:
         if cap.cap_function not in _PRIVILEGED_CAP_FUNCTIONS:
@@ -849,20 +859,20 @@ def _privileged_capability_dominates(
         cap_path, cap_line = cap.location
         if cap_path != sink_path_abs:
             continue
-        if cap.grade == GRADE_SAME_FUNCTION:
+        proximity_gate = proximity_by_grade.get(cap.grade, 50)
+        if proximity_gate is not None:
             if not sink_line:
                 continue
-            if abs(cap_line - sink_line) > _SAME_FUNCTION_LINE_PROXIMITY:
+            if abs(cap_line - sink_line) > proximity_gate:
                 continue
-            if finding_fn and cap.enclosing_function:
-                if cap.enclosing_function != finding_fn:
-                    continue
-        elif cap.grade in (GRADE_SAME_PATH, GRADE_DOMINATES):
-            if finding_fn and cap.enclosing_function:
-                if cap.enclosing_function != finding_fn:
-                    continue
-        else:
-            continue
+        # Function-name match required when both known.
+        if finding_fn and cap.enclosing_function:
+            if cap.enclosing_function != finding_fn:
+                continue
+        # DOMINATES additionally requires cap_line < sink_line.
+        if cap.grade == GRADE_DOMINATES and sink_line:
+            if cap_line >= sink_line:
+                continue
         # Final filter: the capability constant on this line must be
         # privileged. We read the source line and look for one of the
         # privileged constants.
