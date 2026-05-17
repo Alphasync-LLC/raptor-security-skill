@@ -327,3 +327,130 @@ def test_vex_description_caps_long_summaries() -> None:
     bom = build_bom(deps=[d], vuln_findings=findings)
     desc = bom["vulnerabilities"][0]["description"]
     assert len(desc) <= 2000
+
+
+# ---------------------------------------------------------------------------
+# Capability-fingerprint enrichment for container components
+# ---------------------------------------------------------------------------
+
+def _container_dep(
+    ref: str = "docker.io/library/alpine:3.18",
+    source_image: str | None = None,
+) -> Dependency:
+    """Build a Dependency in the shape the dockerfile_from walker
+    emits — ecosystem=Container, purl=pkg:container/..., and
+    ``source_extra['image']`` holding the canonical ref."""
+    d = Dependency(
+        ecosystem="Container",
+        name=ref,
+        version="<rolling>",
+        declared_in=Path("/repo/Dockerfile"),
+        scope="main",
+        is_lockfile=False,
+        pin_style=PinStyle.EXACT,
+        direct=True,
+        purl=f"pkg:container/{ref}",
+        parser_confidence=Confidence("high", reason="t"),
+    )
+    if source_image is not None:
+        d.source_extra = {"image": source_image}
+    return d
+
+
+def _make_fp(buckets, sha="abc"):
+    """Minimal stand-in for CapabilityFingerprint — duck-typed
+    on the attributes ``_fingerprint_properties`` reads."""
+    from types import SimpleNamespace
+    return SimpleNamespace(
+        schema_version=1,
+        binary_sha256=sha,
+        arch="x86",
+        bits=64,
+        binary_format="elf",
+        capability_buckets=buckets,
+    )
+
+
+def test_container_component_gets_fingerprint_properties() -> None:
+    ref = "docker.io/library/alpine:3.18"
+    d = _container_dep(ref=ref, source_image=ref)
+    fp = _make_fp({"alloc": ["calloc"], "exec": ["execve"]})
+    bom = build_bom(
+        deps=[d], image_fingerprints={ref: fp},
+    )
+    comp = bom["components"][0]
+    props = {p["name"]: p["value"] for p in comp["properties"]}
+    assert props["raptor:cap_fp:buckets"] == "alloc,exec"
+    assert props["raptor:cap_fp:binary_sha256"] == "abc"
+    assert props["raptor:cap_fp:arch"] == "x86"
+    assert props["raptor:cap_fp:bits"] == "64"
+    assert props["raptor:cap_fp:format"] == "elf"
+    assert props["raptor:cap_fp:schema_version"] == "1"
+
+
+def test_no_fingerprint_for_non_container_dep() -> None:
+    """An npm component (not Container) gets no cap_fp props
+    even when image_fingerprints is supplied — guards against
+    cross-ecosystem leakage."""
+    d = _dep()  # npm
+    fp = _make_fp({"alloc": ["calloc"]})
+    bom = build_bom(
+        deps=[d], image_fingerprints={d.name: fp},
+    )
+    comp = bom["components"][0]
+    prop_names = {p["name"] for p in comp.get("properties", [])}
+    assert not any(n.startswith("raptor:cap_fp:") for n in prop_names)
+
+
+def test_container_no_fingerprint_in_map_no_props() -> None:
+    """Container dep present but no fingerprint registered for
+    its ref → no cap_fp properties (silent skip, not an error)."""
+    d = _container_dep(source_image="docker.io/library/alpine:3.18")
+    bom = build_bom(
+        deps=[d],
+        image_fingerprints={"different-ref:latest": _make_fp({})},
+    )
+    comp = bom["components"][0]
+    prop_names = {p["name"] for p in comp.get("properties", [])}
+    assert not any(n.startswith("raptor:cap_fp:") for n in prop_names)
+
+
+def test_empty_image_fingerprints_omitted() -> None:
+    """Passing image_fingerprints=None / {} is equivalent to
+    not passing it."""
+    d = _container_dep(source_image="alpine:3.18")
+    bom_none = build_bom(deps=[d], image_fingerprints=None)
+    bom_empty = build_bom(deps=[d], image_fingerprints={})
+    bom_unset = build_bom(deps=[d])
+    for b in (bom_none, bom_empty, bom_unset):
+        comp = b["components"][0]
+        prop_names = {p["name"] for p in comp.get("properties", [])}
+        assert not any(n.startswith("raptor:cap_fp:") for n in prop_names)
+
+
+def test_fingerprint_lookup_falls_back_to_dep_name() -> None:
+    """If source_extra['image'] is missing, _fingerprint_properties
+    falls back to d.name (which is also the ref for container
+    deps)."""
+    ref = "docker.io/library/x:1"
+    d = _container_dep(ref=ref, source_image=None)
+    fp = _make_fp({"alloc": ["calloc"]})
+    bom = build_bom(deps=[d], image_fingerprints={ref: fp})
+    comp = bom["components"][0]
+    props = {p["name"]: p["value"] for p in comp["properties"]}
+    assert props.get("raptor:cap_fp:buckets") == "alloc"
+
+
+def test_fingerprint_buckets_sorted_for_stable_diff() -> None:
+    """Buckets emitted in sorted order so diffing two SBOMs
+    line-by-line doesn't churn when the underlying dict iteration
+    order changes."""
+    ref = "alpine:3.18"
+    d = _container_dep(ref=ref, source_image=ref)
+    fp = _make_fp({
+        "zebra": [], "alpha": [], "middle": [],
+    })
+    bom = build_bom(deps=[d], image_fingerprints={ref: fp})
+    comp = bom["components"][0]
+    props = {p["name"]: p["value"] for p in comp["properties"]}
+    assert props["raptor:cap_fp:buckets"] == "alpha,middle,zebra"

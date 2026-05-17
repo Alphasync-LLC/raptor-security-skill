@@ -64,11 +64,13 @@ def write_sbom_json(
     vuln_findings: Sequence[VulnFinding] = (),
     target_name: Optional[str] = None,
     serial_number: Optional[str] = None,
+    image_fingerprints: Optional[Dict[str, Any]] = None,
 ) -> int:
     """Atomically write the merged SBOM+VEX document; return component count."""
     bom = build_bom(deps=deps, vuln_findings=vuln_findings,
                     target_name=target_name,
-                    serial_number=serial_number)
+                    serial_number=serial_number,
+                    image_fingerprints=image_fingerprints)
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".tmp")
     with tmp.open("w", encoding="utf-8") as fh:
@@ -84,6 +86,7 @@ def build_bom(
     target_name: Optional[str] = None,
     generated_at: Optional[datetime] = None,
     serial_number: Optional[str] = None,
+    image_fingerprints: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
     """Return the CycloneDX 1.5 BOM dict (in serialisation order).
 
@@ -96,7 +99,9 @@ def build_bom(
     generated_at = generated_at or datetime.now(timezone.utc)
     if serial_number is None:
         serial_number = f"urn:uuid:{uuid.uuid4()}"
-    components, by_key = _build_components(deps)
+    components, by_key = _build_components(
+        deps, image_fingerprints=image_fingerprints,
+    )
     vulnerabilities = _build_vulnerabilities(vuln_findings, by_key)
 
     bom: Dict[str, Any] = OrderedDict()
@@ -129,8 +134,20 @@ def build_bom(
 
 def _build_components(
     deps: Sequence[Dependency],
+    *,
+    image_fingerprints: Optional[Dict[str, Any]] = None,
 ) -> Tuple[List[Dict[str, Any]], Dict[str, str]]:
-    """Return (component list, ``Dependency.key()`` → ``bom-ref`` map)."""
+    """Return (component list, ``Dependency.key()`` → ``bom-ref`` map).
+
+    ``image_fingerprints`` — optional ref → :class:`core.binary.
+    CapabilityFingerprint` mapping. When a dep is a container image
+    (ecosystem ``"Container"`` or purl starting ``pkg:container/``)
+    AND we have a fingerprint for its ref, attach the fingerprint's
+    bucket-set + binary SHA + arch/bits/format as ``raptor:cap_fp:*``
+    properties. Lets SBOM consumers (Dependency-Track / custom
+    dashboards) compare image-binary capability surface across
+    successive uploads without re-extracting the binary themselves.
+    """
     seen: Dict[str, Dict[str, Any]] = OrderedDict()
     by_key: Dict[str, str] = {}
     for d in deps:
@@ -187,9 +204,69 @@ def _build_components(
                     "name": f"raptor:{k}",
                     "value": str(v),
                 })
+        # Capability-fingerprint enrichment for container components.
+        fp_props = _fingerprint_properties(d, image_fingerprints)
+        if fp_props:
+            comp["properties"].extend(fp_props)
         seen[bom_ref] = comp
         by_key[d.key()] = bom_ref
     return list(seen.values()), by_key
+
+
+def _fingerprint_properties(
+    d: Dependency,
+    image_fingerprints: Optional[Dict[str, Any]],
+) -> List[Dict[str, str]]:
+    """Build the ``raptor:cap_fp:*`` properties for one dep, or
+    ``[]`` when:
+      * ``image_fingerprints`` is unset / empty
+      * the dep is not a container component
+      * no fingerprint was computed for the resolved ref
+
+    Resolution: try ``source_extra['image']`` first (the canonical
+    ref the bumper recorded), then fall back to ``d.name`` (which
+    is also the ref for container ecosystem deps)."""
+    if not image_fingerprints:
+        return []
+    is_container = (
+        (d.ecosystem == "Container")
+        or (d.purl is not None and d.purl.startswith("pkg:container/"))
+    )
+    if not is_container:
+        return []
+    ref = (d.source_extra or {}).get("image") if d.source_extra else None
+    fp = image_fingerprints.get(ref) if ref else None
+    if fp is None:
+        fp = image_fingerprints.get(d.name)
+    if fp is None:
+        return []
+
+    buckets = sorted((getattr(fp, "capability_buckets", {}) or {}).keys())
+    props: List[Dict[str, str]] = [
+        {"name": "raptor:cap_fp:schema_version",
+         "value": str(getattr(fp, "schema_version", 1))},
+        {"name": "raptor:cap_fp:buckets",
+         "value": ",".join(buckets)},
+    ]
+    sha = getattr(fp, "binary_sha256", None)
+    if sha:
+        props.append(
+            {"name": "raptor:cap_fp:binary_sha256", "value": str(sha)},
+        )
+    arch = getattr(fp, "arch", None)
+    if arch:
+        props.append({"name": "raptor:cap_fp:arch", "value": str(arch)})
+    bits = getattr(fp, "bits", None)
+    if bits:
+        props.append(
+            {"name": "raptor:cap_fp:bits", "value": str(bits)},
+        )
+    fmt = getattr(fp, "binary_format", None)
+    if fmt:
+        props.append(
+            {"name": "raptor:cap_fp:format", "value": str(fmt)},
+        )
+    return props
 
 
 def _license_block(spdx_or_name: str) -> List[Dict[str, Any]]:

@@ -23,6 +23,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence
 
+from core.binary import CapabilityFingerprint
 from core.json import JsonCache
 from core.progress import HackerProgressBar
 from . import SCA_CACHE_ROOT
@@ -426,6 +427,7 @@ def run_sca(
         # The findings get folded into ``supply_chain_findings``
         # below alongside the other supply-chain heuristics.
         image_drift_findings = []
+        image_fingerprints: Dict[str, CapabilityFingerprint] = {}
         if options.enable_image_drift:
             try:
                 from .image_drift import detect_image_drift
@@ -436,6 +438,7 @@ def run_sca(
                     target,
                     oci_client=oci_client,
                     fingerprint_store_dir=fingerprint_store,
+                    out_fingerprints=image_fingerprints,
                 )
                 if image_drift_findings:
                     logger.info(
@@ -450,6 +453,7 @@ def run_sca(
                 )
     else:
         image_drift_findings = []
+        image_fingerprints = {}
 
     joined = join_deps(raw_deps)
     logger.info("sca.pipeline: %d manifests, %d deps after join",
@@ -859,6 +863,7 @@ def run_sca(
         deps=joined,
         vuln_findings=vuln_findings,
         target_name=target.name,
+        image_fingerprints=image_fingerprints or None,
     )
 
     # Optional SPDX 2.3 SBOM alongside CycloneDX. Some compliance

@@ -29,6 +29,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from core.binary import (
+    CapabilityFingerprint,
     FingerprintDrift,
     capability_fingerprint,
     detect_drift,
@@ -53,6 +54,7 @@ def detect_image_drift(
     *,
     oci_client,
     fingerprint_store_dir: Path,
+    out_fingerprints: Optional[Dict[str, CapabilityFingerprint]] = None,
 ) -> List[SupplyChainFinding]:
     """Walk every image ref in ``target``, fingerprint each,
     compare against ``fingerprint_store_dir``'s baseline, return
@@ -72,6 +74,12 @@ def detect_image_drift(
     fingerprint / store I/O) — drift is best-effort enrichment,
     not load-bearing, and a partial result is more useful than
     a hard failure that drops the whole scan.
+
+    ``out_fingerprints`` — optional dict the caller can pass to
+    capture the (ref → CapabilityFingerprint) mapping computed
+    during the walk. Used by the SBOM emitter so consumers see
+    the fingerprint on each container component. Refs that fail
+    to extract / fingerprint are not added.
     """
     findings: List[SupplyChainFinding] = []
     try:
@@ -91,7 +99,7 @@ def detect_image_drift(
             continue
         seen.add(ref)
         try:
-            finding = _drift_for_ref(
+            finding, fp = _drift_for_ref(
                 ref, oci_client=oci_client,
                 fingerprint_store_dir=fingerprint_store_dir,
                 declared_in=source.declared_in,
@@ -102,6 +110,8 @@ def detect_image_drift(
                 ref, e,
             )
             continue
+        if fp is not None and out_fingerprints is not None:
+            out_fingerprints[ref] = fp
         if finding is not None:
             findings.append(finding)
     return findings
@@ -113,18 +123,23 @@ def _drift_for_ref(
     oci_client,
     fingerprint_store_dir: Path,
     declared_in: Path,
-) -> Optional[SupplyChainFinding]:
-    """Run the full drift check for one image ref. Returns:
-      * None on first-ever scan (no baseline; baseline saved)
-      * None when no drift detected (baseline refreshed)
-      * SupplyChainFinding when drift detected (baseline replaced)
+) -> "tuple[Optional[SupplyChainFinding], Optional[CapabilityFingerprint]]":
+    """Run the full drift check for one image ref. Returns a
+    tuple ``(finding, fingerprint)`` so the caller can surface
+    the fingerprint to the SBOM regardless of drift outcome.
+
+    Outcomes:
+      * (None, fp)      — first-ever scan; baseline saved
+      * (None, fp)      — no drift; baseline refreshed
+      * (Finding, fp)   — drift detected; baseline replaced
+      * (None, None)    — extract / fingerprint failed
     """
     binary = fetch_image_binary(ref, client=oci_client)
     if binary is None:
         logger.debug(
             "sca.image_drift: could not extract binary from %s", ref,
         )
-        return None
+        return None, None
     try:
         current = capability_fingerprint(binary)
     finally:
@@ -138,7 +153,7 @@ def _drift_for_ref(
         logger.debug(
             "sca.image_drift: could not fingerprint %s", ref,
         )
-        return None
+        return None, None
 
     baseline = load_fingerprint(fingerprint_store_dir, ref)
     # Always save the new fingerprint AFTER computing the drift
@@ -151,15 +166,16 @@ def _drift_for_ref(
             "sca.image_drift: first baseline for %s; no drift signal",
             ref,
         )
-        return None
+        return None, current
 
     drift = detect_drift(baseline, current)
     if drift.is_empty():
-        return None
+        return None, current
 
-    return _drift_finding(
+    finding = _drift_finding(
         ref=ref, drift=drift, declared_in=declared_in,
     )
+    return finding, current
 
 
 def _drift_finding(
