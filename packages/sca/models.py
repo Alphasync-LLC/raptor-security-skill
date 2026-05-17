@@ -366,6 +366,7 @@ SupplyChainKind = Literal[
     "platform_compat_regression",
     "platform_compat_improvement",
     "transitive_now_optional",
+    "binary_capability_delta",
 ]
 
 
