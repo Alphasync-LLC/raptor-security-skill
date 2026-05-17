@@ -485,6 +485,46 @@ class SourceIntelResult:
                 return a
         return None
 
+    def function_intel_status(
+        self, function_name: str, target: Optional[Path] = None,
+    ) -> str:
+        """Return the source_intel status for ``function_name`` —
+        per design strict invariant: never fabricate; explicitly
+        report ``name_not_in_tree`` when PR-4 prereqs ran but
+        didn't see the function.
+
+        Returns one of:
+          * ``"in_tree"``         — PR-4 found a definition for the name
+          * ``"name_not_in_tree"`` — PR-4 ran, no definition for this name
+          * ``"prereqs_skipped"`` — PR-4 unavailable (no spatch, etc.)
+          * ``"unknown"``         — cannot determine (no target / no PR-4)
+
+        ``target`` is the scan dir for PR-4 prereqs. When None,
+        defaults to the result's recorded target. When PR-4
+        prereqs aren't available (cocci missing, import fails),
+        returns ``"prereqs_skipped"``.
+
+        Stage D LLM consumers should treat ``name_not_in_tree``
+        as "I scanned and the name isn't here" — different from
+        "I haven't scanned" (``prereqs_skipped``).
+        """
+        try:
+            from packages.coccinelle.prereqs import gather_prereqs
+        except ImportError:
+            return "prereqs_skipped"
+        scan_target = target or (Path(self.target) if self.target else None)
+        if scan_target is None:
+            return "unknown"
+        if not scan_target.is_dir():
+            return "unknown"
+        try:
+            facts = gather_prereqs(scan_target)
+        except Exception:  # noqa: BLE001
+            return "prereqs_skipped"
+        if facts.is_skipped:
+            return "prereqs_skipped"
+        return "in_tree" if facts.function_exists(function_name) else "name_not_in_tree"
+
     def variant_ratio(self, allocator: str) -> Tuple[int, int]:
         """Return (checked_count, unchecked_count) for ``allocator``
         across the analyzed target. Used by axis-5 to assess whether

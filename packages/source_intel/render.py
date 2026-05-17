@@ -15,10 +15,15 @@ Three styles surfaced in Phase 2:
 For substrate, all three render the same content with style-specific
 phrasing. Axes 2-7 may diverge per style when their evidence
 classes have distinct interpretations per consumer.
+
+Also provides ``derive_mitigations_found()`` — structured list of
+``Mitigation`` records per design strict invariant ("mitigations_found:
+[...] shape; no boolean hardened. Absence ≠ unhardened.").
 """
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import List, Optional
 
 from core.build.build_flags import BuildFlagsContext
@@ -39,6 +44,33 @@ from packages.source_intel.analyze import (
     AttributeEvidence,
     SourceIntelResult,
 )
+
+
+@dataclass(frozen=True)
+class Mitigation:
+    """Structured mitigation entry per design strict invariant.
+
+    ``name`` is the canonical mitigation kind (abort_dominates,
+    fortify_blocks, etc.). ``axis`` is the source_intel axis id
+    that detected it. ``confidence`` is one of:
+        * ``"high"`` — strong evidence (DOMINATES grade, exact
+          line match, FORTIFY blocks intercepted call site)
+        * ``"medium"`` — moderate (same_path grade, near-line)
+        * ``"low"`` — same_function grade with proximity,
+          informational signals
+
+    Absence of a mitigation in the list does NOT imply unhardened —
+    it means source_intel didn't detect that mitigation (which may
+    be a coverage gap, not real absence). Per the design strict
+    invariant: never emit ``hardened: True/False``; only the
+    structured-list shape.
+    """
+
+    name: str
+    axis: str  # "axis_1" through "axis_8"
+    confidence: str  # "low" | "medium" | "high"
+    detail: str
+    location: Optional[tuple] = None  # (file, line) or None
 
 
 _STYLES = ("stage_d", "exploit_plan", "agentic_variant")
@@ -744,3 +776,121 @@ def _truncate(lines: List[str], max_lines: Optional[int]) -> List[str]:
     if max_lines is None or len(lines) <= max_lines:
         return lines
     return lines[:max_lines]
+
+
+def derive_mitigations_found(
+    result: SourceIntelResult,
+    finding_function: Optional[str] = None,
+    finding_file: Optional[str] = None,
+    finding_line: Optional[int] = None,
+) -> List[Mitigation]:
+    """Return the structured `mitigations_found` list for a finding.
+
+    Per design strict invariant: a positively-detected mitigation
+    earns an entry; ABSENCE earns no entry (don't emit
+    ``hardened: False`` because we may have missed signal).
+
+    Walks every evidence axis on ``result`` that could meaningfully
+    indicate hardening / verdict-suppression:
+
+      * axis_2 abort  — abort-class call in finding's function
+        (`abort_dominates` if grade=dominates, `abort_proximate`
+        for same_function/same_path)
+      * axis_4 priv   — privileged capable() in finding's function
+        (`priv_dominates`)
+      * axis_6 fortify — FORTIFY_SOURCE active + fortified call
+        (`fortify_intercepted`)
+      * axis_7 dead   — function dead per PR-4 + static
+        (`dead_code`)
+      * axis_8 valid  — downstream relational+early-exit guard
+        (`downstream_validation`)
+      * axis_3 paired — alloc paired with free in function
+        (`paired_free` — informational for leak findings)
+
+    Each entry includes location when known so Stage D LLM can
+    cross-reference the source.
+    """
+    mitigations: List[Mitigation] = []
+
+    # axis_2 abort — same function as finding
+    for ab in result.aborts:
+        if (finding_function and ab.enclosing_function
+                and ab.enclosing_function != finding_function):
+            continue
+        if ab.grade == GRADE_DOMINATES:
+            confidence = "high"
+            name = "abort_dominates"
+        elif ab.grade == GRADE_SAME_PATH:
+            confidence = "medium"
+            name = "abort_on_path"
+        else:
+            confidence = "low"
+            name = "abort_proximate"
+        mitigations.append(Mitigation(
+            name=name, axis="axis_2", confidence=confidence,
+            detail=f"{ab.macro} ({ab.grade})",
+            location=ab.location,
+        ))
+
+    # axis_4 privilege — capable() in same function
+    for cap in result.capabilities:
+        if (finding_function and cap.enclosing_function
+                and cap.enclosing_function != finding_function):
+            continue
+        mitigations.append(Mitigation(
+            name="privilege_gate",
+            axis="axis_4", confidence="medium",
+            detail=f"{cap.cap_function} (grade={cap.grade})",
+            location=cap.location,
+        ))
+
+    # axis_6 FORTIFY — surface only when level present
+    if result.build_flags and result.build_flags.fortify_source_level:
+        level = result.build_flags.fortify_source_level
+        confidence = "high" if level >= 2 else "medium"
+        mitigations.append(Mitigation(
+            name="fortify_source",
+            axis="axis_6", confidence=confidence,
+            detail=f"_FORTIFY_SOURCE={level} ({result.build_flags.source})",
+            location=None,
+        ))
+
+    # axis_3 paired-free — informational for cpp/memory-leak FPs
+    for pf in result.paired_frees:
+        if finding_function and pf.enclosing_function != finding_function:
+            continue
+        mitigations.append(Mitigation(
+            name="paired_free",
+            axis="axis_3", confidence="medium",
+            detail=f"{pf.allocator} paired with {pf.free_fn}",
+            location=pf.location,
+        ))
+
+    # axis_2 sub-class: warn-class is informational, not a real
+    # mitigation; null-guards likewise (axis-3's `when !=` does the
+    # verdict work). We don't emit these as mitigations to avoid
+    # false-confidence in Stage D output.
+
+    return mitigations
+
+
+def aggregate_confidence(mitigations: List[Mitigation]) -> str:
+    """Compute overall confidence per design strict invariant:
+    "confidence capped at strongest individual signal; no
+    multiplicative inflation".
+
+    Multiple mediums do NOT combine into a high. Multiple highs
+    don't combine into something stronger than high. The single
+    strongest signal wins.
+
+    Returns one of: "high" | "medium" | "low" | "none" (no
+    evidence at all).
+    """
+    if not mitigations:
+        return "none"
+    ranks = {"high": 3, "medium": 2, "low": 1}
+    best = max(ranks.get(m.confidence, 0) for m in mitigations)
+    return next(
+        (k for k, v in ranks.items() if v == best),
+        "none",
+    )
