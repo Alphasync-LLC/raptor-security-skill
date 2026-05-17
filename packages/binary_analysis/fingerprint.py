@@ -197,8 +197,7 @@ class CapabilityFingerprint:
 def capability_fingerprint(
     binary_path: Path,
     *,
-    max_strings: int = 0,
-    max_decompile: int = 0,
+    include_sinks: bool = False,
 ) -> Optional[CapabilityFingerprint]:
     """Compute the capability fingerprint of ``binary_path``.
 
@@ -207,9 +206,18 @@ def capability_fingerprint(
       * the binary can't be analysed (corrupt / unsupported
         format / read failure)
 
-    ``max_strings=0`` / ``max_decompile=0`` keep the run fast —
-    strings and decompilation don't contribute to the
-    capability summary the fingerprint records.
+    By default runs in *quick* mode — skips radare2's ``aaa``
+    (full auto-analysis) step, populating only metadata +
+    imports. Order of magnitude faster on typical binaries
+    (seconds vs minutes for ``/bin/ls``). The bucketed-imports
+    signal is the load-bearing piece of the fingerprint;
+    ``dangerous_sinks`` is a nice-to-have that requires
+    cross-reference analysis.
+
+    Pass ``include_sinks=True`` to run the full pipeline and
+    populate the ``dangerous_sinks`` field. Use for
+    deeper-analysis paths (e.g. forensic / pre-merge gates)
+    where the extra signal justifies the cost.
     """
     try:
         from packages.binary_analysis.radare2_understand import (
@@ -235,8 +243,9 @@ def capability_fingerprint(
     try:
         ctx = analyse_binary_context(
             binary_path,
-            max_strings=max_strings,
-            max_decompile=max_decompile,
+            max_strings=0,
+            max_decompile=0,
+            quick=not include_sinks,
         )
     except Exception as e:                            # noqa: BLE001
         logger.warning(

@@ -116,14 +116,20 @@ def diff_binary_capabilities(
     current_binary: Path,
     target_binary: Path,
     *,
-    max_decompile: int = 0,
-    max_strings: int = 0,
+    include_sinks: bool = False,
 ) -> Optional[CapabilityDelta]:
     """Compare two binaries' capability surfaces.
 
-    ``max_decompile=0`` / ``max_strings=0`` keep the comparison fast
-    — decompilation and string extraction don't affect the
-    dangerous-import / dangerous-sink sets we diff against.
+    Defaults to *quick* mode — skips radare2's ``aaa`` full
+    auto-analysis. Order of magnitude faster (seconds vs
+    minutes for typical container binaries). The bucketed-
+    imports diff is the load-bearing signal for bump capability-
+    delta; the ``dangerous_sinks`` set is a nice-to-have.
+
+    Pass ``include_sinks=True`` to run the full pipeline and
+    populate ``CapabilityDelta.new_dangerous_sinks``. Worth it
+    only when the caller has time budget + cares about the
+    extra signal.
 
     Returns ``None`` when:
       * radare2 isn't available on the host
@@ -158,13 +164,15 @@ def diff_binary_capabilities(
 
     current_ctx = _safe_analyse(
         analyse_binary_context, current_binary,
-        max_decompile=max_decompile, max_strings=max_strings,
+        max_decompile=0, max_strings=0,
+        quick=not include_sinks,
     )
     if current_ctx is None:
         return None
     target_ctx = _safe_analyse(
         analyse_binary_context, target_binary,
-        max_decompile=max_decompile, max_strings=max_strings,
+        max_decompile=0, max_strings=0,
+        quick=not include_sinks,
     )
     if target_ctx is None:
         return None
@@ -193,6 +201,7 @@ def diff_binary_capabilities(
 def _safe_analyse(
     analyser, binary_path: Path, *,
     max_decompile: int, max_strings: int,
+    quick: bool = False,
 ):
     """Wrap ``analyse_binary_context`` so a failure on one binary
     doesn't crash the bumper. Logs and returns None."""
@@ -201,6 +210,7 @@ def _safe_analyse(
             binary_path,
             max_decompile=max_decompile,
             max_strings=max_strings,
+            quick=quick,
         )
     except Exception as exc:                          # noqa: BLE001
         logger.warning(

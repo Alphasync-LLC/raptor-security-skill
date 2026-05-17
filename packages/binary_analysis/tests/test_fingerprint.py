@@ -385,6 +385,82 @@ class TestCapabilityFingerprint:
 
 
 # ---------------------------------------------------------------------------
+# Real-binary integration — gated on radare2 + r2pipe availability
+# ---------------------------------------------------------------------------
+
+
+class TestRealBinaryFingerprint:
+    """End-to-end via radare2. Skipped on hosts without
+    r2pipe (probe_capability returns available=False). Each
+    test asserts the quick-mode path is fast enough to run
+    in a unit-test budget (was 5+ minutes per binary before
+    quick mode was added)."""
+
+    @pytest.fixture(autouse=True)
+    def _gate(self):
+        from packages.binary_analysis.radare2_understand import (
+            probe_capability,
+        )
+        cap = probe_capability()
+        if not cap.get("available"):
+            pytest.skip(f"radare2 stack not available: {cap}")
+
+    def test_quick_fingerprint_of_bin_ls(self):
+        """Fingerprint ``/bin/ls`` in quick mode. Asserts the
+        primitive completes in well under a minute (quick mode
+        skips the expensive ``aaa`` step). Default mode took
+        5+ minutes — far too slow to live in the unit suite."""
+        import time
+        ls = Path("/bin/ls")
+        if not ls.exists():
+            pytest.skip("/bin/ls not present on host")
+        t0 = time.time()
+        fp = capability_fingerprint(ls)
+        elapsed = time.time() - t0
+        assert fp is not None
+        # Be generous — 30s leaves headroom for slow CI runners
+        # while still catching a regression to the multi-minute
+        # default-pipeline path.
+        assert elapsed < 30, (
+            f"quick fingerprint took {elapsed:.1f}s — likely "
+            f"regressed to the full-analysis pipeline"
+        )
+        # Sanity-check the fingerprint shape
+        assert fp.schema_version == FINGERPRINT_SCHEMA_VERSION
+        assert fp.binary_format in ("elf", "elf64", "elf32",
+                                       "mach0", "mach-o", "pe")
+        assert len(fp.binary_sha256) == 64
+
+    def test_quick_mode_omits_sinks(self):
+        """Quick mode populates ``capability_buckets`` but leaves
+        ``dangerous_sinks`` empty (no cross-ref analysis). Locks
+        in the documented semantic — callers needing sinks pass
+        ``include_sinks=True`` and pay the slow-pipeline cost."""
+        ls = Path("/bin/ls")
+        if not ls.exists():
+            pytest.skip("/bin/ls not present on host")
+        fp = capability_fingerprint(ls)   # default quick=True
+        assert fp is not None
+        assert fp.dangerous_sinks == []
+        # Buckets DO populate — ls imports common libc calls
+        assert isinstance(fp.capability_buckets, dict)
+
+    def test_same_binary_idempotent(self):
+        """Fingerprinting the same path twice produces identical
+        ``canonical_json``. Drift detection depends on this —
+        if quick-mode runs were non-deterministic, every scan
+        would flag drift."""
+        ls = Path("/bin/ls")
+        if not ls.exists():
+            pytest.skip("/bin/ls not present on host")
+        fp_a = capability_fingerprint(ls)
+        fp_b = capability_fingerprint(ls)
+        assert fp_a is not None
+        assert fp_b is not None
+        assert fp_a.canonical_json() == fp_b.canonical_json()
+
+
+# ---------------------------------------------------------------------------
 # Cross-consumer parity — bucket helpers shared with SCA bump detector
 # ---------------------------------------------------------------------------
 
