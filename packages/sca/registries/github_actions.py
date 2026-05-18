@@ -34,7 +34,7 @@ import logging
 from typing import Optional
 
 from core.http import HttpClient
-from core.json import JsonCache
+from core.json import JsonCache, MISSING
 
 logger = logging.getLogger(__name__)
 
@@ -74,10 +74,14 @@ class GitHubActionsClient:
             return None
         cache_key = f"{_CACHE_KEY_PREFIX}:{repo}"
         if self._cache is not None:
-            cached = self._cache.get(cache_key, ttl_seconds=self._ttl)
-            if cached is not None:
-                # Cache stores the dict — extract tag.
-                tag = cached.get("tag_name") if isinstance(cached, dict) else None
+            cached = self._cache.try_get(cache_key, ttl_seconds=self._ttl)
+            if cached is not MISSING:
+                # Cache stores the dict — extract tag. ``None`` from
+                # a negative-cached failure surfaces as no tag.
+                tag = (
+                    cached.get("tag_name")
+                    if isinstance(cached, dict) else None
+                )
                 return tag
         if self._offline:
             return None
@@ -92,6 +96,8 @@ class GitHubActionsClient:
                 "sca.registries.github_actions: releases/latest failed for "
                 "%s: %s", repo, e,
             )
+            if self._cache is not None:
+                self._cache.put(cache_key, None, ttl_seconds=self._ttl)
             return None
         if not isinstance(data, dict):
             return None

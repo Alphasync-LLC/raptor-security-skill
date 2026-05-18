@@ -14,7 +14,7 @@ from __future__ import annotations
 import logging
 from typing import List, Optional
 
-from core.json import JsonCache
+from core.json import JsonCache, MISSING
 from core.http import HttpClient
 
 logger = logging.getLogger(__name__)
@@ -48,9 +48,9 @@ class NugetClient:
         canon = name.lower()
         cache_key = f"{_CACHE_KEY_PREFIX}:{canon}"
         if self._cache is not None:
-            cached = self._cache.get(cache_key, ttl_seconds=self._ttl)
-            if cached is not None:
-                return list(cached)
+            cached = self._cache.try_get(cache_key, ttl_seconds=self._ttl)
+            if cached is not MISSING:
+                return list(cached) if cached else []
 
         if self._offline:
             return []
@@ -61,6 +61,8 @@ class NugetClient:
         except Exception as e:                # noqa: BLE001
             logger.warning("sca.registries.nuget: fetch failed for %r: %s",
                            name, e)
+            if self._cache is not None:
+                self._cache.put(cache_key, [], ttl_seconds=self._ttl)
             return []
 
         versions = _extract_versions(data)
@@ -116,8 +118,8 @@ def _add_nuspec_methods():
         ``{dependency_groups: [{targetFramework, dependencies}]}``."""
         cache_key = f"nuget-nuspec:{pkg.lower()}:{version}"
         if self._cache is not None:
-            cached = self._cache.get(cache_key, ttl_seconds=self._ttl)
-            if cached is not None:
+            cached = self._cache.try_get(cache_key, ttl_seconds=self._ttl)
+            if cached is not MISSING:
                 return cached
         if self._offline:
             return None
@@ -133,6 +135,8 @@ def _add_nuspec_methods():
                 "sca.registries.nuget: nuspec fetch failed for "
                 "%s@%s: %s", pkg, version, e,
             )
+            if self._cache is not None:
+                self._cache.put(cache_key, None, ttl_seconds=self._ttl)
             return None
         if resp.status_code != 200:
             return None
@@ -147,6 +151,8 @@ def _add_nuspec_methods():
                 "sca.registries.nuget: nuspec parse failed for "
                 "%s@%s: %s", pkg, version, e,
             )
+            if self._cache is not None:
+                self._cache.put(cache_key, None, ttl_seconds=self._ttl)
             return None
         ns = ""
         if root.tag.startswith("{"):

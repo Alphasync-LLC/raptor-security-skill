@@ -14,7 +14,7 @@ import logging
 import urllib.parse
 from typing import List, Optional
 
-from core.json import JsonCache
+from core.json import JsonCache, MISSING
 from core.http import HttpClient
 
 logger = logging.getLogger(__name__)
@@ -70,9 +70,9 @@ class MavenClient:
 
         cache_key = f"{_CACHE_KEY_PREFIX}:{name}"
         if self._cache is not None:
-            cached = self._cache.get(cache_key, ttl_seconds=self._ttl)
-            if cached is not None:
-                return list(cached)
+            cached = self._cache.try_get(cache_key, ttl_seconds=self._ttl)
+            if cached is not MISSING:
+                return list(cached) if cached else []
 
         if self._offline:
             return []
@@ -91,6 +91,8 @@ class MavenClient:
         except Exception as e:                # noqa: BLE001
             logger.warning("sca.registries.maven: fetch failed for %r: %s",
                            name, e)
+            if self._cache is not None:
+                self._cache.put(cache_key, [], ttl_seconds=self._ttl)
             return []
 
         versions = _extract_versions(data)
@@ -178,8 +180,8 @@ def _add_pom_methods():
         group, artifact = coord.split(":", 1)
         cache_key = f"maven-pom:{coord}:{version}"
         if self._cache is not None:
-            cached = self._cache.get(cache_key, ttl_seconds=self._ttl)
-            if cached is not None:
+            cached = self._cache.try_get(cache_key, ttl_seconds=self._ttl)
+            if cached is not MISSING:
                 return cached
         if self._offline:
             return None
@@ -195,6 +197,8 @@ def _add_pom_methods():
                 "sca.registries.maven: POM fetch failed for "
                 "%s@%s: %s", coord, version, e,
             )
+            if self._cache is not None:
+                self._cache.put(cache_key, None, ttl_seconds=self._ttl)
             return None
         if resp.status_code != 200:
             return None
@@ -209,6 +213,8 @@ def _add_pom_methods():
                 "sca.registries.maven: POM parse failed for "
                 "%s@%s: %s", coord, version, e,
             )
+            if self._cache is not None:
+                self._cache.put(cache_key, None, ttl_seconds=self._ttl)
             return None
 
         ns = "{http://maven.apache.org/POM/4.0.0}"

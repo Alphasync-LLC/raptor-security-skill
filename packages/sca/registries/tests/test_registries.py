@@ -146,6 +146,47 @@ def test_npm_get_metadata_uses_high_max_bytes() -> None:
 
 
 # ---------------------------------------------------------------------------
+# Negative caching — applies to every registry client
+# ---------------------------------------------------------------------------
+
+def test_npm_negative_caches_404_failures(tmp_path) -> None:
+    """A 404 (or any fetch failure) for a workspace-internal /
+    private package name must be cached so subsequent detector
+    calls don't re-query the registry.
+
+    Surfaced by the May 2026 200-project sweep against Grafana:
+    200+ unpublished ``@grafana/*`` and ``@grafana-plugins/*``
+    workspace packages re-queried npm on every detector call,
+    burning thousands of duplicate 404s before the operator
+    killed the run.
+    """
+    from core.json import JsonCache
+    from core.http import HttpError
+    cache = JsonCache(root=tmp_path)
+    http = _FakeHttp(raise_exc=HttpError("404"))
+    client = NpmClient(http, cache=cache)
+    # First call: hits the registry, fails, caches None.
+    assert client.get_metadata("@grafana/unpublished") is None
+    assert len(http.calls) == 1
+    # Second call: cache hit, no new registry request.
+    assert client.get_metadata("@grafana/unpublished") is None
+    assert len(http.calls) == 1, "second call must be cache-served"
+
+
+def test_pypi_negative_caches_404_failures(tmp_path) -> None:
+    """Same negative-caching contract for PyPI."""
+    from core.json import JsonCache
+    from core.http import HttpError
+    cache = JsonCache(root=tmp_path)
+    http = _FakeHttp(raise_exc=HttpError("404"))
+    client = PyPIClient(http, cache=cache)
+    assert client.get_metadata("nonexistent-private-pkg") is None
+    assert len(http.calls) == 1
+    assert client.get_metadata("nonexistent-private-pkg") is None
+    assert len(http.calls) == 1, "second call must be cache-served"
+
+
+# ---------------------------------------------------------------------------
 # crates.io
 # ---------------------------------------------------------------------------
 

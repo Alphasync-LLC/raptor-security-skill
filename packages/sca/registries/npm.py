@@ -15,7 +15,7 @@ import re
 import urllib.parse
 from typing import List, Optional
 
-from core.json import JsonCache
+from core.json import JsonCache, MISSING
 from core.http import HttpClient
 
 logger = logging.getLogger(__name__)
@@ -77,12 +77,25 @@ class NpmClient:
         Uses ``_NPM_META_MAX_BYTES`` (200 MB) as the cap because
         popular scoped namespaces like ``@grafana/runtime`` ship
         cumulative version metadata above the global 50 MB default.
+
+        Negative caching: a 404 / fetch failure caches ``None`` for
+        the same TTL as a successful response. Pre-fix the failure
+        path returned None without caching, so monorepos with
+        hundreds of internal workspace packages (e.g. Grafana's
+        200+ unpublished ``@grafana/*`` and ``@grafana-plugins/*``
+        entries) re-queried the npm registry on every detector that
+        called ``get_metadata``. The May 2026 200-project sweep
+        showed thousands of duplicate 404s for the same set of
+        names. ``try_get`` + ``MISSING`` distinguishes "not cached"
+        from "cached as None" so the negative entry serves.
         """
         encoded = urllib.parse.quote(name, safe="@")
         cache_key = f"npm-meta:{name}"
         if self._cache is not None:
-            cached = self._cache.get(cache_key, ttl_seconds=self._ttl)
-            if cached is not None:
+            cached = self._cache.try_get(cache_key, ttl_seconds=self._ttl)
+            if cached is not MISSING:
+                # Includes both successful payloads and the cached
+                # negative (None) — the caller treats both correctly.
                 return cached
         if self._offline:
             return None
@@ -95,6 +108,10 @@ class NpmClient:
         except Exception as e:                # noqa: BLE001
             logger.warning("sca.registries.npm: meta fetch failed for %r: %s",
                            name, e)
+            if self._cache is not None:
+                # Cache the failure for the same TTL so subsequent
+                # detectors don't re-query the same dead name.
+                self._cache.put(cache_key, None, ttl_seconds=self._ttl)
             return None
         if self._cache is not None:
             self._cache.put(cache_key, data, ttl_seconds=self._ttl)
@@ -124,6 +141,15 @@ class NpmClient:
         except Exception as e:                # noqa: BLE001
             logger.warning("sca.registries.npm: fetch failed for %r: %s",
                            name, e)
+            if self._cache is not None:
+                # Negative-cache the empty result so re-queries on the
+                # same TTL window don't re-hit the registry. Same
+                # rationale as ``get_metadata``: workspace-internal
+                # names that 404 on every call would otherwise burn
+                # the same lookup once per detector. The empty list
+                # collides cleanly with the cached-empty-result path
+                # below — both surface as ``[]``.
+                self._cache.put(cache_key, [], ttl_seconds=self._ttl)
             return []
 
         versions = _extract_versions(data)

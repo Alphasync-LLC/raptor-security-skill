@@ -20,7 +20,7 @@ from typing import List, Optional
 
 from packaging.version import InvalidVersion, Version
 
-from core.json import JsonCache
+from core.json import JsonCache, MISSING
 from core.http import HttpClient
 
 logger = logging.getLogger(__name__)
@@ -88,12 +88,16 @@ class PyPIClient:
 
         Cached separately from the version list so callers needing publish
         timestamps / maintainer info don't pay an extra round-trip.
+
+        Negative caching: a 404 / fetch failure caches ``None`` for
+        the same TTL so workspace-internal / private package names
+        don't re-query on every detector call.
         """
         canon = _canonical_name(name)
         cache_key = f"pypi-meta:{canon}"
         if self._cache is not None:
-            cached = self._cache.get(cache_key, ttl_seconds=self._ttl)
-            if cached is not None:
+            cached = self._cache.try_get(cache_key, ttl_seconds=self._ttl)
+            if cached is not MISSING:
                 return cached
         if self._offline:
             return None
@@ -105,6 +109,8 @@ class PyPIClient:
         except Exception as e:                # noqa: BLE001
             logger.warning("sca.registries.pypi: meta fetch failed for %r: %s",
                            canon, e)
+            if self._cache is not None:
+                self._cache.put(cache_key, None, ttl_seconds=self._ttl)
             return None
         if self._cache is not None:
             self._cache.put(cache_key, data, ttl_seconds=self._ttl)
@@ -124,12 +130,13 @@ class PyPIClient:
         marker between 1.14.x and 1.15.x?).
 
         Cached separately from the aggregate metadata; same TTL.
+        Same negative-caching policy as ``get_metadata``.
         """
         canon = _canonical_name(name)
         cache_key = f"pypi-meta:{canon}:{version}"
         if self._cache is not None:
-            cached = self._cache.get(cache_key, ttl_seconds=self._ttl)
-            if cached is not None:
+            cached = self._cache.try_get(cache_key, ttl_seconds=self._ttl)
+            if cached is not MISSING:
                 return cached
         if self._offline:
             return None
@@ -143,6 +150,8 @@ class PyPIClient:
                 "sca.registries.pypi: version-meta fetch failed for "
                 "%r==%r: %s", canon, version, e,
             )
+            if self._cache is not None:
+                self._cache.put(cache_key, None, ttl_seconds=self._ttl)
             return None
         if self._cache is not None:
             self._cache.put(cache_key, data, ttl_seconds=self._ttl)
@@ -152,9 +161,9 @@ class PyPIClient:
         canon = _canonical_name(name)
         cache_key = f"{_CACHE_KEY_PREFIX}:{canon}"
         if self._cache is not None:
-            cached = self._cache.get(cache_key, ttl_seconds=self._ttl)
-            if cached is not None:
-                return list(cached)
+            cached = self._cache.try_get(cache_key, ttl_seconds=self._ttl)
+            if cached is not MISSING:
+                return list(cached) if cached else []
 
         if self._offline:
             return []
@@ -167,6 +176,8 @@ class PyPIClient:
         except Exception as e:                # noqa: BLE001
             logger.warning("sca.registries.pypi: fetch failed for %r: %s",
                            canon, e)
+            if self._cache is not None:
+                self._cache.put(cache_key, [], ttl_seconds=self._ttl)
             return []
 
         versions = _extract_versions(data)

@@ -20,7 +20,7 @@ from __future__ import annotations
 import logging
 from typing import List, Optional
 
-from core.json import JsonCache
+from core.json import JsonCache, MISSING
 from core.http import HttpClient
 
 logger = logging.getLogger(__name__)
@@ -51,9 +51,9 @@ class DebianClient:
     def list_versions(self, name: str) -> List[str]:
         cache_key = f"{_CACHE_KEY_PREFIX}:{name}"
         if self._cache is not None:
-            cached = self._cache.get(cache_key, ttl_seconds=self._ttl)
-            if cached is not None:
-                return list(cached)
+            cached = self._cache.try_get(cache_key, ttl_seconds=self._ttl)
+            if cached is not MISSING:
+                return list(cached) if cached else []
 
         if self._offline:
             return []
@@ -64,6 +64,8 @@ class DebianClient:
         except Exception as e:                # noqa: BLE001
             logger.warning("sca.registries.debian: fetch failed for %r: %s",
                            name, e)
+            if self._cache is not None:
+                self._cache.put(cache_key, [], ttl_seconds=self._ttl)
             return []
 
         versions = _extract_versions(data)

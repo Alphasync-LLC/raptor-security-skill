@@ -16,7 +16,7 @@ import logging
 import re
 from typing import List, Optional
 
-from core.json import JsonCache
+from core.json import JsonCache, MISSING
 from core.http import HttpClient
 
 logger = logging.getLogger(__name__)
@@ -57,9 +57,9 @@ class PackagistClient:
 
         cache_key = f"{_CACHE_KEY_PREFIX}:{name}"
         if self._cache is not None:
-            cached = self._cache.get(cache_key, ttl_seconds=self._ttl)
-            if cached is not None:
-                return list(cached)
+            cached = self._cache.try_get(cache_key, ttl_seconds=self._ttl)
+            if cached is not MISSING:
+                return list(cached) if cached else []
 
         if self._offline:
             return []
@@ -83,8 +83,8 @@ class PackagistClient:
             return None
         cache_key = f"packagist-meta:{name}"
         if self._cache is not None:
-            cached = self._cache.get(cache_key, ttl_seconds=self._ttl)
-            if cached is not None:
+            cached = self._cache.try_get(cache_key, ttl_seconds=self._ttl)
+            if cached is not MISSING:
                 return cached
         if self._offline:
             return None
@@ -97,6 +97,8 @@ class PackagistClient:
                 "sca.registries.packagist: meta fetch failed for %r: %s",
                 name, e,
             )
+            if self._cache is not None:
+                self._cache.put(cache_key, None, ttl_seconds=self._ttl)
             return None
         if self._cache is not None:
             self._cache.put(cache_key, data, ttl_seconds=self._ttl)
