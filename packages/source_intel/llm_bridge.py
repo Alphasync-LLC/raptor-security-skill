@@ -173,6 +173,13 @@ def make_source_intel_collector(
             binary_verdict = _safe_binary_verdict(
                 binary_verdict_resolver, dataflow, scan_target
             )
+            # Axis-4 multi-hop privilege back-walk evidence (Phase D
+            # follow-up). Best-effort — when prereqs are unavailable
+            # or the sink function can't be determined, the helper
+            # returns None and the renderer skips the line.
+            back_walk = _safe_privilege_back_walk(
+                sink_fn, scan_target, result,
+            )
 
             lines = derive_evidence_strings(
                 result,
@@ -181,6 +188,7 @@ def make_source_intel_collector(
                 style=style,
                 max_lines=max_lines,
                 binary_verdict=binary_verdict,
+                privilege_back_walk=back_walk,
             )
             if not lines:
                 return None
@@ -276,6 +284,42 @@ def _safe_enclosing_function(file_path: str, line: int) -> Optional[str]:
         from packages.source_intel.analyze import _enclosing_function
         return _enclosing_function(file_path, line)
     except Exception:  # noqa: BLE001
+        return None
+
+
+def _safe_privilege_back_walk(
+    sink_fn: Optional[str],
+    scan_target: Path,
+    result,
+):
+    """Best-effort wrapper around
+    ``packages.source_intel.analyze.compute_privilege_back_walk_evidence``.
+
+    Returns ``None`` when:
+      * ``sink_fn`` is None (couldn't determine the finding's
+        enclosing function)
+      * the computation raises (PR-4 prereqs unavailable, gather
+        failed, etc.)
+      * the computation returns None (no callers AND no privileged
+        cap in finding fn itself)
+
+    The renderer skips emitting a back-walk line on None.
+    """
+    if not sink_fn:
+        return None
+    try:
+        import importlib
+        _analyze_mod = importlib.import_module(
+            "packages.source_intel.analyze"
+        )
+        return _analyze_mod.compute_privilege_back_walk_evidence(
+            sink_fn, scan_target, result,
+        )
+    except Exception as e:  # noqa: BLE001
+        logger.debug(
+            "privilege_back_walk computation failed for %s: %s",
+            sink_fn, e,
+        )
         return None
 
 

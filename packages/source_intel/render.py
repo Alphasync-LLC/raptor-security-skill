@@ -48,6 +48,7 @@ from packages.source_intel.analyze import (
     LsmEvidence,
     NullGuardEvidence,
     PairedFreeEvidence,
+    PrivilegeBackWalkEvidence,
     SourceIntelResult,
 )
 
@@ -133,6 +134,7 @@ def derive_evidence_strings(
     style: str = "stage_d",
     max_lines: Optional[int] = None,
     binary_verdict: Optional[str] = None,
+    privilege_back_walk: Optional[PrivilegeBackWalkEvidence] = None,
 ) -> List[str]:
     """Render source_intel evidence for a finding into prompt lines.
 
@@ -292,6 +294,18 @@ def derive_evidence_strings(
         ]
     for l in lsm_hooks:
         lines.append(_render_lsm_line(l, style))
+
+    # Axis-4 multi-hop privilege back-walk evidence (Phase D follow-
+    # up). Surfaces the back-walk's prose findings — the verdict-side
+    # walk in adapter.py produces a boolean suppression decision; this
+    # path produces concrete examples the LLM weighs (the privileged
+    # gate(s) along the path, OR the ungated counter-example caller).
+    if privilege_back_walk is not None:
+        line = _render_privilege_back_walk_line(
+            privilege_back_walk, style,
+        )
+        if line is not None:
+            lines.append(line)
 
     # Axis-2 null-guard evidence — null check on pointer before
     # use. Lowers severity of cpp/null-dereference findings when
@@ -483,6 +497,77 @@ def _render_capability_line(c: CapabilityEvidence, style: str) -> str:
         f"Attacker must already hold the checked capability before "
         f"the sink is reachable; for root-equivalent caps the bug "
         f"may not be a meaningful escalation."
+    )
+
+
+def _render_privilege_back_walk_line(
+    bw: PrivilegeBackWalkEvidence, style: str,
+) -> Optional[str]:
+    """Render the axis-4 multi-hop privilege back-walk result as one
+    prose line. Three cases:
+
+      * no_callers — finding function is a top-level entry; the
+        back-walk is inapplicable. Return None (nothing to say).
+      * all_paths_gated — concrete privileged-gate examples from
+        the walk. Strongest signal: bug is only reachable from
+        already-privileged callers.
+      * partial — some paths gated, but an ungated counter-example
+        exists. Surfaces the counter-example so the LLM can weigh
+        it (don't claim full gating when one ungated path remains).
+    """
+    if bw.no_callers:
+        return None
+    if style == "stage_d":
+        prefix = "Privilege gating — multi-hop back-walk"
+    elif style == "exploit_plan":
+        prefix = "Constraint — bug only reachable via privileged callers"
+    else:
+        prefix = "Variant hint — privilege back-walk"
+
+    if bw.all_paths_gated and bw.gating_examples:
+        # Render the FIRST gating example; mention if there are more.
+        first = bw.gating_examples[0]
+        gating_fn, cap_fn, fp, ln = first
+        extra = ""
+        if len(bw.gating_examples) > 1:
+            extra = (
+                f" (and {len(bw.gating_examples) - 1} more gating "
+                f"site(s) along other call paths within depth "
+                f"{bw.depth_used})"
+            )
+        return (
+            f"{prefix}: function `{bw.finding_function}` is reachable "
+            f"ONLY via callers that pass through a privileged "
+            f"`{cap_fn}(CAP_...)` check (e.g. `{gating_fn}` at "
+            f"{fp}:{ln}){extra}. Attacker without the required "
+            f"capability cannot trigger the bug; finding is "
+            f"privilege-gated and is not a meaningful escalation "
+            f"for already-privileged code."
+        )
+    if bw.all_paths_gated:
+        # Gated but no examples surfaced (shouldn't normally happen
+        # but handle defensively).
+        return (
+            f"{prefix}: all paths to function `{bw.finding_function}` "
+            f"(within depth {bw.depth_used}) pass through a "
+            f"privileged capability check. Finding is privilege-gated."
+        )
+    # Partial gating: ungated path exists.
+    ungated = bw.ungated_caller or "<unknown caller>"
+    if bw.gating_examples:
+        gating_fn = bw.gating_examples[0][0]
+        gated_note = (
+            f" Some paths ARE gated (e.g. via `{gating_fn}`) — "
+            f"but at least one unprivileged path remains."
+        )
+    else:
+        gated_note = ""
+    return (
+        f"{prefix} (partial): function `{bw.finding_function}` is "
+        f"reachable via at least one ungated caller `{ungated}` "
+        f"within depth {bw.depth_used}.{gated_note} The bug "
+        f"remains reachable from unprivileged context — do not "
+        f"discount the finding on privilege grounds."
     )
 
 

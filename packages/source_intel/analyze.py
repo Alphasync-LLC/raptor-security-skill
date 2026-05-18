@@ -319,6 +319,43 @@ class CapabilityEvidence:
 
 
 @dataclass(frozen=True)
+class PrivilegeBackWalkEvidence:
+    """Result of an N-hop privilege back-walk from a finding's
+    enclosing function up through the callgraph.
+
+    Computed by :func:`compute_privilege_back_walk_evidence` (which
+    shares the walk logic with the verdict-side
+    :func:`packages.source_intel.adapter._privilege_back_walk_suppresses`)
+    but produces prose-renderable evidence rather than a boolean
+    suppression decision.
+
+    Fields:
+      * ``finding_function`` — the function the walk started from.
+      * ``all_paths_gated`` — True iff every reachable caller-path
+        within ``depth_used`` hops passes through a privileged
+        ``capable()`` check.
+      * ``gating_examples`` — list of ``(caller_function,
+        cap_function, file_path, line)`` records of gates the walk
+        actually found. Examples — not exhaustive when the
+        callgraph is large.
+      * ``ungated_caller`` — when ``all_paths_gated`` is False, the
+        first caller path that lacks a gate (concrete counter-
+        example for the LLM). ``None`` when all gated or when no
+        callers were found.
+      * ``depth_used`` — actual depth budget consumed.
+      * ``no_callers`` — True iff the walk found no callers (finding
+        function is likely a top-level entry; back-walk inapplicable).
+    """
+
+    finding_function: str
+    all_paths_gated: bool
+    gating_examples: Tuple[Tuple[str, str, str, int], ...] = ()
+    ungated_caller: Optional[str] = None
+    depth_used: int = 0
+    no_callers: bool = False
+
+
+@dataclass(frozen=True)
 class AttributeEvidence:
     """A single observation of a compiler attribute on a function.
 
@@ -2037,3 +2074,200 @@ def _extract_function_name_near_alias(
     # in `MACRO MACRO void *real_name(...)` the real name is at the
     # end. Better than None for the consumer.
     return candidates[-1]
+
+
+# =====================================================================
+# Axis-4 multi-hop privilege back-walk — evidence-producing wrapper
+# =====================================================================
+
+
+# Privileged-capability constants shared with the verdict-side back-
+# walk in :mod:`packages.source_intel.adapter`. Duplicated here (not
+# imported) because adapter imports from analyze; importing back
+# would create a cycle. Keep both lists in sync — see adapter.py's
+# `_PRIVILEGED_CAP_CONSTANTS` for the canonical commentary.
+_PRIVILEGED_CAP_CONSTANTS_FOR_EVIDENCE: FrozenSet[str] = frozenset({
+    "CAP_SYS_ADMIN",
+    "CAP_SYS_MODULE",
+    "CAP_SYS_RAWIO",
+    "CAP_SYS_BOOT",
+    "CAP_DAC_OVERRIDE",
+    "CAP_DAC_READ_SEARCH",
+})
+
+# Capability functions that grade the same way (cap_function set must
+# match adapter.py's `_PRIVILEGED_CAP_FUNCTIONS`).
+_PRIVILEGED_CAP_FUNCTIONS_FOR_EVIDENCE: FrozenSet[str] = frozenset({
+    "capable",
+})
+
+
+def compute_privilege_back_walk_evidence(
+    finding_function: str,
+    target: Path,
+    result: "SourceIntelResult",
+    *,
+    max_depth: int = 3,
+) -> Optional["PrivilegeBackWalkEvidence"]:
+    """Run the multi-hop privilege back-walk from ``finding_function``
+    up through the inverted callgraph and return prose-renderable
+    evidence (not just a boolean verdict signal).
+
+    Returns ``None`` when:
+      * PR-4 prereqs aren't available (``packages.coccinelle`` not
+        importable, spatch missing) — caller falls back to "no
+        back-walk evidence".
+      * ``target`` isn't a directory.
+      * The walk found no callers AND no privileged cap in the
+        finding function itself (a true entry point: callers-axis
+        inapplicable).
+
+    Mirrors the verdict-side
+    :func:`packages.source_intel.adapter._privilege_back_walk_suppresses`
+    walk but produces concrete examples for the LLM prompt — gating
+    sites the walk actually traversed, plus the first ungated path
+    when one exists.
+    """
+    try:
+        from packages.coccinelle.prereqs import gather_prereqs
+    except ImportError:
+        return None
+    if not target.is_dir():
+        return None
+    try:
+        facts = gather_prereqs(target)
+    except Exception:  # noqa: BLE001
+        return None
+    if facts.is_skipped:
+        return None
+
+    callers = facts.callers_of(finding_function)
+    if not callers:
+        return PrivilegeBackWalkEvidence(
+            finding_function=finding_function,
+            all_paths_gated=False,
+            no_callers=True,
+        )
+
+    effective_depth = max(1, min(max_depth, 5))
+    visited = {finding_function}
+    gating_examples: List[Tuple[str, str, str, int]] = []
+    ungated_caller: Optional[str] = None
+    all_gated = True
+
+    for call_file, call_line in callers:
+        caller_fn = _enclosing_function(call_file, call_line)
+        if not caller_fn:
+            all_gated = False
+            ungated_caller = ungated_caller or "<unknown caller>"
+            continue
+        gated, examples = _path_is_gated_with_examples(
+            caller_fn, facts, result,
+            remaining_depth=effective_depth - 1,
+            visited=visited,
+        )
+        if gated:
+            gating_examples.extend(examples)
+        else:
+            all_gated = False
+            ungated_caller = ungated_caller or caller_fn
+
+    # Cap examples surfaced to the LLM at 3 — concrete enough to be
+    # actionable, bounded enough not to crowd the prompt.
+    capped_examples = tuple(gating_examples[:3])
+
+    return PrivilegeBackWalkEvidence(
+        finding_function=finding_function,
+        all_paths_gated=all_gated,
+        gating_examples=capped_examples,
+        ungated_caller=ungated_caller if not all_gated else None,
+        depth_used=effective_depth,
+        no_callers=False,
+    )
+
+
+def _path_is_gated_with_examples(
+    fn_name: str,
+    facts: Any,
+    result: "SourceIntelResult",
+    *,
+    remaining_depth: int,
+    visited: set,
+) -> Tuple[bool, List[Tuple[str, str, str, int]]]:
+    """Recursive walker — same logic as adapter.py's
+    ``_path_is_gated`` but additionally records the concrete gating
+    sites along the way for prose evidence.
+
+    Returns ``(gated, examples)`` where ``examples`` is a list of
+    ``(gating_fn, cap_function, file_path, line)`` tuples for each
+    privileged ``capable()`` call site discovered on a gated path.
+    """
+    if fn_name in visited:
+        return False, []
+    example = _function_privileged_cap_site(fn_name, result)
+    if example is not None:
+        return True, [example]
+    if remaining_depth <= 0:
+        return False, []
+    callers = facts.callers_of(fn_name)
+    if not callers:
+        return False, []
+    next_visited = visited | {fn_name}
+    collected: List[Tuple[str, str, str, int]] = []
+    for call_file, call_line in callers:
+        caller_fn = _enclosing_function(call_file, call_line)
+        if not caller_fn:
+            return False, []
+        sub_gated, sub_examples = _path_is_gated_with_examples(
+            caller_fn, facts, result,
+            remaining_depth=remaining_depth - 1,
+            visited=next_visited,
+        )
+        if not sub_gated:
+            return False, []
+        collected.extend(sub_examples)
+    return True, collected
+
+
+def _function_privileged_cap_site(
+    fn_name: str,
+    result: "SourceIntelResult",
+) -> Optional[Tuple[str, str, str, int]]:
+    """If ``fn_name`` body contains a privileged ``capable(CAP_X)``
+    call site, return ``(fn_name, cap_function, file_path, line)``
+    for the first one found. Else ``None``.
+
+    Reuses the line-level privileged-cap check from adapter (defined
+    there to keep the canonical ``_PRIVILEGED_CAP_CONSTANTS`` list
+    single-sourced) when importable; falls back to a local
+    re-implementation otherwise.
+    """
+    try:
+        from packages.source_intel.adapter import _line_uses_privileged_cap
+    except ImportError:
+        _line_uses_privileged_cap = _local_line_uses_privileged_cap  # noqa: F811
+    for cap in result.capabilities:
+        if cap.enclosing_function != fn_name:
+            continue
+        if cap.cap_function not in _PRIVILEGED_CAP_FUNCTIONS_FOR_EVIDENCE:
+            continue
+        cap_path, cap_line = cap.location
+        if _line_uses_privileged_cap(cap_path, cap_line):
+            return (fn_name, cap.cap_function, cap_path, cap_line)
+    return None
+
+
+def _local_line_uses_privileged_cap(file_path: str, line_no: int) -> bool:
+    """Fallback used only when adapter.py isn't importable. Reads the
+    line at ``file_path:line_no`` and checks for any privileged cap
+    constant. Functionally equivalent to adapter's helper but
+    duplicated here to break the import cycle in minimal installs."""
+    try:
+        with open(file_path, "r", errors="replace") as f:
+            lines = f.readlines()
+    except OSError:
+        return False
+    if line_no < 1 or line_no > len(lines):
+        return False
+    text = lines[line_no - 1]
+    return any(const in text for const in _PRIVILEGED_CAP_CONSTANTS_FOR_EVIDENCE)
