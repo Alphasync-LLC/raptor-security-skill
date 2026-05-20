@@ -143,6 +143,33 @@ def prepare_source_intel(repo_path: Path) -> None:
         return
     with _SI_LOCK:
         _SI_RESULT_CACHE[key] = (sig, result)
+    # INFO-level surfacing of the success path so operators can
+    # visually confirm Phase D PR1 wiring fires during /agentic runs.
+    # Pre-fix the only log lines were on failure paths — a clean run
+    # produced zero log evidence the function had executed, making
+    # gap-#2-style "does the wiring work?" questions unanswerable
+    # without code archaeology. Counts are cheap to compute (already
+    # attached to result) and short enough not to clutter logs.
+    if result.is_skipped:
+        logger.info(
+            "prepare_source_intel: %s skipped (%s) — Stage D will run "
+            "without source_intel evidence",
+            repo_path, result.skipped_reason or "unknown reason",
+        )
+    else:
+        # Defensive ``getattr`` — SourceIntelResult adds fields over
+        # time; the log shouldn't crash if a stub or older shape lacks
+        # a field. Counts default to 0 when the attribute is absent.
+        def _count(attr: str) -> int:
+            return len(getattr(result, attr, ()) or ())
+        logger.info(
+            "prepare_source_intel: %s ready — attributes=%d, aborts=%d, "
+            "allocations=%d, capabilities=%d, lsm_hooks=%d, hazards=%d",
+            repo_path,
+            _count("attributes"), _count("aborts"),
+            _count("allocations"), _count("capabilities"),
+            _count("lsm_hooks"), _count("hazards"),
+        )
 
 
 def evidence_blocks_for_finding(
@@ -234,6 +261,17 @@ def evidence_blocks_for_finding(
         return ()
     if not lines:
         return ()
+
+    # INFO-level surfacing of the success path so /agentic logs make
+    # the Phase D PR1 wiring visible. Pre-fix this function emitted
+    # log lines only on render-failure (debug level) — successful
+    # injections rendered silently, making "did source_intel evidence
+    # reach the LLM prompt?" unanswerable without code archaeology.
+    logger.info(
+        "source_intel evidence injected for finding rule_id=%s "
+        "function=%s (%d render lines)",
+        rule_id, finding_function or "<unknown>", len(lines),
+    )
 
     return (
         UntrustedBlock(
