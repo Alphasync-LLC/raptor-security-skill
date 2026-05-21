@@ -261,6 +261,10 @@ def current_constants() -> Dict[str, float]:
     """Return the current values of all tunable multiplier
     constants. The refitter compares its proposed values against
     these."""
+    # nosemgrep: python.lang.security.dangerous-globals-use.dangerous-globals-use
+    # ``name`` iterates ``TUNABLE_CONSTANTS`` (module-level literal
+    # tuple, line 245). Not attacker-controlled. The refitter
+    # introspects via globals() to avoid hard-coding the list twice.
     return {
         name: globals()[name] for name in TUNABLE_CONSTANTS
     }
