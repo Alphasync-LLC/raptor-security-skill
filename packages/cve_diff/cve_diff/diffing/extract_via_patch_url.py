@@ -42,6 +42,13 @@ _TIMEOUT_S = 10
 # _SHA_RE in extract_via_gitlab_api; defined locally to avoid the
 # already-deep import chain.
 _SHA_RE = re.compile(r"[0-9a-f]{7,40}")
+
+# Per-line cap during unified-diff parsing. Patches with a single
+# multi-MB line (e.g. minified JS, generated source, or hostile
+# input) would otherwise materialise one giant Python string per
+# splitlines() iteration; truncating before the regex bounds peak
+# memory.
+_MAX_DIFF_LINE_BYTES = 64 * 1024
 _USER_AGENT = "cve-diff/0.1 (+https://github.com/cve-diff)"
 _MAX_BYTES = 5_000_000  # 5MB cap on patch body
 
@@ -186,7 +193,15 @@ def _parse_unified_diff(text: str) -> list[tuple[str, int]]:
     out: list[tuple[str, int]] = []
     current: str | None = None
     hunks = 0
+    # Stream line-by-line via splitlines(keepends=False) with an
+    # additional per-line length cap. ``text.splitlines()`` on a
+    # patch with a single multi-MB line allocates one giant string —
+    # same peak-memory shape as no cap at all. Truncate excessive
+    # lines before the regex match runs so neither ``_DIFF_GIT_RE``
+    # nor downstream string slicing sees the long-line case.
     for raw_line in text.splitlines():
+        if len(raw_line) > _MAX_DIFF_LINE_BYTES:
+            raw_line = raw_line[:_MAX_DIFF_LINE_BYTES]
         m = _DIFF_GIT_RE.match(raw_line)
         if m:
             if current is not None:
