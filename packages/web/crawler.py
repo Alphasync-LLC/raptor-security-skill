@@ -272,7 +272,6 @@ class WebCrawler:
             soup = BeautifulSoup(response.content, "html.parser")
 
             # Discover links
-            base_netloc = urlparse(self.client.base_url).netloc
             for link in soup.find_all("a", href=True):
                 href = link["href"]
                 absolute_url = urljoin(url, href)
@@ -290,7 +289,15 @@ class WebCrawler:
                 # the scope check to base_url instead so drift
                 # is bounded to immediate neighbours rather than
                 # transitive expansion.
-                if urlparse(absolute_url).netloc == base_netloc:
+                #
+                # Use the client's _is_in_scope which compares
+                # (scheme, hostname, port) — bare netloc carries
+                # userinfo + port and mis-compares
+                # ``http://base.com`` (port-less) against
+                # ``http://base.com:80`` (port-equal-but-explicit),
+                # and silently passes ``http://base.com`` JS-
+                # discovered downgrades when base is ``https://``.
+                if self.client._is_in_scope(absolute_url):
                     self.discovered_urls.add(absolute_url)
 
                     # Extract parameters from URL
@@ -405,10 +412,14 @@ class WebCrawler:
             for match in matches:
                 if match.startswith("/") or match.startswith("http"):
                     absolute_url = urljoin(self.client.base_url, match)
-                    if (
-                        urlparse(absolute_url).netloc
-                        == urlparse(self.client.base_url).netloc
-                    ):
+                    # Scheme-aware scope check via client._is_in_scope
+                    # — bare netloc equality silently accepted a JS-
+                    # discovered ``http://base.com/x`` against a
+                    # configured ``https://base.com`` base, since
+                    # netloc compares port-less identical and
+                    # ignores scheme. _is_in_scope compares the
+                    # (scheme, hostname, port) triple.
+                    if self.client._is_in_scope(absolute_url):
                         self.discovered_urls.add(absolute_url)
                         logger.debug(
                             f"Found API endpoint in JS: {self._crawl_log_label(absolute_url)}"
