@@ -408,6 +408,64 @@ def test_enrich_licenses_skips_already_populated(monkeypatch):
     assert deps[0].declared_license == "MIT"
 
 
+def test_enrich_licenses_propagates_to_duplicates(monkeypatch):
+    """A dep declared in multiple manifests (same ecosystem + name,
+    possibly different versions / paths) creates multiple
+    ``Dependency`` objects. ``enrich_licenses`` deduplicates the
+    fetch-loop by ``(ecosystem, name)`` to avoid thundering-herd
+    registry calls — but historically only set ``declared_license``
+    on the single representative chosen for the fetch.
+
+    The remaining duplicates kept ``declared_license=None``,
+    triggering spurious ``license_unknown`` findings during
+    evaluation. Surfaced 2026-05-21 by the dogfood scan: ``urllib3``
+    declared in both ``requirements.txt`` AND a GHA workflow's
+    ``pip install``, plus ``pytest`` / ``openai`` declared in
+    multiple Python manifests — all flagged as ``license_unknown``
+    despite at least one of their representatives having been
+    enriched correctly.
+
+    Fix: after the fetch loop, propagate ``declared_license`` by
+    ``(ecosystem, name)`` to every Dependency in the input list."""
+
+    from packages.sca.license import enrich_licenses
+
+    # Three duplicates of urllib3 — different declared_in paths.
+    d1 = _dep(name="urllib3", version="2.7.0")
+    d2 = _dep(name="urllib3", version="2.7.0")
+    d3 = _dep(name="urllib3", version=None)  # unpinned in a workflow
+    deps = [d1, d2, d3]
+
+    # Stub the http path so only the first urllib3 fetch returns
+    # a valid SPDX. We verify all three end up with declared_license.
+    class _StubPyPIMeta:
+        def __init__(self):
+            self.calls = 0
+
+        def __call__(self, url, *a, **kw):
+            self.calls += 1
+            return {"info": {"license_expression": "MIT"},
+                    "releases": {}}
+
+    fetcher = _StubPyPIMeta()
+
+    class _StubHttp:
+        def get_json(self, url, *a, **kw):
+            return fetcher(url, *a, **kw)
+
+    enriched = enrich_licenses(deps, http=_StubHttp())
+
+    # Three deps enriched (1 via fetch + 2 via propagation).
+    assert enriched == 3, f"expected 3 enrichments, got {enriched}"
+    assert d1.declared_license == "MIT"
+    assert d2.declared_license == "MIT"
+    assert d3.declared_license == "MIT"
+    # Critically: only ONE registry round-trip — dedup still works.
+    assert fetcher.calls == 1, (
+        f"expected 1 registry fetch (dedup), got {fetcher.calls}"
+    )
+
+
 # ---------------------------------------------------------------------------
 # Cargo enrichment via crates.io
 # ---------------------------------------------------------------------------

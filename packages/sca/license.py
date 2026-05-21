@@ -62,7 +62,7 @@ import logging
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 from .models import (
     Confidence,
@@ -540,13 +540,48 @@ def enrich_licenses(
     # for tiny inputs so the executor's spin-up doesn't cost more
     # than the sequential walk.
     if len(work) <= 4:
-        return sum(1 for d in work if _enrich_one(d))
-    from concurrent.futures import ThreadPoolExecutor
-    with ThreadPoolExecutor(
-        max_workers=8, thread_name_prefix="sca-license-enrich",
-    ) as pool:
-        results = list(pool.map(_enrich_one, work))
-    return sum(1 for r in results if r)
+        enriched = sum(1 for d in work if _enrich_one(d))
+    else:
+        from concurrent.futures import ThreadPoolExecutor
+        with ThreadPoolExecutor(
+            max_workers=8, thread_name_prefix="sca-license-enrich",
+        ) as pool:
+            results = list(pool.map(_enrich_one, work))
+        enriched = sum(1 for r in results if r)
+
+    # Propagate ``declared_license`` to duplicate Dependency objects
+    # we filtered out during the dedup-for-fetch step above.
+    # Without this, a dep declared in N manifests (e.g. ``urllib3``
+    # in ``requirements.txt`` + a GHA workflow's ``pip install``)
+    # only has ``declared_license`` set on the single representative
+    # we fetched for; the other N-1 objects retain ``None`` and
+    # downstream ``evaluate()`` fires ``license_unknown`` for each.
+    # Surfaced 2026-05-21 by the dogfood scan against raptor's own
+    # repo (8 spurious ``license_unknown`` findings, all on mainstream
+    # PyPI packages whose license metadata IS available — three of
+    # them, pytest/openai/urllib3, were enriched but only on one
+    # of their duplicate manifests).
+    #
+    # Edge case: npm's per-version ``versions[v].license`` can differ
+    # across versions, so propagating by ``(ecosystem, name)`` alone
+    # could be subtly wrong when an npm dep declared at two different
+    # versions has license drift between them. Accepted because
+    # license-drift-across-versions is rare in practice (when it
+    # happens, the operator sees the propagated value rather than
+    # ``license_unknown`` — strictly better noise floor).
+    license_map: Dict[Tuple[str, str], str] = {}
+    for d in work:
+        if d.declared_license:
+            license_map[(d.ecosystem, d.name)] = d.declared_license
+    if license_map:
+        for d in work_all:
+            if d.declared_license:
+                continue
+            spdx = license_map.get((d.ecosystem, d.name))
+            if spdx:
+                d.declared_license = spdx
+                enriched += 1
+    return enriched
 
 
 # ---------------------------------------------------------------------------

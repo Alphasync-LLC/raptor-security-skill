@@ -56,8 +56,18 @@ _PYPI_RELEASE_FILE_STRIP_FIELDS = frozenset((
 # ``yanked``, ``yanked_reason``, ``version``, ``name`` — and a small
 # few via the per-version block. Everything else in ``info`` is
 # author/project metadata with no security consumer.
+#
+# ``classifiers`` is INTENTIONALLY KEPT (not stripped): older PyPI
+# packages encode their license only in the trove classifier
+# ``License :: OSI Approved :: <name>``, and ``_spdx_from_pypi``
+# falls back to scanning classifiers when ``info.license`` and
+# ``info.license_expression`` are both empty. The 2026-05-20
+# initial strip omitted it — that regression flagged 5 mainstream
+# Python packages (jinja2, markdown-it-py, annotated-types, mdurl,
+# playwright) as ``license_unknown`` despite their classifiers
+# carrying the SPDX. Surfaced 2026-05-21 by the dogfood scan.
 _PYPI_INFO_STRIP_FIELDS = frozenset((
-    "author", "author_email", "bugtrack_url", "classifiers",
+    "author", "author_email", "bugtrack_url",
     "description", "description_content_type", "docs_url",
     "download_url", "downloads", "dynamic", "home_page", "keywords",
     "maintainer", "maintainer_email", "package_url", "platform",

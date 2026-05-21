@@ -205,9 +205,18 @@ def test_pypi_strip_drops_cosmetic_info_fields() -> None:
     for drop in ("description", "description_content_type", "summary",
                  "author", "author_email", "maintainer",
                  "maintainer_email", "keywords", "platform",
-                 "home_page", "project_url", "project_urls",
-                 "classifiers"):
+                 "home_page", "project_url", "project_urls"):
         assert drop not in info, f"{drop} should be stripped"
+    # ``classifiers`` is deliberately PRESERVED — older PyPI packages
+    # encode license only via the trove classifier ``License :: OSI
+    # Approved :: <name>``, and ``_spdx_from_pypi`` falls back to
+    # scanning classifiers. Stripping it (as the original 2026-05-20
+    # implementation did) regressed license detection for mainstream
+    # packages including jinja2, markdown-it-py, annotated-types,
+    # mdurl, playwright. Surfaced 2026-05-21 by dogfood scan.
+    assert "classifiers" in info, (
+        "classifiers must be preserved — license-extraction fallback"
+    )
 
 
 def test_pypi_strip_passes_through_none() -> None:
