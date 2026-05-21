@@ -286,8 +286,16 @@ def _sweep_stale_audit_configs() -> None:
     or ownership changed).
     """
     import glob
+    import tempfile as _tempfile
     my_uid = os.getuid()
-    for path in glob.glob("/tmp/raptor-audit-cfg-*.json"):
+    # Sweep ``$TMPDIR`` when set, not the hardcoded ``/tmp``. On macOS
+    # ``tempfile`` defaults to a per-UID ``/var/folders/...`` path; on
+    # space-constrained Linux dev boxes ``TMPDIR=/data/tmp``. Pre-fix
+    # the hardcoded ``/tmp`` glob silently never matched the actual
+    # tempfile location on those systems, so stale audit-config files
+    # accumulated under ``$TMPDIR`` indefinitely.
+    tmp_root = _tempfile.gettempdir()
+    for path in glob.glob(f"{tmp_root}/raptor-audit-cfg-*.json"):
         try:
             st = os.lstat(path)
             if st.st_uid != my_uid:
@@ -530,7 +538,15 @@ def run_sandboxed(
             _writable = []
             for p in (writable_paths or ()):
                 _writable.append(_osp.abspath(p))
-            _writable.append("/tmp")
+            # Honour ``$TMPDIR`` when set (macOS CI, custom dev
+            # environments, ``TMPDIR=/data/tmp`` on space-constrained
+            # build hosts) — pre-fix the hardcoded ``/tmp`` caused
+            # audit's write-intent allowlist to never match the
+            # sandboxed child's actual tempfile location on those
+            # systems, so legitimate ``tempfile.mkstemp()`` writes
+            # were over-reported as would-be-blocked.
+            import tempfile as _tempfile
+            _writable.append(_tempfile.gettempdir())
             if output:
                 _writable.append(_osp.abspath(output))
             _read_allow = list(_writable)
