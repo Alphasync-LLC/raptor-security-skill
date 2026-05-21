@@ -14,3 +14,19 @@ engine/semgrep/rules/registry-cache/
 # Markdown doesn't support inline ``# nosemgrep:`` directives the
 # way Python does.
 .claude/skills/oss-forensics/github-evidence-kit/SKILL.md
+
+# Intentionally-vulnerable test fixtures. RAPTOR ships these to
+# verify that the scanners can DETECT the relevant vulnerability
+# classes. Scanning them as if they were production code generates
+# guaranteed false positives. Surfaced 2026-05-21 by the CodeQL
+# + Semgrep dogfood pass — every finding in these paths was an
+# intentional test fixture, zero were real bugs.
+test/data/
+packages/llm_analysis/tests/fixtures/iris_e2e_multilang/
+packages/codeql/tests/fixtures/
+packages/sca/tests/fixtures/
+
+# Note: CodeQL has its own scan scope (built per-language at DB
+# creation time) and doesn't honour ``.semgrepignore``. The
+# fixtures above will still appear in CodeQL findings; operators
+# triaging output should filter by path prefix.
