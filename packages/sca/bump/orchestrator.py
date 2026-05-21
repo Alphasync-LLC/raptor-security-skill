@@ -534,7 +534,7 @@ def _enumerate_inline_install_candidates(
             file=dockerfile,
             current_version=current,
             target_version=target_version,
-            upstream=None,
+            upstream=UpstreamSource("pypi_meta", dep.name),
             extra={"kind": "inline_install_pip"},
         ))
     return candidates, skipped
@@ -655,7 +655,7 @@ def _enumerate_from_image_candidates(
             file=dockerfile,
             current_version=ref.tag,
             target_version=target_tag,
-            upstream=None,
+            upstream=UpstreamSource("oci_tag", locator),
         ))
     return candidates, skipped
 
@@ -970,7 +970,7 @@ def _enumerate_yaml_image_candidates(
                 file=manifest.path,
                 current_version=current_tag,
                 target_version=target_tag,
-                upstream=None,
+                upstream=UpstreamSource("oci_tag", locator),
             ))
     return candidates, skipped
 
@@ -1055,7 +1055,7 @@ def _enumerate_helm_chart_candidates(
                 file=manifest.path,
                 current_version=current_version,
                 target_version=target_version,
-                upstream=None,
+                upstream=UpstreamSource("helm_index", dep.name),
                 extra={"repository": repo},
             ))
     return candidates, skipped
@@ -1164,7 +1164,7 @@ def _enumerate_git_submodule_candidates(
                 file=manifest.path,
                 current_version=current_sha,
                 target_version=target_tag,    # human-readable tag
-                upstream=None,
+                upstream=UpstreamSource("git_remote", repo),
                 extra={
                     "old_sha": current_sha,
                     "new_sha": target_sha,
@@ -1286,7 +1286,7 @@ def _enumerate_gha_uses_candidates(
                 file=workflow,
                 current_version=current_tag,
                 target_version=target_tag,
-                upstream=None,
+                upstream=UpstreamSource("github_release", repo),
                 extra={
                     "old_sha": current_sha,
                     "new_sha": target_sha,
@@ -1340,7 +1340,7 @@ def _enumerate_gha_uses_candidates(
             file=workflow,
             current_version=ref,
             target_version=target_ref,
-            upstream=None,
+            upstream=UpstreamSource("github_release", repo),
         ))
     return candidates, skipped
 

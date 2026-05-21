@@ -451,7 +451,12 @@ def test_inline_install_pip_pinned_becomes_candidate(
     assert inline[0].locator == "semgrep"
     assert inline[0].current_version == "1.161.0"
     assert inline[0].target_version == "1.163.0"
-    assert inline[0].upstream is None
+    # Upstream populated as ``pypi_meta`` for inline_install_pip
+    # (was None pre-2026-05-20 polish; updated to record the
+    # PyPI lookup coordinate for ``--json`` audit completeness).
+    assert inline[0].upstream is not None
+    assert inline[0].upstream.kind == "pypi_meta"
+    assert inline[0].upstream.coordinate == "semgrep"
     assert inline[0].extra == {"kind": "inline_install_pip"}
 
 

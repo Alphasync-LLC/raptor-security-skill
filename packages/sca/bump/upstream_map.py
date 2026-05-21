@@ -28,24 +28,43 @@ from typing import Dict, Literal, Optional
 
 @dataclass(frozen=True)
 class UpstreamSource:
-    """Where to look up the latest stable version for an ARG.
+    """Where to look up the latest stable version.
+
+    Originally an ARG-pin-only concept; expanded 2026-05-20 to
+    also annotate the other bump-candidate kinds for audit-trail
+    completeness (so ``--json`` output records the upstream
+    source coordinate for every candidate, not just ARG pins).
 
     ``kind`` discriminates the registry:
       * ``"github_release"`` — GitHub releases API
-        (``/repos/{coord}/releases/latest``)
+        (``/repos/{coord}/releases/latest``). Used by ARG ↔
+        GitHub-release-tagging projects (semgrep, ruff, mypy …)
+        AND by ``gha_uses:`` candidates (each ``uses:`` ref is
+        an ``owner/repo``).
       * ``"github_tag"`` — GitHub tags API
         (``/repos/{coord}/tags``; for projects that tag but
-        don't cut releases)
-      * Future: ``"oci_tag"``, ``"helm_index"``, ``"pypi_meta"``,
-        ``"npm_meta"`` for surfaces where the upstream-latest
-        lives elsewhere.
+        don't cut releases).
+      * ``"oci_tag"`` — OCI/Docker registry tag list. Used by
+        ``from_image`` (Dockerfile FROM) and ``yaml_image``
+        (k8s / compose / GitLab CI ``image:``) candidates.
+        ``coordinate`` is the ``registry/repository`` string.
+      * ``"pypi_meta"`` — PyPI registry. Used by
+        ``inline_install_pip`` candidates (``RUN pip install
+        pkg==N`` patterns). ``coordinate`` is the package name.
+      * ``"helm_index"`` — Helm chart index. Used by
+        ``helm_chart`` candidates. ``coordinate`` is the chart
+        name (operator-supplied; index URL configured
+        elsewhere).
+      * ``"git_remote"`` — direct git refs. Used by
+        ``git_submodule`` candidates. ``coordinate`` is the
+        remote URL.
 
-    ``coordinate`` is kind-specific:
-      * github_*: ``"owner/repo"``
-      * future kinds: see their dispatch wiring
-    """
+    ``coordinate`` is kind-specific (see above)."""
 
-    kind: Literal["github_release", "github_tag"]
+    kind: Literal[
+        "github_release", "github_tag",
+        "oci_tag", "pypi_meta", "helm_index", "git_remote",
+    ]
     coordinate: str
 
 
