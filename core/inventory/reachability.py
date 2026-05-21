@@ -65,6 +65,7 @@ import logging
 import os
 import re
 import threading
+from collections import OrderedDict
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Dict, FrozenSet, Iterable, List, Optional, Set, Tuple, Union
@@ -825,7 +826,13 @@ class _AdjacencyIndex:
 # (``len > _CACHE_MAX_ENTRIES`` check then ``next(iter(...))``
 # then ``pop``), and dict iteration is not safe across concurrent
 # mutation.
-_INDEX_CACHE: Dict[int, Tuple[Dict[str, Any], "_AdjacencyIndex"]] = {}
+# OrderedDict so eviction picks the least-recently-USED entry rather
+# than the oldest-by-insertion. Pre-fix the eviction at
+# ``next(iter(_INDEX_CACHE))`` always dropped the FIRST-inserted slot,
+# even if it had just been read 1ms before — anti-LRU semantics that
+# hurt the hot-cache case worst. Cache hits now ``move_to_end`` to
+# keep recently-touched entries warm.
+_INDEX_CACHE: "OrderedDict[int, Tuple[Dict[str, Any], _AdjacencyIndex]]" = OrderedDict()
 _CACHE_MAX_ENTRIES = 64
 _INDEX_CACHE_LOCK = threading.Lock()
 
@@ -850,6 +857,9 @@ def _get_or_build_index(
             # Identity check: id() reuse can't happen while the cache
             # holds the dict, but a paranoid check costs nothing.
             if cached_inv is inventory:
+                # Move to end to mark as recently-used for LRU
+                # eviction. Cheap under the existing lock.
+                _INDEX_CACHE.move_to_end(inv_id)
                 return cached_idx
             # Stale slot — collision after eviction. Drop and rebuild.
             _INDEX_CACHE.pop(inv_id, None)
@@ -866,9 +876,8 @@ def _get_or_build_index(
     if persisted is not None:
         with _INDEX_CACHE_LOCK:
             _INDEX_CACHE[inv_id] = (inventory, persisted)
-            if len(_INDEX_CACHE) > _CACHE_MAX_ENTRIES:
-                oldest = next(iter(_INDEX_CACHE))
-                _INDEX_CACHE.pop(oldest, None)
+            while len(_INDEX_CACHE) > _CACHE_MAX_ENTRIES:
+                _INDEX_CACHE.popitem(last=False)
         return persisted
 
     idx = _AdjacencyIndex()
@@ -1215,10 +1224,12 @@ def _get_or_build_index(
 
     with _INDEX_CACHE_LOCK:
         _INDEX_CACHE[inv_id] = (inventory, idx)
-        if len(_INDEX_CACHE) > _CACHE_MAX_ENTRIES:
-            # Drop the oldest entry. dict preserves insertion order.
-            oldest = next(iter(_INDEX_CACHE))
-            _INDEX_CACHE.pop(oldest, None)
+        # LRU eviction (``popitem(last=False)``) — same shape as the
+        # paired insert site above. ``while`` rather than ``if`` so a
+        # future cap reduction (or test bumping max=0) doesn't leak
+        # extra entries.
+        while len(_INDEX_CACHE) > _CACHE_MAX_ENTRIES:
+            _INDEX_CACHE.popitem(last=False)
 
     # Persist for the next process. Best-effort: any IO failure is
     # logged at debug and swallowed (the in-process cache is hot;
