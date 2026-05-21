@@ -134,6 +134,26 @@ def run_rule(
             returncode=-1,
         )
 
+    # Size cap on the .cocci rule body. Operator-supplied today, but
+    # the cocci_utilization arc proposes deriving rules from
+    # scanned-repo content — this prevents a hostile rule from
+    # OOMing the runner via a multi-GiB file. Real coccinelle rules
+    # are <100 KiB; 1 MiB is generous.
+    _RULE_MAX_BYTES = 1 * 1024 * 1024
+    try:
+        if rule.stat().st_size > _RULE_MAX_BYTES:
+            return SpatchResult(
+                rule=rule_name, rule_path=str(rule),
+                errors=[f"Rule file exceeds {_RULE_MAX_BYTES}-byte cap"],
+                returncode=-1,
+            )
+    except OSError as e:
+        return SpatchResult(
+            rule=rule_name, rule_path=str(rule),
+            errors=[f"Rule file stat failed: {e}"],
+            returncode=-1,
+        )
+
     rule_text = rule.read_text()
     needs_harness = RESULT_PREFIX not in rule_text and "script:python" not in rule_text
 

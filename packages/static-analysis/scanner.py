@@ -925,7 +925,17 @@ def _pack_provenance_from_sarif(sarif_path: Path, out_dir: Path) -> dict:
         name = stem
 
     # Hash + size + findings — read bytes once.
+    # Size cap (128 MiB) — a hostile rule-pack producing arbitrarily
+    # large SARIF would otherwise OOM the post-scan analysis.
+    _SARIF_MAX_BYTES = 128 * 1024 * 1024
     try:
+        try:
+            if p.stat().st_size > _SARIF_MAX_BYTES:
+                # Treat oversize SARIF as unreadable — caller's
+                # existing OSError branch handles the messaging.
+                raise OSError(f"SARIF exceeds {_SARIF_MAX_BYTES}-byte cap")
+        except OSError:
+            raise
         raw = p.read_bytes()
         sarif_sha256 = sha256_bytes(raw)
         try:
