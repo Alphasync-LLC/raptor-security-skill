@@ -1224,26 +1224,3 @@ class LLMClient:
                 "task_type_costs": dict(self.task_type_costs),
             }
 
-    def reset_stats(self) -> None:
-        """Reset usage statistics.
-
-        Per-provider counters are reset under EACH provider's own
-        `_usage_lock` (the same lock `track_usage` holds while
-        mutating those fields). Pre-fix the per-provider mutations
-        ran without that lock, racy against concurrent `track_usage`
-        calls — a track_usage in flight at reset time could either
-        write into the post-reset zero state (silently re-injecting
-        stale counts) or land on a half-updated tuple of fields.
-        """
-        with self._stats_lock:
-            self.total_cost = 0.0
-            self.request_count = 0
-            self.task_type_costs.clear()
-        for provider in self.providers.values():
-            with provider._usage_lock:
-                provider.total_tokens = 0
-                provider.total_input_tokens = 0
-                provider.total_output_tokens = 0
-                provider.total_cost = 0.0
-                provider.call_count = 0
-                provider.total_duration = 0.0

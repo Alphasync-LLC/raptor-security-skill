@@ -1546,12 +1546,6 @@ def get_proxy(allowed_hosts: Iterable[str]) -> EgressProxy:
         return _instance
 
 
-def is_proxy_started() -> bool:
-    """True if the singleton has been created. Used by tests."""
-    with _lock:
-        return _instance is not None
-
-
 def _reset_for_tests() -> None:
     """Tear down the singleton. Test-only."""
     global _instance

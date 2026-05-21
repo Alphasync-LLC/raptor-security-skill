@@ -958,15 +958,3 @@ class LLMConfig:
                 return model
         return self.primary_model
 
-    def get_available_models(self) -> List[ModelConfig]:
-        """Get list of all available models (primary + fallbacks)."""
-        models = [self.primary_model] if self.primary_model else []
-        if self.enable_fallback:
-            models.extend(self.fallback_models)
-        return [m for m in models if m.enabled]
-
-    def get_retry_delay(self, api_base: Optional[str] = None) -> float:
-        """Get appropriate retry delay based on server location."""
-        if api_base and ("localhost" not in api_base and "127.0.0.1" not in api_base):
-            return self.retry_delay_remote
-        return self.retry_delay

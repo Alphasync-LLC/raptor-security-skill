@@ -196,17 +196,6 @@ class DecisionClassStats:
     events: Dict[str, _EventCounts]
     disagreement_samples: List[Dict[str, str]] = field(default_factory=list)
 
-    def cheap_total(self) -> int:
-        """Convenience: total observations for the cheap-short-circuit
-        event type. The denominator for the trust gate."""
-        return self.events[EventType.CHEAP_SHORT_CIRCUIT].total()
-
-    def cheap_miss_count(self) -> int:
-        """Convenience: count of times cheap was wrong (the cell's
-        ``incorrect`` count for cheap_short_circuit)."""
-        return self.events[EventType.CHEAP_SHORT_CIRCUIT].incorrect
-
-
 def _wilson_upper_bound(successes: int, failures: int, *,
                          z: float = 1.96) -> float:
     """Wilson 95% upper bound on the failure-rate parameter.

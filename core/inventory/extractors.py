@@ -1471,7 +1471,7 @@ def count_sloc(content: str, language: str, _tree=None) -> int:
     """
     lines = content.splitlines()
     total = len(lines)
-    blank = sum(1 for l in lines if not l.strip())
+    blank = sum(1 for line in lines if not line.strip())
 
     # Use cached tree if provided
     if _tree is not None:
