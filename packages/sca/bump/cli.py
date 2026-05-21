@@ -84,11 +84,14 @@ def main(argv: Sequence[str]) -> int:
     )
     parser.add_argument(
         "--trust-repo", action="store_true",
-        help="treat the target as trusted; opt out of safety gates "
-             "that refuse to operate on untrusted content. Mirrors "
-             "the same flag on ``raptor-sca`` (scan) and "
-             "``raptor-sca fix --harden`` for consistent operator "
-             "experience across subcommands.",
+        help="Set the process-wide ``cc_trust`` override. NO "
+             "behaviour change in raptor-sca bump itself — bump's "
+             "defenses (sandbox + egress proxy + atomic write + "
+             "verdict-gated apply) are not trust-gated. Provided "
+             "for cross-subcommand consistency; the override IS "
+             "consulted by adjacent subsystems (``/agentic`` LLM "
+             "dispatch, CodeQL build trust) when they run in the "
+             "same process.",
     )
     parser.add_argument(
         "-v", "--verbose", action="count", default=0,

@@ -137,10 +137,14 @@ def add_scan_args(parser: argparse.ArgumentParser) -> None:
     )
     parser.add_argument(
         "--trust-repo", action="store_true",
-        help="treat the target as trusted; opt out of safety gates that "
-             "refuse to scan untrusted content. Honoured by future "
-             "sandbox-gated operations (resolver execution, registry "
-             "metadata fetches against untrusted-repo-supplied URLs).",
+        help="Set the process-wide ``cc_trust`` override. NO behaviour "
+             "change in raptor-sca itself — SCA's defenses (sandbox + "
+             "egress proxy + atomic write + signal-checked bumps) "
+             "are not trust-gated. Provided for cross-subcommand "
+             "consistency so the same flag works on every RAPTOR "
+             "entry point; the override IS consulted by adjacent "
+             "subsystems (``/agentic`` LLM dispatch, CodeQL build "
+             "trust check) when they run in the same process.",
     )
     parser.add_argument(
         "--baseline", metavar="PATH",

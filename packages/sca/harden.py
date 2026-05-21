@@ -1022,9 +1022,15 @@ def _parse_args(argv: Sequence[str]) -> argparse.Namespace:
                         "exit 1 otherwise. Suitable for CI gates. Doesn't "
                         "emit a patch.")
     p.add_argument("--trust-repo", action="store_true",
-                   help="treat the target as trusted; opt out of safety "
-                        "gates that refuse to operate on untrusted content. "
-                        "Honoured by sandbox-gated operations when present.")
+                   help="Set the process-wide ``cc_trust`` override. "
+                        "NO behaviour change in fix --harden itself — "
+                        "harden's defenses (sandbox + egress proxy + "
+                        "atomic write + supply-chain signal gate) are "
+                        "not trust-gated. Provided for cross-subcommand "
+                        "consistency; the override IS consulted by "
+                        "adjacent subsystems (``/agentic`` LLM dispatch, "
+                        "CodeQL build trust) when they run in the same "
+                        "process.")
     p.add_argument("--ecosystems",
                    help="comma-separated allowlist of ecosystems to "
                         "consider (e.g. ``PyPI,npm``). Candidates from "
