@@ -1,0 +1,162 @@
+{
+  "improvement": 0.0,
+  "improvement_threshold": 0.05,
+  "max_delta": 0.1,
+  "notes": [
+    "baseline top-20 precision = 1.000 on 4252 samples",
+    "_KEV_FLOOR=106.5 rejected: _KEV_FLOOR=106.48 outside bounds [0.0, 100.0]",
+    "_KEV_MULTIPLIER=1.307 rejected: cross-constraint violated: exploit_evidence_strictly_below_kev",
+    "_SSVC_ACTIVE_FLOOR=106.5 rejected: _SSVC_ACTIVE_FLOOR=106.48 outside bounds [0.0, 100.0]",
+    "_SSVC_ACTIVE_MULTIPLIER=1.307 rejected: cross-constraint violated: ssvc_poc_strictly_below_active",
+    "_SSVC_AUTOMATABLE_BONUS=0.99 rejected: _SSVC_AUTOMATABLE_BONUS=0.9900000000000001 outside bounds [1.0, 1.5]",
+    "accepted on \u03c1 improvement +0.091 (P20 improvement +0.000)",
+    "joint improvement 0.000 \u2265 threshold 0.050; refit ready to apply"
+  ],
+  "overall_baseline_precision": 1.0,
+  "overall_proposed_precision": 1.0,
+  "per_constant": [
+    {
+      "baseline_precision": 1.0,
+      "changed": false,
+      "current": 96.8,
+      "name": "_KEV_FLOOR",
+      "proposed": 96.8,
+      "proposed_precision": 1.0
+    },
+    {
+      "baseline_precision": 1.0,
+      "changed": true,
+      "current": 1.452,
+      "name": "_KEV_MULTIPLIER",
+      "proposed": 1.5972000000000002,
+      "proposed_precision": 1.0
+    },
+    {
+      "baseline_precision": 1.0,
+      "changed": true,
+      "current": 66.0,
+      "name": "_EXPLOIT_EVIDENCE_FLOOR",
+      "proposed": 72.60000000000001,
+      "proposed_precision": 1.0
+    },
+    {
+      "baseline_precision": 1.0,
+      "changed": true,
+      "current": 1.309,
+      "name": "_EXPLOIT_EVIDENCE_MULTIPLIER",
+      "proposed": 1.4399,
+      "proposed_precision": 1.0
+    },
+    {
+      "baseline_precision": 1.0,
+      "changed": false,
+      "current": 96.8,
+      "name": "_SSVC_ACTIVE_FLOOR",
+      "proposed": 96.8,
+      "proposed_precision": 1.0
+    },
+    {
+      "baseline_precision": 1.0,
+      "changed": false,
+      "current": 1.452,
+      "name": "_SSVC_ACTIVE_MULTIPLIER",
+      "proposed": 1.452,
+      "proposed_precision": 1.0
+    },
+    {
+      "baseline_precision": 1.0,
+      "changed": true,
+      "current": 66.0,
+      "name": "_SSVC_POC_FLOOR",
+      "proposed": 72.60000000000001,
+      "proposed_precision": 1.0
+    },
+    {
+      "baseline_precision": 1.0,
+      "changed": true,
+      "current": 1.309,
+      "name": "_SSVC_POC_MULTIPLIER",
+      "proposed": 1.4399,
+      "proposed_precision": 1.0
+    },
+    {
+      "baseline_precision": 1.0,
+      "changed": true,
+      "current": 1.1,
+      "name": "_SSVC_AUTOMATABLE_BONUS",
+      "proposed": 1.2100000000000002,
+      "proposed_precision": 1.0
+    },
+    {
+      "baseline_precision": 1.0,
+      "changed": true,
+      "current": 0.33,
+      "name": "_EPSS_FLOOR_MULTIPLIER",
+      "proposed": 0.36300000000000004,
+      "proposed_precision": 1.0
+    },
+    {
+      "baseline_precision": 1.0,
+      "changed": true,
+      "current": 0.63,
+      "name": "_EPSS_RANGE_MULTIPLIER",
+      "proposed": 0.5670000000000001,
+      "proposed_precision": 1.0
+    },
+    {
+      "baseline_precision": 1.0,
+      "changed": true,
+      "current": 0.567,
+      "name": "_REACH_NOT_REACHABLE_MAX_REDUCTION",
+      "proposed": 0.5103,
+      "proposed_precision": 1.0
+    },
+    {
+      "baseline_precision": 1.0,
+      "changed": true,
+      "current": 0.8415,
+      "name": "_REACH_NOT_EVALUATED_MULTIPLIER",
+      "proposed": 0.7573500000000001,
+      "proposed_precision": 1.0
+    },
+    {
+      "baseline_precision": 1.0,
+      "changed": false,
+      "current": 0.5,
+      "name": "_EXPO_FLOOR_MULTIPLIER",
+      "proposed": 0.5,
+      "proposed_precision": 1.0
+    },
+    {
+      "baseline_precision": 1.0,
+      "changed": false,
+      "current": 0.5,
+      "name": "_EXPO_RANGE_MULTIPLIER",
+      "proposed": 0.5,
+      "proposed_precision": 1.0
+    },
+    {
+      "baseline_precision": 1.0,
+      "changed": false,
+      "current": 0.7,
+      "name": "_DEPTH_DECAY_BASE",
+      "proposed": 0.7,
+      "proposed_precision": 1.0
+    }
+  ],
+  "proposed_values": {
+    "_EPSS_FLOOR_MULTIPLIER": 0.36300000000000004,
+    "_EPSS_RANGE_MULTIPLIER": 0.5670000000000001,
+    "_EXPLOIT_EVIDENCE_FLOOR": 72.60000000000001,
+    "_EXPLOIT_EVIDENCE_MULTIPLIER": 1.4399,
+    "_KEV_MULTIPLIER": 1.5972000000000002,
+    "_REACH_NOT_EVALUATED_MULTIPLIER": 0.7573500000000001,
+    "_REACH_NOT_REACHABLE_MAX_REDUCTION": 0.5103,
+    "_SSVC_AUTOMATABLE_BONUS": 1.2100000000000002,
+    "_SSVC_POC_FLOOR": 72.60000000000001,
+    "_SSVC_POC_MULTIPLIER": 1.4399
+  },
+  "sample_count": 4252,
+  "snapshot_date": "2026-05-22",
+  "status": "proposed"
+}

@@ -49,7 +49,7 @@
       "finding_id": "sca:vuln:RubyGems:activerecord-session_store:1.1.3:GHSA-cvw2-xj8r-mjf7",
       "in_kev": false,
       "purl": "pkg:gem/activerecord-session_store@1.1.3",
-      "raptor_risk_estimate": 4.7722422130233,
+      "raptor_risk_estimate": 5.592299385693872,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -114,7 +114,7 @@
       "finding_id": "sca:vuln:RubyGems:aws-sdk-s3:1.77.0:GHSA-2xgq-q749-89fq",
       "in_kev": false,
       "purl": "pkg:gem/aws-sdk-s3@1.77.0",
-      "raptor_risk_estimate": 7.8938692237499986,
+      "raptor_risk_estimate": 8.682954801375,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -178,7 +178,7 @@
       "finding_id": "sca:vuln:RubyGems:bcrypt:3.1.15:GHSA-f27w-vcwj-c954",
       "in_kev": false,
       "purl": "pkg:gem/bcrypt@3.1.15",
-      "raptor_risk_estimate": 4.491227979560625,
+      "raptor_risk_estimate": 4.212248566905284,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -245,7 +245,7 @@
       "finding_id": "sca:vuln:RubyGems:bundler:1.15:GHSA-fj7f-vq84-fh43",
       "in_kev": false,
       "purl": "pkg:gem/bundler@1.15",
-      "raptor_risk_estimate": 10.272941486625001,
+      "raptor_risk_estimate": 11.2410748379625,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -315,7 +315,7 @@
       "finding_id": "sca:vuln:RubyGems:bundler:1.15:GHSA-g98m-96g9-wfjq",
       "in_kev": false,
       "purl": "pkg:gem/bundler@1.15",
-      "raptor_risk_estimate": 10.45392418875,
+      "raptor_risk_estimate": 11.493306769874998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -385,7 +385,7 @@
       "finding_id": "sca:vuln:RubyGems:bundler:1.15:GHSA-jvgm-pfqv-887x",
       "in_kev": false,
       "purl": "pkg:gem/bundler@1.15",
-      "raptor_risk_estimate": 15.367659263250001,
+      "raptor_risk_estimate": 16.749578336924998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -455,7 +455,7 @@
       "finding_id": "sca:vuln:RubyGems:dalli:2.7.6:GHSA-3xg8-cc8f-9wv2",
       "in_kev": false,
       "purl": "pkg:gem/dalli@2.7.6",
-      "raptor_risk_estimate": 5.541423598875,
+      "raptor_risk_estimate": 6.089233738987499,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -524,7 +524,7 @@
       "finding_id": "sca:vuln:RubyGems:kubeclient:4.9.0:GHSA-69p3-xp37-f692",
       "in_kev": false,
       "purl": "pkg:gem/kubeclient@4.9.0",
-      "raptor_risk_estimate": 7.293565655965011,
+      "raptor_risk_estimate": 8.54685491805541,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -590,7 +590,7 @@
       "finding_id": "sca:vuln:RubyGems:puma:4.3.5:GHSA-48w2-rm65-62xx",
       "in_kev": false,
       "purl": "pkg:gem/puma@4.3.5",
-      "raptor_risk_estimate": 3.3412078797455997,
+      "raptor_risk_estimate": 3.913307485908936,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -656,7 +656,7 @@
       "finding_id": "sca:vuln:RubyGems:puma:4.3.5:GHSA-68xg-gqqm-vgj8",
       "in_kev": false,
       "purl": "pkg:gem/puma@4.3.5",
-      "raptor_risk_estimate": 8.864639935215225,
+      "raptor_risk_estimate": 10.379321086051831,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -722,7 +722,7 @@
       "finding_id": "sca:vuln:RubyGems:puma:4.3.5:GHSA-9hf4-67fc-4vf4",
       "in_kev": false,
       "purl": "pkg:gem/puma@4.3.5",
-      "raptor_risk_estimate": 4.918113302436224,
+      "raptor_risk_estimate": 5.751367055700841,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -788,7 +788,7 @@
       "finding_id": "sca:vuln:RubyGems:puma:4.3.5:GHSA-c2f4-cvqm-65w2",
       "in_kev": false,
       "purl": "pkg:gem/puma@4.3.5",
-      "raptor_risk_estimate": 5.547586628870251,
+      "raptor_risk_estimate": 6.450895580684902,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -854,7 +854,7 @@
       "finding_id": "sca:vuln:RubyGems:puma:4.3.5:GHSA-h99w-9q5r-gjq9",
       "in_kev": false,
       "purl": "pkg:gem/puma@4.3.5",
-      "raptor_risk_estimate": 8.237692286415635,
+      "raptor_risk_estimate": 9.643927477907912,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -920,7 +920,7 @@
       "finding_id": "sca:vuln:RubyGems:puma:4.3.5:GHSA-q28m-8xjw-8vr5",
       "in_kev": false,
       "purl": "pkg:gem/puma@4.3.5",
-      "raptor_risk_estimate": 6.910310342638124,
+      "raptor_risk_estimate": 8.06436195434938,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -986,7 +986,7 @@
       "finding_id": "sca:vuln:RubyGems:puma:4.3.5:GHSA-rmj8-8hhh-gv5h",
       "in_kev": false,
       "purl": "pkg:gem/puma@4.3.5",
-      "raptor_risk_estimate": 7.245219197552999,
+      "raptor_risk_estimate": 8.481335700717928,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1049,7 +1049,7 @@
       "finding_id": "sca:vuln:RubyGems:actionmailer:5.2.4.3:GHSA-h47h-mwp9-c6q6",
       "in_kev": false,
       "purl": "pkg:gem/actionmailer@5.2.4.3",
-      "raptor_risk_estimate": 4.517631863413124,
+      "raptor_risk_estimate": 4.232510463441704,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1115,7 +1115,7 @@
       "finding_id": "sca:vuln:RubyGems:actionpack:5.2.4.3:GHSA-4g8v-vg43-wpgf",
       "in_kev": false,
       "purl": "pkg:gem/actionpack@5.2.4.3",
-      "raptor_risk_estimate": 3.6065615239155,
+      "raptor_risk_estimate": 4.225274071821554,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1183,7 +1183,7 @@
       "finding_id": "sca:vuln:RubyGems:actionpack:5.2.4.3:GHSA-7wjx-3g7j-8584",
       "in_kev": false,
       "purl": "pkg:gem/actionpack@5.2.4.3",
-      "raptor_risk_estimate": 7.745890394294998,
+      "raptor_risk_estimate": 8.865874558003949,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1245,7 +1245,7 @@
       "finding_id": "sca:vuln:RubyGems:actionpack:5.2.4.3:GHSA-8xww-x3g3-6jcv",
       "in_kev": false,
       "purl": "pkg:gem/actionpack@5.2.4.3",
-      "raptor_risk_estimate": 4.602244309394999,
+      "raptor_risk_estimate": 4.29744063188796,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1313,7 +1313,7 @@
       "finding_id": "sca:vuln:RubyGems:actionpack:5.2.4.3:GHSA-hjg4-8q5f-x6fm",
       "in_kev": false,
       "purl": "pkg:gem/actionpack@5.2.4.3",
-      "raptor_risk_estimate": 7.133800359532499,
+      "raptor_risk_estimate": 8.278740056096323,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1381,7 +1381,7 @@
       "finding_id": "sca:vuln:RubyGems:actionpack:5.2.4.3:GHSA-mm33-5vfq-3mm3",
       "in_kev": false,
       "purl": "pkg:gem/actionpack@5.2.4.3",
-      "raptor_risk_estimate": 5.518831950250387,
+      "raptor_risk_estimate": 6.461601045889063,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1444,7 +1444,7 @@
       "finding_id": "sca:vuln:RubyGems:actionpack:5.2.4.3:GHSA-p84v-45xj-wwqj",
       "in_kev": false,
       "purl": "pkg:gem/actionpack@5.2.4.3",
-      "raptor_risk_estimate": 4.684542129194999,
+      "raptor_risk_estimate": 4.360594595118359,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1507,7 +1507,7 @@
       "finding_id": "sca:vuln:RubyGems:actionpack:5.2.4.3:GHSA-vfg9-r3fq-jvx4",
       "in_kev": false,
       "purl": "pkg:gem/actionpack@5.2.4.3",
-      "raptor_risk_estimate": 4.513859880005624,
+      "raptor_risk_estimate": 4.2296159067936445,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1572,7 +1572,7 @@
       "finding_id": "sca:vuln:RubyGems:actionpack:5.2.4.3:GHSA-vfm5-rmrh-j26v",
       "in_kev": false,
       "purl": "pkg:gem/actionpack@5.2.4.3",
-      "raptor_risk_estimate": 4.50674454766875,
+      "raptor_risk_estimate": 4.224155720389349,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1640,7 +1640,7 @@
       "finding_id": "sca:vuln:RubyGems:actionpack:5.2.4.3:GHSA-wh98-p28r-vrc9",
       "in_kev": false,
       "purl": "pkg:gem/actionpack@5.2.4.3",
-      "raptor_risk_estimate": 6.684318896574075,
+      "raptor_risk_estimate": 7.8284405160674995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1705,7 +1705,7 @@
       "finding_id": "sca:vuln:RubyGems:actionpack:5.2.4.3:GHSA-x76w-6vjr-8xgj",
       "in_kev": false,
       "purl": "pkg:gem/actionpack@5.2.4.3",
-      "raptor_risk_estimate": 4.538206318363124,
+      "raptor_risk_estimate": 4.248298954249304,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1771,7 +1771,7 @@
       "finding_id": "sca:vuln:RubyGems:actionview:5.2.4.3:GHSA-cfjv-5498-mph5",
       "in_kev": false,
       "purl": "pkg:gem/actionview@5.2.4.3",
-      "raptor_risk_estimate": 4.9593136484736,
+      "raptor_risk_estimate": 5.790887621753615,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1839,7 +1839,7 @@
       "finding_id": "sca:vuln:RubyGems:actionview:5.2.4.3:GHSA-ch3h-j2vf-95pv",
       "in_kev": false,
       "purl": "pkg:gem/actionview@5.2.4.3",
-      "raptor_risk_estimate": 5.587231725731662,
+      "raptor_risk_estimate": 6.5272120930013955,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1902,7 +1902,7 @@
       "finding_id": "sca:vuln:RubyGems:actionview:5.2.4.3:GHSA-v55j-83pf-r9cq",
       "in_kev": false,
       "purl": "pkg:gem/actionview@5.2.4.3",
-      "raptor_risk_estimate": 4.4925996098906245,
+      "raptor_risk_estimate": 4.213301132959124,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1968,7 +1968,7 @@
       "finding_id": "sca:vuln:RubyGems:actionview:5.2.4.3:GHSA-xp5h-f8jf-rc8q",
       "in_kev": false,
       "purl": "pkg:gem/actionview@5.2.4.3",
-      "raptor_risk_estimate": 5.6743935263001,
+      "raptor_risk_estimate": 6.649108004718081,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2036,7 +2036,7 @@
       "finding_id": "sca:vuln:RubyGems:activerecord:5.2.4.3:GHSA-3hhc-qp5v-9p2j",
       "in_kev": false,
       "purl": "pkg:gem/activerecord@5.2.4.3",
-      "raptor_risk_estimate": 9.114492687052202,
+      "raptor_risk_estimate": 10.618987087242282,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2102,7 +2102,7 @@
       "finding_id": "sca:vuln:RubyGems:activerecord:5.2.4.3:GHSA-579w-22j4-4749",
       "in_kev": false,
       "purl": "pkg:gem/activerecord@5.2.4.3",
-      "raptor_risk_estimate": 6.934099556174061,
+      "raptor_risk_estimate": 8.087181257469739,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2165,7 +2165,7 @@
       "finding_id": "sca:vuln:RubyGems:activerecord:5.2.4.3:GHSA-76r7-hhxj-r776",
       "in_kev": false,
       "purl": "pkg:gem/activerecord@5.2.4.3",
-      "raptor_risk_estimate": 4.517803317204375,
+      "raptor_risk_estimate": 4.2326420341984345,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2232,7 +2232,7 @@
       "finding_id": "sca:vuln:RubyGems:activerecord:5.2.4.3:GHSA-8hc4-xxm3-5ppp",
       "in_kev": false,
       "purl": "pkg:gem/activerecord@5.2.4.3",
-      "raptor_risk_estimate": 7.069890958844062,
+      "raptor_risk_estimate": 8.21743630663244,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2295,7 +2295,7 @@
       "finding_id": "sca:vuln:RubyGems:activestorage:5.2.4.3:GHSA-73f9-jhhh-hr5m",
       "in_kev": false,
       "purl": "pkg:gem/activestorage@5.2.4.3",
-      "raptor_risk_estimate": 4.4928567905775,
+      "raptor_risk_estimate": 4.21349848909422,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2362,7 +2362,7 @@
       "finding_id": "sca:vuln:RubyGems:activestorage:5.2.4.3:GHSA-8h22-8cf7-hq6g",
       "in_kev": false,
       "purl": "pkg:gem/activestorage@5.2.4.3",
-      "raptor_risk_estimate": 5.041855014301836,
+      "raptor_risk_estimate": 5.850919799025737,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2425,7 +2425,7 @@
       "finding_id": "sca:vuln:RubyGems:activestorage:5.2.4.3:GHSA-9xrj-h377-fr87",
       "in_kev": false,
       "purl": "pkg:gem/activestorage@5.2.4.3",
-      "raptor_risk_estimate": 4.493542605742499,
+      "raptor_risk_estimate": 4.214024772121139,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2492,7 +2492,7 @@
       "finding_id": "sca:vuln:RubyGems:activestorage:5.2.4.3:GHSA-p9fm-f462-ggrg",
       "in_kev": false,
       "purl": "pkg:gem/activestorage@5.2.4.3",
-      "raptor_risk_estimate": 5.83982226803625,
+      "raptor_risk_estimate": 6.846079834859361,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2555,7 +2555,7 @@
       "finding_id": "sca:vuln:RubyGems:activestorage:5.2.4.3:GHSA-qcfx-2mfw-w4cg",
       "in_kev": false,
       "purl": "pkg:gem/activestorage@5.2.4.3",
-      "raptor_risk_estimate": 4.491742340934374,
+      "raptor_risk_estimate": 4.212643279175475,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2618,7 +2618,7 @@
       "finding_id": "sca:vuln:RubyGems:activestorage:5.2.4.3:GHSA-r46p-8f7g-vvvg",
       "in_kev": false,
       "purl": "pkg:gem/activestorage@5.2.4.3",
-      "raptor_risk_estimate": 4.492428156099375,
+      "raptor_risk_estimate": 4.213169562202395,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2681,7 +2681,7 @@
       "finding_id": "sca:vuln:RubyGems:activestorage:5.2.4.3:GHSA-r4mg-4433-c7g3",
       "in_kev": false,
       "purl": "pkg:gem/activestorage@5.2.4.3",
-      "raptor_risk_estimate": 7.789928159005716,
+      "raptor_risk_estimate": 13.361731464345352,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2705,7 +2705,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -2750,7 +2751,7 @@
       "finding_id": "sca:vuln:RubyGems:activestorage:5.2.4.3:GHSA-w749-p3v6-hccq",
       "in_kev": false,
       "purl": "pkg:gem/activestorage@5.2.4.3",
-      "raptor_risk_estimate": 9.0398897134035,
+      "raptor_risk_estimate": 10.547425752656833,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2813,7 +2814,7 @@
       "finding_id": "sca:vuln:RubyGems:activesupport:5.2.4.3:GHSA-2j26-frm8-cmj9",
       "in_kev": false,
       "purl": "pkg:gem/activesupport@5.2.4.3",
-      "raptor_risk_estimate": 4.493028244368749,
+      "raptor_risk_estimate": 4.213630059850949,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2876,7 +2877,7 @@
       "finding_id": "sca:vuln:RubyGems:activesupport:5.2.4.3:GHSA-89vf-4333-qx8v",
       "in_kev": false,
       "purl": "pkg:gem/activesupport@5.2.4.3",
-      "raptor_risk_estimate": 4.491313706456248,
+      "raptor_risk_estimate": 4.21231435228365,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2939,7 +2940,7 @@
       "finding_id": "sca:vuln:RubyGems:activesupport:5.2.4.3:GHSA-cg4j-q9v8-6v38",
       "in_kev": false,
       "purl": "pkg:gem/activesupport@5.2.4.3",
-      "raptor_risk_estimate": 4.492170975412501,
+      "raptor_risk_estimate": 4.212972206067299,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3005,7 +3006,7 @@
       "finding_id": "sca:vuln:RubyGems:activesupport:5.2.4.3:GHSA-cr5q-6q9f-rq6q",
       "in_kev": false,
       "purl": "pkg:gem/activesupport@5.2.4.3",
-      "raptor_risk_estimate": 4.946103052213126,
+      "raptor_risk_estimate": 5.797359528105131,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3067,7 +3068,7 @@
       "finding_id": "sca:vuln:RubyGems:activesupport:5.2.4.3:GHSA-j6gc-792m-qgm2",
       "in_kev": false,
       "purl": "pkg:gem/activesupport@5.2.4.3",
-      "raptor_risk_estimate": 4.6176751506075,
+      "raptor_risk_estimate": 4.30928199999366,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3133,7 +3134,7 @@
       "finding_id": "sca:vuln:RubyGems:activesupport:5.2.4.3:GHSA-pj73-v5mw-pm9j",
       "in_kev": false,
       "purl": "pkg:gem/activesupport@5.2.4.3",
-      "raptor_risk_estimate": 4.796777250551174,
+      "raptor_risk_estimate": 5.615834104803951,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3196,7 +3197,7 @@
       "finding_id": "sca:vuln:RubyGems:addressable:2.5.2:GHSA-h27x-rffw-24p4",
       "in_kev": false,
       "purl": "pkg:gem/addressable@2.5.2",
-      "raptor_risk_estimate": 6.743785847886561,
+      "raptor_risk_estimate": 7.904626832506864,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3261,7 +3262,7 @@
       "finding_id": "sca:vuln:RubyGems:addressable:2.5.2:GHSA-jxhc-q857-3j6g",
       "in_kev": false,
       "purl": "pkg:gem/addressable@2.5.2",
-      "raptor_risk_estimate": 7.061403996177186,
+      "raptor_risk_estimate": 8.20929536605977,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3326,7 +3327,7 @@
       "finding_id": "sca:vuln:RubyGems:fog-kubevirt:1.3.4:GHSA-m3hq-3qj8-c5fm",
       "in_kev": false,
       "purl": "pkg:gem/fog-kubevirt@1.3.4",
-      "raptor_risk_estimate": 7.276205959600949,
+      "raptor_risk_estimate": 8.530202994156769,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3391,7 +3392,7 @@
       "finding_id": "sca:vuln:RubyGems:fugit:1.3.8:GHSA-2m96-52r3-2f3g",
       "in_kev": false,
       "purl": "pkg:gem/fugit@1.3.8",
-      "raptor_risk_estimate": 4.781420134468912,
+      "raptor_risk_estimate": 5.601103113953568,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3452,7 +3453,7 @@
       "finding_id": "sca:vuln:RubyGems:globalid:0.4.2:GHSA-23c2-gwp5-pxw9",
       "in_kev": false,
       "purl": "pkg:gem/globalid@0.4.2",
-      "raptor_risk_estimate": 4.610302637583749,
+      "raptor_risk_estimate": 4.303624457454269,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3517,7 +3518,7 @@
       "finding_id": "sca:vuln:RubyGems:jmespath:1.4.0:GHSA-5c5f-7vfq-3732",
       "in_kev": false,
       "purl": "pkg:gem/jmespath@1.4.0",
-      "raptor_risk_estimate": 9.15112207501485,
+      "raptor_risk_estimate": 10.65412305782703,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3582,7 +3583,7 @@
       "finding_id": "sca:vuln:RubyGems:loofah:2.6.0:GHSA-228g-948r-83gx",
       "in_kev": false,
       "purl": "pkg:gem/loofah@2.6.0",
-      "raptor_risk_estimate": 5.505131077791601,
+      "raptor_risk_estimate": 6.4484587719261945,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3647,7 +3648,7 @@
       "finding_id": "sca:vuln:RubyGems:loofah:2.6.0:GHSA-3x8r-x6xp-q4vm",
       "in_kev": false,
       "purl": "pkg:gem/loofah@2.6.0",
-      "raptor_risk_estimate": 6.740571089300624,
+      "raptor_risk_estimate": 7.901543142896005,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3712,7 +3713,7 @@
       "finding_id": "sca:vuln:RubyGems:loofah:2.6.0:GHSA-486f-hjj9-9vhh",
       "in_kev": false,
       "purl": "pkg:gem/loofah@2.6.0",
-      "raptor_risk_estimate": 6.767832242109375,
+      "raptor_risk_estimate": 7.927692830796092,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3777,7 +3778,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-286v-pcf5-25rc",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 5.309967105038962,
+      "raptor_risk_estimate": 6.2229640463603095,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3835,7 +3836,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-2qc6-mcvw-92cw",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3902,7 +3903,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-2rr5-8q37-2w7h",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 6.767960832452812,
+      "raptor_risk_estimate": 7.927816178380526,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3963,7 +3964,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-353f-x4gh-cqq8",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4030,7 +4031,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-59gp-qqm7-cw4j",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 7.915877194249202,
+      "raptor_risk_estimate": 9.277801434621852,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4091,7 +4092,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-5w6v-399v-w3cc",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4151,7 +4152,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-7rrm-v45f-jp64",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4213,7 +4214,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-c4rq-3m3g-8wgx",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 13.165201828125,
+      "raptor_risk_estimate": 14.064235156406248,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4277,7 +4278,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-cgx6-hpwq-fhv5",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 15.096098096249996,
+      "raptor_risk_estimate": 16.126989646012497,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4344,7 +4345,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-crjr-9rc5-ghw8",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 6.9079957164562495,
+      "raptor_risk_estimate": 8.062141697829562,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4402,7 +4403,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-fq42-c5rg-92c2",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4467,7 +4468,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-gx8x-g87m-h5q6",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 13.165201828125,
+      "raptor_risk_estimate": 14.064235156406248,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4535,7 +4536,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-jc36-42cf-vqwj",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 6.747129196815938,
+      "raptor_risk_estimate": 7.9078338697021575,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4602,7 +4603,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-jw9f-hh49-cvp9",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 7.739362250370824,
+      "raptor_risk_estimate": 9.070195398067867,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4667,7 +4668,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-mrxw-mxhj-p664",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 13.69180990125,
+      "raptor_risk_estimate": 14.626804562662498,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4728,7 +4729,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-pxvg-2qj5-37jq",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4789,7 +4790,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-r95h-9x8f-r3f7",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4851,7 +4852,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-v2fc-qm4h-8hqv",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 9.303409291874999,
+      "raptor_risk_estimate": 9.938726177193747,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4918,7 +4919,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-v4f8-2847-rwm7",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 7.940923164075001,
+      "raptor_risk_estimate": 9.30182625480075,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4983,7 +4984,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-v6gp-9mmm-c6p5",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 13.165201828125,
+      "raptor_risk_estimate": 14.064235156406248,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -5050,7 +5051,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-vr8q-g5c7-m54m",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 3.914653454630287,
+      "raptor_risk_estimate": 4.5782364608967825,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -5109,7 +5110,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-vvfq-8hwr-qm4m",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -5171,7 +5172,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-wx95-c6cv-8532",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 9.303409291874999,
+      "raptor_risk_estimate": 9.938726177193747,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -5233,7 +5234,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-xc9x-jj77-9p9j",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -5300,7 +5301,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-xh29-r2w5-wx8m",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 7.952445348714975,
+      "raptor_risk_estimate": 9.198015309211629,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -5365,7 +5366,7 @@
       "finding_id": "sca:vuln:RubyGems:nokogiri:1.10.10:GHSA-xxx9-3xcr-gjj3",
       "in_kev": false,
       "purl": "pkg:gem/nokogiri@1.10.10",
-      "raptor_risk_estimate": 11.409841584374998,
+      "raptor_risk_estimate": 12.189003802218748,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -5432,7 +5433,7 @@
       "finding_id": "sca:vuln:RubyGems:oauth:0.5.4:GHSA-7359-3c6r-hfc2",
       "in_kev": false,
       "purl": "pkg:gem/oauth@0.5.4",
-      "raptor_risk_estimate": 6.657928729024874,
+      "raptor_risk_estimate": 7.803126302472647,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -5498,7 +5499,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-22f2-v57c-j9cx",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 12.975669829237498,
+      "raptor_risk_estimate": 20.865082582738456,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -5524,7 +5525,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -5569,7 +5571,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-3h57-hmj3-gj3p",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 11.661178809374999,
+      "raptor_risk_estimate": 12.7287484284375,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -5635,7 +5637,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-54rr-7fvw-6x8f",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 7.555786406249999,
+      "raptor_risk_estimate": 6.6314662124999995,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -5701,7 +5703,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-625h-95r8-8xpm",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 11.183575809375,
+      "raptor_risk_estimate": 12.298905728437498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -5771,7 +5773,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-65f5-mfpf-vfhj",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 11.833883465625002,
+      "raptor_risk_estimate": 12.8841826190625,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -5840,7 +5842,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-6xw4-3v39-52mm",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 11.231336109375,
+      "raptor_risk_estimate": 12.341889998437498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -5909,7 +5911,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-7g2v-jj9q-g3rg",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 9.871306063125,
+      "raptor_risk_estimate": 10.8200379568125,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -5976,7 +5978,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-7mqq-6cf9-v2qp",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 7.898540067375,
+      "raptor_risk_estimate": 8.687158560637497,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6045,7 +6047,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-7wqh-767x-r66v",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 11.445831028124998,
+      "raptor_risk_estimate": 12.534935425312497,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6110,7 +6112,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-8cgq-6mh2-7j6v",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 7.540577024999999,
+      "raptor_risk_estimate": 6.620515458,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6177,7 +6179,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-8vqr-qjwx-82mw",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 11.182296515625,
+      "raptor_risk_estimate": 12.297754364062499,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6243,7 +6245,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-93pm-5p5f-3ghx",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 7.88925564375,
+      "raptor_risk_estimate": 6.871564063499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6307,7 +6309,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-c6qg-cjj8-47qp",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 7.497365325,
+      "raptor_risk_estimate": 6.589403034,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6376,7 +6378,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-gjh7-p2fx-99vx",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 11.340715724999999,
+      "raptor_risk_estimate": 12.440331652499998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6443,7 +6445,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-h2jq-g4cq-5ppq",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 11.178458634375001,
+      "raptor_risk_estimate": 12.2943002709375,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6512,7 +6514,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-hxqx-xwvh-44m2",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 11.467579021874998,
+      "raptor_risk_estimate": 12.554508619687498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6581,7 +6583,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-mxw3-3hh2-x2mh",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 11.190825140624998,
+      "raptor_risk_estimate": 12.305430126562499,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6650,7 +6652,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-p543-xpfm-54cp",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 11.20724274375,
+      "raptor_risk_estimate": 12.320205969375,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6717,7 +6719,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-q2ww-5357-x388",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 7.153394778,
+      "raptor_risk_estimate": 7.867615300199998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6784,7 +6786,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-q4qf-9j86-f5mh",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 7.8989920845,
+      "raptor_risk_estimate": 8.68756537605,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6851,7 +6853,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-qv7j-4883-hwh7",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 8.793720792375002,
+      "raptor_risk_estimate": 9.671516213137501,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6920,7 +6922,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-r657-rxjc-j557",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 8.643520469999999,
+      "raptor_risk_estimate": 9.506553423,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6986,7 +6988,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-rqv2-275x-2jq5",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 7.48187165625,
+      "raptor_risk_estimate": 6.5782475925,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7053,7 +7055,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-v569-hp3g-36wr",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 11.17312824375,
+      "raptor_risk_estimate": 12.289502919374998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7120,7 +7122,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-vgpv-f759-9wx3",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 7.89447191325,
+      "raptor_risk_estimate": 8.683497221924998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7187,7 +7189,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-vpfw-47h7-xj4g",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 6.265787472000001,
+      "raptor_risk_estimate": 6.8900737248,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7256,7 +7258,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-w9pc-fmgc-vxvw",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 11.192530865625,
+      "raptor_risk_estimate": 12.306965279062497,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7325,7 +7327,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-whrj-4476-wvmp",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 8.045112881249999,
+      "raptor_risk_estimate": 8.848856593124998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7394,7 +7396,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-wpv5-97wm-hp9c",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 11.215558153124999,
+      "raptor_risk_estimate": 12.3276898378125,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7463,7 +7465,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-wq4h-7r42-5hrr",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 15.518388224999999,
+      "raptor_risk_estimate": 16.944799402499996,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7530,7 +7532,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-x8cg-fq8g-mxfx",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 7.895526619874999,
+      "raptor_risk_estimate": 8.684446457887498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7594,7 +7596,7 @@
       "finding_id": "sca:vuln:RubyGems:rack:2.2.3:GHSA-xj5v-6v4g-jfw6",
       "in_kev": false,
       "purl": "pkg:gem/rack@2.2.3",
-      "raptor_risk_estimate": 7.5023403562499995,
+      "raptor_risk_estimate": 6.592985056499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7661,7 +7663,7 @@
       "finding_id": "sca:vuln:RubyGems:rails-html-sanitizer:1.3.0:GHSA-5x79-w82f-gw8w",
       "in_kev": false,
       "purl": "pkg:gem/rails-html-sanitizer@1.3.0",
-      "raptor_risk_estimate": 6.7666749290184365,
+      "raptor_risk_estimate": 7.926582702536183,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -7726,7 +7728,7 @@
       "finding_id": "sca:vuln:RubyGems:rails-html-sanitizer:1.3.0:GHSA-9h9g-93gc-623h",
       "in_kev": false,
       "purl": "pkg:gem/rails-html-sanitizer@1.3.0",
-      "raptor_risk_estimate": 5.492894420710086,
+      "raptor_risk_estimate": 6.43672101579142,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -7791,7 +7793,7 @@
       "finding_id": "sca:vuln:RubyGems:rails-html-sanitizer:1.3.0:GHSA-mcvf-2q2m-x72m",
       "in_kev": false,
       "purl": "pkg:gem/rails-html-sanitizer@1.3.0",
-      "raptor_risk_estimate": 5.504921904166274,
+      "raptor_risk_estimate": 6.448258126522181,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -7856,7 +7858,7 @@
       "finding_id": "sca:vuln:RubyGems:rails-html-sanitizer:1.3.0:GHSA-pg8v-g4xq-hww9",
       "in_kev": false,
       "purl": "pkg:gem/rails-html-sanitizer@1.3.0",
-      "raptor_risk_estimate": 5.955900240366974,
+      "raptor_risk_estimate": 6.880849617574748,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -7921,7 +7923,7 @@
       "finding_id": "sca:vuln:RubyGems:rails-html-sanitizer:1.3.0:GHSA-rrfc-7g8p-99q8",
       "in_kev": false,
       "purl": "pkg:gem/rails-html-sanitizer@1.3.0",
-      "raptor_risk_estimate": 5.513393435991937,
+      "raptor_risk_estimate": 6.456384265384718,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -7987,7 +7989,7 @@
       "finding_id": "sca:vuln:RubyGems:tzinfo:1.2.7:GHSA-5cm2-9h8c-rvfx",
       "in_kev": false,
       "purl": "pkg:gem/tzinfo@1.2.7",
-      "raptor_risk_estimate": 7.228571442645937,
+      "raptor_risk_estimate": 8.369647225824458,
       "reachability": {
         "confidence": {
           "level": "medium",

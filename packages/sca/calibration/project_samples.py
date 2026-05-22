@@ -646,6 +646,12 @@ def _sanitise_findings(
             # against this archive could only see ~half the exploit
             # signal that production scans actually saw.
             "exploit_evidence": sca.get("exploit_evidence"),
+            # CISA Vulnrichment SSVC fields. Persist BOTH so refit
+            # exercises the matched ``compute_risk_estimate`` branches
+            # (Automatable bonus only fires when Exploitation>=poc
+            # AND Automatable=yes — see risk.py).
+            "ssvc_exploitation": sca.get("ssvc_exploitation"),
+            "ssvc_automatable": sca.get("ssvc_automatable"),
         })
     return out
 

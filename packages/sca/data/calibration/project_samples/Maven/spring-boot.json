@@ -48,7 +48,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework.boot:spring-boot:@project.version@:GHSA-cm59-pr5q-cw85",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework.boot/spring-boot@@project.version@",
-      "raptor_risk_estimate": 11.7131859585,
+      "raptor_risk_estimate": 12.86490236265,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -117,7 +117,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework.boot:spring-boot:@project.version@:GHSA-rc42-6c7j-7h5r",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework.boot/spring-boot@@project.version@",
-      "raptor_risk_estimate": 10.95154915125,
+      "raptor_risk_estimate": 12.030516736125,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -185,7 +185,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework.boot:spring-boot:@project.version@:GHSA-wwpq-f5c3-7hvx",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework.boot/spring-boot@@project.version@",
-      "raptor_risk_estimate": 10.42705902,
+      "raptor_risk_estimate": 11.469128117999999,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -254,7 +254,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-context:@spring-framework.version@:GHSA-4gc7-5j7h-4qph",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-context@@spring-framework.version@",
-      "raptor_risk_estimate": 8.12048047575,
+      "raptor_risk_estimate": 8.886904928174998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -324,7 +324,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-context:@spring-framework.version@:GHSA-4wp7-92pw-q264",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-context@@spring-framework.version@",
-      "raptor_risk_estimate": 4.623602217374999,
+      "raptor_risk_estimate": 5.084499495637499,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -394,7 +394,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-context:@spring-framework.version@:GHSA-g5mm-vmx4-3rg7",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-context@@spring-framework.version@",
-      "raptor_risk_estimate": 15.54148996875,
+      "raptor_risk_estimate": 16.221028471874998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -465,7 +465,7 @@
       "finding_id": "sca:vuln:Maven:org.bouncycastle:bcprov-jdk18on:1.76:GHSA-4h8f-2wvx-gg5w",
       "in_kev": false,
       "purl": "pkg:maven/org.bouncycastle/bcprov-jdk18on@1.76",
-      "raptor_risk_estimate": 8.803281381000001,
+      "raptor_risk_estimate": 9.6801207429,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -530,7 +530,7 @@
       "finding_id": "sca:vuln:Maven:org.bouncycastle:bcprov-jdk18on:1.76:GHSA-67mf-3cr5-8w23",
       "in_kev": false,
       "purl": "pkg:maven/org.bouncycastle/bcprov-jdk18on@1.76",
-      "raptor_risk_estimate": 7.4615450999999995,
+      "raptor_risk_estimate": 6.563612471999999,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -599,7 +599,7 @@
       "finding_id": "sca:vuln:Maven:org.bouncycastle:bcprov-jdk18on:1.76:GHSA-8xfc-gm6g-vgpv",
       "in_kev": false,
       "purl": "pkg:maven/org.bouncycastle/bcprov-jdk18on@1.76",
-      "raptor_risk_estimate": 7.921140923625,
+      "raptor_risk_estimate": 8.707499331262499,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -661,7 +661,7 @@
       "finding_id": "sca:vuln:Maven:org.bouncycastle:bcprov-jdk18on:1.76:GHSA-c3fc-8qff-9hwx",
       "in_kev": false,
       "purl": "pkg:maven/org.bouncycastle/bcprov-jdk18on@1.76",
-      "raptor_risk_estimate": 7.4544379125,
+      "raptor_risk_estimate": 6.5584952969999994,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -729,7 +729,7 @@
       "finding_id": "sca:vuln:Maven:org.bouncycastle:bcprov-jdk18on:1.76:GHSA-m44j-cfrm-g8qc",
       "in_kev": false,
       "purl": "pkg:maven/org.bouncycastle/bcprov-jdk18on@1.76",
-      "raptor_risk_estimate": 7.903662928124999,
+      "raptor_risk_estimate": 8.691769135312498,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -792,7 +792,7 @@
       "finding_id": "sca:vuln:Maven:org.bouncycastle:bcprov-jdk18on:1.76:GHSA-p93r-85wp-75v3",
       "in_kev": false,
       "purl": "pkg:maven/org.bouncycastle/bcprov-jdk18on@1.76",
-      "raptor_risk_estimate": 7.448183587499998,
+      "raptor_risk_estimate": 6.553992183,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -861,7 +861,7 @@
       "finding_id": "sca:vuln:Maven:org.bouncycastle:bcprov-jdk18on:1.76:GHSA-v435-xc8x-wvr9",
       "in_kev": false,
       "purl": "pkg:maven/org.bouncycastle/bcprov-jdk18on@1.76",
-      "raptor_risk_estimate": 8.80294592175,
+      "raptor_risk_estimate": 9.679818829575002,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -929,7 +929,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-core:@spring-framework.version@:GHSA-4487-x383-qpph",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-core@@spring-framework.version@",
-      "raptor_risk_estimate": 11.630262543749998,
+      "raptor_risk_estimate": 12.700923789374997,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -999,7 +999,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-core:@spring-framework.version@:GHSA-8crv-49fr-2h6j",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-core@@spring-framework.version@",
-      "raptor_risk_estimate": 11.201485921875001,
+      "raptor_risk_estimate": 12.315024829687498,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1069,7 +1069,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-core:@spring-framework.version@:GHSA-g8hw-794c-4j9g",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-core@@spring-framework.version@",
-      "raptor_risk_estimate": 24.0485624565,
+      "raptor_risk_estimate": 23.40087371085,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1140,7 +1140,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-core:@spring-framework.version@:GHSA-pgf9-h69p-pcgf",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-core@@spring-framework.version@",
-      "raptor_risk_estimate": 13.275401545500001,
+      "raptor_risk_estimate": 14.50915639095,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1210,7 +1210,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-core:@spring-framework.version@:GHSA-rcpf-vj53-7h2m",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-core@@spring-framework.version@",
-      "raptor_risk_estimate": 9.896621864999998,
+      "raptor_risk_estimate": 10.8428221785,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1277,7 +1277,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-core:@spring-framework.version@:GHSA-wv88-pf73-x22p",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-core@@spring-framework.version@",
-      "raptor_risk_estimate": 14.027733487499999,
+      "raptor_risk_estimate": 11.291268110999999,
       "reachability": {
         "confidence": {
           "level": "medium",

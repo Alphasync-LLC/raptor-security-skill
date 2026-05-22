@@ -45,7 +45,7 @@
       "finding_id": "sca:vuln:Cargo:rand:0.8:GHSA-cq8v-f236-94qc",
       "in_kev": false,
       "purl": "pkg:cargo/rand@0.8",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -95,7 +95,8 @@
           "https://github.com/rust-random/rand/pull/1763"
         ],
         "severity": null,
-        "summary": "Rand is unsound with a custom logger using `rand::rng()`"
+        "summary": "Rand is unsound with a custom logger using `rand::rng()`",
+        "informational": "unsound"
       },
       "cvss_score": null,
       "dep_name": "rand",
@@ -112,7 +113,7 @@
       "finding_id": "sca:vuln:Cargo:rand:0.8:RUSTSEC-2026-0097",
       "in_kev": false,
       "purl": "pkg:cargo/rand@0.8",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -179,7 +180,7 @@
       "finding_id": "sca:vuln:Cargo:tracing-subscriber:0.3.1:GHSA-xwfj-jgwm-7wp5",
       "in_kev": false,
       "purl": "pkg:cargo/tracing-subscriber@0.3.1",
-      "raptor_risk_estimate": 4.4970574084631245,
+      "raptor_risk_estimate": 4.2167219726341045,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -246,7 +247,7 @@
       "finding_id": "sca:vuln:Cargo:futures-util:0.3.0:GHSA-5r9g-j7jj-hw6c",
       "in_kev": false,
       "purl": "pkg:cargo/futures-util@0.3.0",
-      "raptor_risk_estimate": 8.198630838750002,
+      "raptor_risk_estimate": 9.016805254874999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -314,7 +315,7 @@
       "finding_id": "sca:vuln:Cargo:mio:0.8.9:GHSA-r8w9-5wcg-vfj7",
       "in_kev": false,
       "purl": "pkg:cargo/mio@0.8.9",
-      "raptor_risk_estimate": 14.881000687678123,
+      "raptor_risk_estimate": 21.717657547582117,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -345,7 +346,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "high",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "yes"
     }
   ]
 }

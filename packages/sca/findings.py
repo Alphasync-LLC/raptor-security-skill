@@ -194,7 +194,15 @@ def _assemble_finding(
     # enriched, or no CVE aliases at all) leaves
     # ``ssvc_exploitation`` as ``None`` so the risk formula's
     # "no signal" branch fires.
+    #
+    # ``Automatable`` is captured independently. ``yes`` from
+    # ANY alias attributes to the finding — a CVE chain where
+    # one alias says "wormable potential" and another says "no"
+    # is still wormable-potential in practice. The risk formula
+    # consumes this as a small bonus multiplier on top of the
+    # SSVC tier when Exploitation>=poc.
     ssvc_exploitation: Optional[str] = None
+    ssvc_automatable: Optional[str] = None
     if vulnrichment is not None and cve_aliases:
         decisions = [
             vulnrichment.lookup(c) for c in cve_aliases
@@ -206,6 +214,10 @@ def _assemble_finding(
             ssvc_exploitation = "poc"
         elif decisions:
             ssvc_exploitation = "none"
+        if any((d.automatable or "").lower() == "yes" for d in decisions):
+            ssvc_automatable = "yes"
+        elif any((d.automatable or "").lower() == "no" for d in decisions):
+            ssvc_automatable = "no"
 
     fixed = _smallest_applicable_fix(
         dep.ecosystem, dep.version, advisory.fixed_versions,
@@ -247,6 +259,7 @@ def _assemble_finding(
         exposure_factor=0.0,        # populated by reachability layer
         transitive_depth=0 if dep.direct else 1,
         ssvc_exploitation=ssvc_exploitation,
+        ssvc_automatable=ssvc_automatable,
         related_findings=related_ids,
     )
     # Composite risk estimate (calibration unverified — see
@@ -607,7 +620,7 @@ def _describe_vuln(f: VulnFinding) -> str:
 def _advisory_summary(a: Optional[Advisory]) -> Optional[Dict[str, Any]]:
     if a is None:
         return None
-    return {
+    out: Dict[str, Any] = {
         "id": a.osv_id,
         "aliases": list(a.aliases),
         "summary": a.summary,
@@ -617,6 +630,13 @@ def _advisory_summary(a: Optional[Advisory]) -> Optional[Dict[str, Any]]:
         "published": a.published.isoformat() if a.published else None,
         "modified": a.modified.isoformat() if a.modified else None,
     }
+    if a.informational:
+        # RUSTSEC "unsound" / "unmaintained" / "notice" markers,
+        # and similar non-security flags on other ecos. Surface
+        # in the JSON so calibration tooling + future scan-time
+        # severity gating can distinguish from real CVEs.
+        out["informational"] = a.informational
+    return out
 
 
 def _cvss_summary(a: Advisory) -> Optional[Dict[str, Any]]:

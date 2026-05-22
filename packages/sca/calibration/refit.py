@@ -497,8 +497,14 @@ def _load_ground_truth(corpus_dir: Path) -> set:
 
 def _extract_cve_ids(advisory: Dict[str, Any]) -> List[str]:
     """Pull CVE IDs from an advisory record. Mirrors
-    ``validate.py::_extract_cve_ids``."""
+    ``validate.py::_extract_cve_ids`` — including the
+    ``informational`` skip so refit's ground-truth labelling
+    stays aligned with the metric validate optimises."""
     out: List[str] = []
+    if not isinstance(advisory, dict):
+        return out
+    if advisory.get("informational"):
+        return out
     osv_id = advisory.get("osv_id")
     if isinstance(osv_id, str) and osv_id.startswith("CVE-"):
         out.append(osv_id)
@@ -753,6 +759,12 @@ def _compute_with_overrides(
     ssvc = finding.get("ssvc_exploitation")
     if ssvc not in ("active", "poc", "none"):
         ssvc = None
+    # SSVC Automatable. Paired with Exploitation — refit needs
+    # both so the ``_SSVC_AUTOMATABLE_BONUS`` branch in
+    # ``compute_risk_estimate`` fires correctly.
+    ssvc_auto = finding.get("ssvc_automatable")
+    if ssvc_auto not in ("yes", "no"):
+        ssvc_auto = None
 
     vf = VulnFinding(
         finding_id=finding.get("finding_id", "?"),
@@ -770,6 +782,7 @@ def _compute_with_overrides(
         transitive_depth=int(finding.get("transitive_depth", 0)),
         exploit_evidence=ee,
         ssvc_exploitation=ssvc,
+        ssvc_automatable=ssvc_auto,
     )
     return compute_risk_estimate(vf, dep, overrides=overrides)
 

@@ -509,6 +509,23 @@ def _record_to_advisory(rec: OsvRecord) -> Advisory:
             ecosystem_specific = blk.ecosystem_specific
             break
 
+    # RUSTSEC (and a small number of other ecos) carry an
+    # ``informational`` flag on ``affected[].database_specific``
+    # marking the advisory as a soundness / quality concern
+    # rather than a security vulnerability. Surface it onto the
+    # Advisory so calibration consumers can skip these from
+    # exploitation ground-truth (treating them as exploited would
+    # inflate the signal set with non-security records). First
+    # non-empty value across affected blocks wins.
+    informational: Optional[str] = None
+    for blk in rec.affected:
+        ds = blk.database_specific
+        if isinstance(ds, dict):
+            v = ds.get("informational")
+            if isinstance(v, str) and v.strip():
+                informational = v.strip()
+                break
+
     return Advisory(
         osv_id=rec.id,
         aliases=list(rec.aliases),
@@ -521,6 +538,7 @@ def _record_to_advisory(rec: OsvRecord) -> Advisory:
         published=rec.published,
         modified=rec.modified,
         ecosystem_specific=ecosystem_specific,
+        informational=informational,
     )
 
 

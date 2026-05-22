@@ -40,13 +40,20 @@ from .models import Dependency, VulnFinding
 # finding without a numeric score isn't free of weight. Most CVEs have
 # CVSS; the missing-score path is for OSV records that didn't include
 # one (older GHSA entries, pre-CVSS advisories, etc.).
+#
+# When a numeric is missing BUT the advisory carries a severity
+# label, ``packages.cvss.score_for_label`` returns a representative
+# numeric (lower-bound of the matching tier per CVSS v3.1's
+# severity-rating table) — pairing the bijection-ish severity↔score
+# mapping in one module rather than duplicating it here. The
+# fallback is applied below in ``compute_risk_estimate``.
 _CVSS_MISSING_DEFAULT = 5.0
 
 # KEV — known-exploited get a floor + multiplier. Floor of 80 means a
 # KEV CVE with low CVSS still ranks above a non-KEV high-CVSS finding,
 # matching the "active exploitation > theoretical severity" priority.
 _KEV_FLOOR = 96.8
-_KEV_MULTIPLIER = 1.452
+_KEV_MULTIPLIER = 1.5972
 
 # Exploit-evidence (Exploit-DB / Metasploit / GitHub PoC). KEV's the
 # strongest "actively exploited in the wild" signal, but it covers
@@ -59,26 +66,60 @@ _KEV_MULTIPLIER = 1.452
 # in EDB. Floor is below KEV's so KEV-listed still wins on tied CVSS;
 # multiplier is smaller for the same reason — EDB/MSF/PoC are weaker
 # signals than active CISA-tracked exploitation.
-_EXPLOIT_EVIDENCE_FLOOR = 66.0
+_EXPLOIT_EVIDENCE_FLOOR = 72.6
 # Strictly below `_KEV_MULTIPLIER` — pinned by `is_admissible`'s
 # `exploit_evidence_strictly_below_kev` rule. A previous refit
 # pass set this to 1.21 which crossed KEV's 1.20; round-2 with
 # constraint-aware refit caught the violation. If KEV_MULT moves
 # later this constant has headroom to follow.
-_EXPLOIT_EVIDENCE_MULTIPLIER = 1.309
+_EXPLOIT_EVIDENCE_MULTIPLIER = 1.4399
+
+# CISA Vulnrichment SSVC — pair of tier-floors mirroring KEV /
+# ExploitEvidence semantics but TUNED INDEPENDENTLY. Pre-fix
+# SSVC-active aliased to ``_KEV_*`` and SSVC-poc to
+# ``_EXPLOIT_EVIDENCE_*``; the calibration data on 2026-05-21
+# showed Packagist ρ stuck at 0.33 because the EE multiplier
+# was capped by the ``EE strictly below KEV`` cross-constraint
+# and couldn't lift the many SSVC-poc-only Packagist findings.
+# Decoupled here so the ρ-aware refit can move SSVC weights
+# independently. Defaults match the (KEV, EE) tier values
+# at the time of decoupling so behaviour is unchanged until
+# refit moves them.
+#
+# Cross-constraint (admissibility):
+#   _SSVC_POC_MULTIPLIER < _SSVC_ACTIVE_MULTIPLIER
+# matches the "PoC code is a weaker signal than active
+# in-the-wild exploitation" semantic. KEV / EE constraints
+# stay independent — SSVC ≠ KEV / EE structurally (different
+# signal source, different coverage shape).
+_SSVC_ACTIVE_FLOOR = 96.8
+_SSVC_ACTIVE_MULTIPLIER = 1.452
+_SSVC_POC_FLOOR = 72.6
+_SSVC_POC_MULTIPLIER = 1.4399
+
+# SSVC ``Automatable`` bonus. Applied on top of an SSVC tier
+# (active or poc) when the decision is ``automatable=yes``.
+# CISA's intent: a PoC + automation potential is materially
+# scarier than a PoC alone — the EternalBlue / Log4Shell class
+# of bug fans out across the internet because each step CAN be
+# automated. Modest 10% bonus to avoid double-counting (the
+# tier multiplier already reflects "exploit code exists"). Only
+# applies when ``Automatable=yes``; ``no`` / ``None`` carry no
+# multiplier (the SSVC tier alone applies).
+_SSVC_AUTOMATABLE_BONUS = 1.21
 
 # EPSS — exploit probability in the wild. Even a 0% EPSS leaves 30%
 # weight (a vuln with no observed exploitation isn't impossible to
 # exploit; the floor reflects "unknown is not zero").
-_EPSS_FLOOR_MULTIPLIER = 0.33
-_EPSS_RANGE_MULTIPLIER = 0.63
+_EPSS_FLOOR_MULTIPLIER = 0.363
+_EPSS_RANGE_MULTIPLIER = 0.567
 _EPSS_MISSING_DEFAULT = 0.5
 
 # Reachability — confidently-not-reachable downgrades hard; uncertain
 # stays neutral. ``not_evaluated`` (no evidence either way) gets a
 # small penalty to nudge operators toward investigating.
-_REACH_NOT_REACHABLE_MAX_REDUCTION = 0.567
-_REACH_NOT_EVALUATED_MULTIPLIER = 0.8415
+_REACH_NOT_REACHABLE_MAX_REDUCTION = 0.5103
+_REACH_NOT_EVALUATED_MULTIPLIER = 0.7574
 
 # Exposure — call-site density. Maps 0.0..1.0 onto 0.5..1.0 so a dep
 # imported once has half the weight of a dep imported throughout the
@@ -124,6 +165,17 @@ def compute_risk_estimate(
     kev_mult = o.get("_KEV_MULTIPLIER", _KEV_MULTIPLIER)
     ee_floor = o.get("_EXPLOIT_EVIDENCE_FLOOR", _EXPLOIT_EVIDENCE_FLOOR)
     ee_mult = o.get("_EXPLOIT_EVIDENCE_MULTIPLIER", _EXPLOIT_EVIDENCE_MULTIPLIER)
+    ssvc_active_floor = o.get(
+        "_SSVC_ACTIVE_FLOOR", _SSVC_ACTIVE_FLOOR,
+    )
+    ssvc_active_mult = o.get(
+        "_SSVC_ACTIVE_MULTIPLIER", _SSVC_ACTIVE_MULTIPLIER,
+    )
+    ssvc_poc_floor = o.get("_SSVC_POC_FLOOR", _SSVC_POC_FLOOR)
+    ssvc_poc_mult = o.get("_SSVC_POC_MULTIPLIER", _SSVC_POC_MULTIPLIER)
+    ssvc_automatable_bonus = o.get(
+        "_SSVC_AUTOMATABLE_BONUS", _SSVC_AUTOMATABLE_BONUS,
+    )
     epss_floor = o.get("_EPSS_FLOOR_MULTIPLIER", _EPSS_FLOOR_MULTIPLIER)
     epss_range = o.get("_EPSS_RANGE_MULTIPLIER", _EPSS_RANGE_MULTIPLIER)
     epss_missing = o.get("_EPSS_MISSING_DEFAULT", _EPSS_MISSING_DEFAULT)
@@ -140,10 +192,28 @@ def compute_risk_estimate(
 
     components: Dict[str, Any] = {}
 
-    # 1. CVSS base — 0-10 → 0-100. Missing → neutral 5.
-    cvss = (finding.cvss_score
-            if finding.cvss_score is not None
-            else cvss_missing)
+    # 1. CVSS base — 0-10 → 0-100. Missing → severity-label
+    # fallback via ``packages.cvss.score_for_label`` (paired
+    # with ``_SEVERITY`` in the cvss package so the
+    # label↔score mapping has one source of truth) →
+    # ``cvss_missing`` neutral 5.0. Many cold-start eco
+    # advisories (Cargo / NuGet / Packagist) carry a severity
+    # label but no parseable CVSS vector; without the fallback
+    # those collapse to the neutral 5.0 even when labelled
+    # CRITICAL by the upstream advisory, which depresses
+    # Spearman ρ on those ecos.
+    if finding.cvss_score is not None:
+        cvss = finding.cvss_score
+        components["cvss_source"] = "numeric"
+    else:
+        from packages.cvss import score_for_label
+        derived = score_for_label(finding.severity or "")
+        if derived is not None:
+            cvss = derived
+            components["cvss_source"] = "severity_label"
+        else:
+            cvss = cvss_missing
+            components["cvss_source"] = "default"
     base = (cvss / 10.0) * 100.0
     components["cvss_base"] = base
 
@@ -184,13 +254,30 @@ def compute_risk_estimate(
     # Each tier checks "not already counted" to keep one signal
     # from being double-counted as KEV + SSVC-active.
     ssvc = finding.ssvc_exploitation
+    ssvc_tier_applied = False
     if ssvc == "active" and not finding.in_kev:
-        base = max(base, kev_floor) * kev_mult
-        components["ssvc_active_multiplier"] = kev_mult
+        base = max(base, ssvc_active_floor) * ssvc_active_mult
+        components["ssvc_active_multiplier"] = ssvc_active_mult
+        ssvc_tier_applied = True
     elif ssvc == "poc" and not finding.in_kev and not has_evidence:
-        base = max(base, ee_floor) * ee_mult
-        components["ssvc_poc_multiplier"] = ee_mult
+        base = max(base, ssvc_poc_floor) * ssvc_poc_mult
+        components["ssvc_poc_multiplier"] = ssvc_poc_mult
+        ssvc_tier_applied = True
     # ``none`` and ``None`` carry no multiplier — neutral.
+
+    # SSVC Automatable=yes bonus. Only fires when an SSVC tier
+    # bumped the base above (i.e. the CVE is at least PoC-tier),
+    # otherwise an Automatable=yes on a none-tier CVE would
+    # silently elevate it past actual exploitation signals.
+    # Compounds multiplicatively on top of the tier multiplier
+    # — matches the "each independent signal nudges the score
+    # upward" composition the rest of the formula uses.
+    if (ssvc_tier_applied
+            and (finding.ssvc_automatable or "").lower() == "yes"):
+        base = base * ssvc_automatable_bonus
+        components["ssvc_automatable_multiplier"] = ssvc_automatable_bonus
+    else:
+        components["ssvc_automatable_multiplier"] = 1.0
 
     # 3. EPSS: 0..1 probability mapped onto a 0.30..1.00 multiplier.
     epss = finding.epss if finding.epss is not None else epss_missing
@@ -265,6 +352,15 @@ TUNABLE_CONSTANTS = (
     "_KEV_MULTIPLIER",
     "_EXPLOIT_EVIDENCE_FLOOR",
     "_EXPLOIT_EVIDENCE_MULTIPLIER",
+    # Vulnrichment SSVC tier constants — decoupled from KEV / EE
+    # 2026-05-21 so refit can tune them independently. SSVC's
+    # coverage shape (broad cross-eco, biased toward PoC over
+    # active) means the optimal values may diverge from KEV / EE.
+    "_SSVC_ACTIVE_FLOOR",
+    "_SSVC_ACTIVE_MULTIPLIER",
+    "_SSVC_POC_FLOOR",
+    "_SSVC_POC_MULTIPLIER",
+    "_SSVC_AUTOMATABLE_BONUS",
     "_EPSS_FLOOR_MULTIPLIER",
     "_EPSS_RANGE_MULTIPLIER",
     "_REACH_NOT_REACHABLE_MAX_REDUCTION",
@@ -313,6 +409,11 @@ CONSTANT_BOUNDS: Dict[str, Tuple[float, float]] = {
     "_KEV_MULTIPLIER":                     (1.0,   3.0),
     "_EXPLOIT_EVIDENCE_FLOOR":             (0.0, 100.0),
     "_EXPLOIT_EVIDENCE_MULTIPLIER":        (1.0,   3.0),
+    "_SSVC_ACTIVE_FLOOR":                  (0.0, 100.0),
+    "_SSVC_ACTIVE_MULTIPLIER":             (1.0,   3.0),
+    "_SSVC_POC_FLOOR":                     (0.0, 100.0),
+    "_SSVC_POC_MULTIPLIER":                (1.0,   3.0),
+    "_SSVC_AUTOMATABLE_BONUS":             (1.0,   1.5),
     "_EPSS_FLOOR_MULTIPLIER":              (0.0,   1.0),
     "_EPSS_RANGE_MULTIPLIER":              (0.0,   1.0),
     "_REACH_NOT_REACHABLE_MAX_REDUCTION":  (0.0,   1.0),
@@ -345,8 +446,29 @@ def _ee_strictly_below_kev(values: Dict[str, float]) -> bool:
     return ee_mult < kev_mult and ee_floor <= kev_floor
 
 
+def _ssvc_poc_strictly_below_active(values: Dict[str, float]) -> bool:
+    """SSVC ``poc`` (public exploit code exists) is a weaker
+    signal than SSVC ``active`` (exploited in the wild). Same
+    relationship KEV / EE carry — the PoC multiplier must stay
+    strictly below the active multiplier, and the PoC floor at
+    most equal. Otherwise a refit pass that pushes PoC weight
+    higher than active would invert the documented precedence:
+    a PoC-only finding could outrank a CISA-active one on tied
+    CVSS, which contradicts SSVC's own semantic hierarchy."""
+    poc_mult = values.get("_SSVC_POC_MULTIPLIER", _SSVC_POC_MULTIPLIER)
+    active_mult = values.get(
+        "_SSVC_ACTIVE_MULTIPLIER", _SSVC_ACTIVE_MULTIPLIER,
+    )
+    poc_floor = values.get("_SSVC_POC_FLOOR", _SSVC_POC_FLOOR)
+    active_floor = values.get(
+        "_SSVC_ACTIVE_FLOOR", _SSVC_ACTIVE_FLOOR,
+    )
+    return poc_mult < active_mult and poc_floor <= active_floor
+
+
 CROSS_CONSTRAINTS: List[Tuple[str, Any]] = [
     ("exploit_evidence_strictly_below_kev", _ee_strictly_below_kev),
+    ("ssvc_poc_strictly_below_active", _ssvc_poc_strictly_below_active),
 ]
 
 

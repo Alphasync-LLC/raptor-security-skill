@@ -49,7 +49,7 @@
       "finding_id": "sca:vuln:PyPI:pytest:2.8.0:GHSA-6w46-j5rx-g56g",
       "in_kev": false,
       "purl": "pkg:pypi/pytest@2.8.0",
-      "raptor_risk_estimate": 10.127209893,
+      "raptor_risk_estimate": 11.1396989037,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -115,7 +115,7 @@
       "finding_id": "sca:vuln:PyPI:setuptools:18.5:GHSA-5rjg-fvgr-3xxf",
       "in_kev": false,
       "purl": "pkg:pypi/setuptools@18.5",
-      "raptor_risk_estimate": 12.984757300919249,
+      "raptor_risk_estimate": 20.877057053298785,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -144,7 +144,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -187,7 +188,7 @@
       "finding_id": "sca:vuln:PyPI:setuptools:18.5:GHSA-cx63-2mw6-8hw5",
       "in_kev": false,
       "purl": "pkg:pypi/setuptools@18.5",
-      "raptor_risk_estimate": 19.555895988552003,
+      "raptor_risk_estimate": 23.13411334266648,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -216,7 +217,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "high",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "no"
     },
     {
       "advisory": {
@@ -260,7 +262,7 @@
       "finding_id": "sca:vuln:PyPI:setuptools:18.5:GHSA-r9hx-vwmv-q579",
       "in_kev": false,
       "purl": "pkg:pypi/setuptools@18.5",
-      "raptor_risk_estimate": 11.277817115625,
+      "raptor_risk_estimate": 12.383722904062498,
       "reachability": {
         "confidence": {
           "level": "high",

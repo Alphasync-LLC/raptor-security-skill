@@ -218,9 +218,20 @@ def _load_project_samples(samples_dir: Path) -> List[Dict[str, Any]]:
 
 
 def _extract_cve_ids(advisory: Dict[str, Any]) -> List[str]:
-    """Pull CVE IDs out of an advisory summary block."""
+    """Pull CVE IDs out of an advisory summary block.
+
+    Returns an empty list for ``informational`` advisories
+    (RUSTSEC ``unsound`` / ``unmaintained`` / ``notice`` markers,
+    and equivalents on other ecos). Those records aren't security
+    vulnerabilities — including their CVE aliases in the
+    ground-truth ``signals`` set would mark hundreds of
+    non-security findings as ``exploited`` and depress
+    Spearman ρ. Validator (and refit) skip them entirely so the
+    metric measures actual exploitation signal only."""
     out: List[str] = []
     if not isinstance(advisory, dict):
+        return out
+    if advisory.get("informational"):
         return out
     aliases = advisory.get("aliases") or []
     if isinstance(aliases, list):

@@ -49,7 +49,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework.hateoas:spring-hateoas:0.23.0.RELEASE:GHSA-7m5c-fgwf-mwph",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework.hateoas/spring-hateoas@0.23.0.RELEASE",
-      "raptor_risk_estimate": 7.950070019624999,
+      "raptor_risk_estimate": 8.733535517662498,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -120,7 +120,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework.boot:spring-boot-actuator:1.5.10.RELEASE:GHSA-jjfh-589g-3hjx",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework.boot/spring-boot-actuator@1.5.10.RELEASE",
-      "raptor_risk_estimate": 7.9348521097499995,
+      "raptor_risk_estimate": 8.719839398775001,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -189,7 +189,7 @@
       "finding_id": "sca:vuln:Maven:ch.qos.logback:logback-classic:1.1.11:GHSA-vmfg-rjjm-rjrj",
       "in_kev": false,
       "purl": "pkg:maven/ch.qos.logback/logback-classic@1.1.11",
-      "raptor_risk_estimate": 17.419561152,
+      "raptor_risk_estimate": 18.596290036799996,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -260,7 +260,7 @@
       "finding_id": "sca:vuln:Maven:ch.qos.logback:logback-classic:1.1.11:GHSA-vmq6-5m68-f53m",
       "in_kev": false,
       "purl": "pkg:maven/ch.qos.logback/logback-classic@1.1.11",
-      "raptor_risk_estimate": 10.699949298750001,
+      "raptor_risk_estimate": 11.744511868875,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -329,7 +329,7 @@
       "finding_id": "sca:vuln:Maven:com.h2database:h2:1.4.196:GHSA-45hx-wfhj-473x",
       "in_kev": false,
       "purl": "pkg:maven/com.h2database/h2@1.4.196",
-      "raptor_risk_estimate": 18.509058661401003,
+      "raptor_risk_estimate": 17.20393932396804,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -394,7 +394,7 @@
       "finding_id": "sca:vuln:Maven:com.h2database:h2:1.4.196:GHSA-h376-j262-vhq6",
       "in_kev": false,
       "purl": "pkg:maven/com.h2database/h2@1.4.196",
-      "raptor_risk_estimate": 33.519061150344,
+      "raptor_risk_estimate": 29.36284401394176,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -459,7 +459,7 @@
       "finding_id": "sca:vuln:Maven:com.jayway.jsonpath:json-path:2.2.0:GHSA-pfh2-hfmq-phg5",
       "in_kev": false,
       "purl": "pkg:maven/com.jayway.jsonpath/json-path@2.2.0",
-      "raptor_risk_estimate": 7.909840495499999,
+      "raptor_risk_estimate": 8.697328945949998,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -527,7 +527,7 @@
       "finding_id": "sca:vuln:Maven:junit:junit:4.12:GHSA-269g-pwp5-87pp",
       "in_kev": false,
       "purl": "pkg:maven/junit/junit@4.12",
-      "raptor_risk_estimate": 5.519634061515751,
+      "raptor_risk_estimate": 5.463718439424629,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -592,7 +592,7 @@
       "finding_id": "sca:vuln:Maven:org.liquibase:liquibase-core:3.5.3:GHSA-jvfv-hrrc-6q72",
       "in_kev": false,
       "purl": "pkg:maven/org.liquibase/liquibase-core@3.5.3",
-      "raptor_risk_estimate": 12.3281935855155,
+      "raptor_risk_estimate": 12.197108084956621,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -658,7 +658,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-core:4.3.14.RELEASE:GHSA-4487-x383-qpph",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-core@4.3.14.RELEASE",
-      "raptor_risk_estimate": 11.630262543749998,
+      "raptor_risk_estimate": 12.700923789374997,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -728,7 +728,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-core:4.3.14.RELEASE:GHSA-f26x-pr96-vw86",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-core@4.3.14.RELEASE",
-      "raptor_risk_estimate": 10.0129474365,
+      "raptor_risk_estimate": 10.768820192849999,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -799,7 +799,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-core:4.3.14.RELEASE:GHSA-ffvq-7w96-97p7",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-core@4.3.14.RELEASE",
-      "raptor_risk_estimate": 15.459828384375,
+      "raptor_risk_estimate": 16.1475330459375,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -869,7 +869,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-core:4.3.14.RELEASE:GHSA-g8hw-794c-4j9g",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-core@4.3.14.RELEASE",
-      "raptor_risk_estimate": 24.0485624565,
+      "raptor_risk_estimate": 23.40087371085,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -939,7 +939,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-core:4.3.14.RELEASE:GHSA-rcpf-vj53-7h2m",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-core@4.3.14.RELEASE",
-      "raptor_risk_estimate": 9.896621864999998,
+      "raptor_risk_estimate": 10.8428221785,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1008,7 +1008,7 @@
       "finding_id": "sca:vuln:Maven:org.yaml:snakeyaml:1.17:GHSA-3mc7-4q67-w48m",
       "in_kev": false,
       "purl": "pkg:maven/org.yaml/snakeyaml@1.17",
-      "raptor_risk_estimate": 11.353721878124999,
+      "raptor_risk_estimate": 12.452037190312499,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1077,7 +1077,7 @@
       "finding_id": "sca:vuln:Maven:org.yaml:snakeyaml:1.17:GHSA-98wm-3w3q-mw94",
       "in_kev": false,
       "purl": "pkg:maven/org.yaml/snakeyaml@1.17",
-      "raptor_risk_estimate": 9.71811774375,
+      "raptor_risk_estimate": 10.682168469375,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1146,7 +1146,7 @@
       "finding_id": "sca:vuln:Maven:org.yaml:snakeyaml:1.17:GHSA-9w3m-gqgf-c4p9",
       "in_kev": false,
       "purl": "pkg:maven/org.yaml/snakeyaml@1.17",
-      "raptor_risk_estimate": 9.717193809374999,
+      "raptor_risk_estimate": 10.6813369284375,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1215,7 +1215,7 @@
       "finding_id": "sca:vuln:Maven:org.yaml:snakeyaml:1.17:GHSA-c4r9-r8fh-9vj2",
       "in_kev": false,
       "purl": "pkg:maven/org.yaml/snakeyaml@1.17",
-      "raptor_risk_estimate": 9.777803904375,
+      "raptor_risk_estimate": 10.735886013937499,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1284,7 +1284,7 @@
       "finding_id": "sca:vuln:Maven:org.yaml:snakeyaml:1.17:GHSA-hhhw-99gj-p3c3",
       "in_kev": false,
       "purl": "pkg:maven/org.yaml/snakeyaml@1.17",
-      "raptor_risk_estimate": 8.224742645625,
+      "raptor_risk_estimate": 9.040305881062501,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1355,7 +1355,7 @@
       "finding_id": "sca:vuln:Maven:org.yaml:snakeyaml:1.17:GHSA-mjmj-j48q-9wg2",
       "in_kev": false,
       "purl": "pkg:maven/org.yaml/snakeyaml@1.17",
-      "raptor_risk_estimate": 45.14965191186449,
+      "raptor_risk_estimate": 48.25751259799584,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1424,7 +1424,7 @@
       "finding_id": "sca:vuln:Maven:org.yaml:snakeyaml:1.17:GHSA-rvwf-54qp-4r6v",
       "in_kev": false,
       "purl": "pkg:maven/org.yaml/snakeyaml@1.17",
-      "raptor_risk_estimate": 11.758191918749999,
+      "raptor_risk_estimate": 12.816060226874997,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1493,7 +1493,7 @@
       "finding_id": "sca:vuln:Maven:org.yaml:snakeyaml:1.17:GHSA-w37g-rhq8-7m4j",
       "in_kev": false,
       "purl": "pkg:maven/org.yaml/snakeyaml@1.17",
-      "raptor_risk_estimate": 9.702041285625002,
+      "raptor_risk_estimate": 10.6676996570625,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1561,7 +1561,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework.boot:spring-boot:1.5.10.RELEASE:GHSA-cm59-pr5q-cw85",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework.boot/spring-boot@1.5.10.RELEASE",
-      "raptor_risk_estimate": 11.7131859585,
+      "raptor_risk_estimate": 12.86490236265,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1630,7 +1630,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework.boot:spring-boot:1.5.10.RELEASE:GHSA-rc42-6c7j-7h5r",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework.boot/spring-boot@1.5.10.RELEASE",
-      "raptor_risk_estimate": 10.95154915125,
+      "raptor_risk_estimate": 12.030516736125,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1698,7 +1698,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework.boot:spring-boot:1.5.10.RELEASE:GHSA-wwpq-f5c3-7hvx",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework.boot/spring-boot@1.5.10.RELEASE",
-      "raptor_risk_estimate": 10.42705902,
+      "raptor_risk_estimate": 11.469128117999999,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1770,7 +1770,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework.boot:spring-boot-autoconfigure:1.5.10.RELEASE:GHSA-xf96-w227-r7c4",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework.boot/spring-boot-autoconfigure@1.5.10.RELEASE",
-      "raptor_risk_estimate": 11.315556281249998,
+      "raptor_risk_estimate": 12.417688153124997,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1839,7 +1839,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-context:@spring.version@:GHSA-4gc7-5j7h-4qph",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-context@@spring.version@",
-      "raptor_risk_estimate": 8.12048047575,
+      "raptor_risk_estimate": 8.886904928174998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1909,7 +1909,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-context:@spring.version@:GHSA-4wp7-92pw-q264",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-context@@spring.version@",
-      "raptor_risk_estimate": 4.623602217374999,
+      "raptor_risk_estimate": 5.084499495637499,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1979,7 +1979,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-context:@spring.version@:GHSA-g5mm-vmx4-3rg7",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-context@@spring.version@",
-      "raptor_risk_estimate": 15.54148996875,
+      "raptor_risk_estimate": 16.221028471874998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2048,7 +2048,7 @@
       "finding_id": "sca:vuln:Maven:com.google.guava:guava:18.0:GHSA-5mg8-w23w-74h3",
       "in_kev": false,
       "purl": "pkg:maven/com.google.guava/guava@18.0",
-      "raptor_risk_estimate": 4.920867170999999,
+      "raptor_risk_estimate": 5.411602953899998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2117,7 +2117,7 @@
       "finding_id": "sca:vuln:Maven:com.google.guava:guava:18.0:GHSA-7g45-4rm6-3mm3",
       "in_kev": false,
       "purl": "pkg:maven/com.google.guava/guava@18.0",
-      "raptor_risk_estimate": 8.200350778125001,
+      "raptor_risk_estimate": 9.0183532003125,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2186,7 +2186,7 @@
       "finding_id": "sca:vuln:Maven:com.google.guava:guava:18.0:GHSA-mvr2-9pj6-7w5j",
       "in_kev": false,
       "purl": "pkg:maven/com.google.guava/guava@18.0",
-      "raptor_risk_estimate": 9.332468347875,
+      "raptor_risk_estimate": 10.1563890130875,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2256,7 +2256,7 @@
       "finding_id": "sca:vuln:Maven:com.hazelcast:hazelcast:3.7.8:GHSA-8h4x-xvjp-vf99",
       "in_kev": false,
       "purl": "pkg:maven/com.hazelcast/hazelcast@3.7.8",
-      "raptor_risk_estimate": 9.764129675625,
+      "raptor_risk_estimate": 10.723579208062498,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2329,7 +2329,7 @@
       "finding_id": "sca:vuln:Maven:com.hazelcast:hazelcast:3.7.8:GHSA-c5hg-mr8r-f6jp",
       "in_kev": false,
       "purl": "pkg:maven/com.hazelcast/hazelcast@3.7.8",
-      "raptor_risk_estimate": 13.647533206124997,
+      "raptor_risk_estimate": 14.992987385512498,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2400,7 +2400,7 @@
       "finding_id": "sca:vuln:Maven:com.hazelcast:hazelcast:3.7.8:GHSA-c5vj-wp4v-mmvx",
       "in_kev": false,
       "purl": "pkg:maven/com.hazelcast/hazelcast@3.7.8",
-      "raptor_risk_estimate": 11.3638025775,
+      "raptor_risk_estimate": 12.490892319749998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2467,7 +2467,7 @@
       "finding_id": "sca:vuln:Maven:com.hazelcast:hazelcast:3.7.8:GHSA-jv65-pf7v-f7p8",
       "in_kev": false,
       "purl": "pkg:maven/com.hazelcast/hazelcast@3.7.8",
-      "raptor_risk_estimate": 12.710360915999999,
+      "raptor_risk_estimate": 13.851707324399998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2536,7 +2536,7 @@
       "finding_id": "sca:vuln:Maven:com.hazelcast:hazelcast:3.7.8:GHSA-xh6m-7cr7-xx66",
       "in_kev": false,
       "purl": "pkg:maven/com.hazelcast/hazelcast@3.7.8",
-      "raptor_risk_estimate": 11.354079944999999,
+      "raptor_risk_estimate": 12.482141950499997,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2606,7 +2606,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.activemq:activemq-broker:5.14.5:GHSA-2jp3-2923-9h52",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.activemq/activemq-broker@5.14.5",
-      "raptor_risk_estimate": 9.705921809999998,
+      "raptor_risk_estimate": 10.671192129,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2676,7 +2676,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.activemq:activemq-broker:5.14.5:GHSA-5568-6qcg-g7fx",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.activemq/activemq-broker@5.14.5",
-      "raptor_risk_estimate": 11.179737928125,
+      "raptor_risk_estimate": 12.295451635312498,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2746,7 +2746,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.activemq:activemq-broker:5.14.5:GHSA-h2h4-5m64-m273",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.activemq/activemq-broker@5.14.5",
-      "raptor_risk_estimate": 6.412650259125,
+      "raptor_risk_estimate": 7.052032733212499,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2816,7 +2816,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.activemq:activemq-broker:5.14.5:GHSA-mr6m-xj7v-3cv3",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.activemq/activemq-broker@5.14.5",
-      "raptor_risk_estimate": 13.132319376000002,
+      "raptor_risk_estimate": 14.439947438399999,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2887,7 +2887,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.activemq:activemq-broker:5.14.5:GHSA-rxpj-7qvf-xv32",
       "in_kev": true,
       "purl": "pkg:maven/org.apache.activemq/activemq-broker@5.14.5",
-      "raptor_risk_estimate": 48.65119443106561,
+      "raptor_risk_estimate": 52.769323837954936,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2915,7 +2915,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "high",
-      "ssvc_exploitation": "active"
+      "ssvc_exploitation": "active",
+      "ssvc_automatable": "no"
     },
     {
       "advisory": {
@@ -2957,7 +2958,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.activemq:activemq-broker:5.14.5:GHSA-w3w2-mpp5-92gm",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.activemq/activemq-broker@5.14.5",
-      "raptor_risk_estimate": 15.235023441000003,
+      "raptor_risk_estimate": 16.332381096899997,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3027,7 +3028,7 @@
       "finding_id": "sca:vuln:Maven:org.hibernate:hibernate-validator:5.3.6.Final:GHSA-7v6m-28jr-rg84",
       "in_kev": false,
       "purl": "pkg:maven/org.hibernate/hibernate-validator@5.3.6.Final",
-      "raptor_risk_estimate": 14.689546397092874,
+      "raptor_risk_estimate": 17.67316992087195,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3055,7 +3056,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "high",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "no"
     },
     {
       "advisory": {
@@ -3098,7 +3100,7 @@
       "finding_id": "sca:vuln:Maven:org.hibernate:hibernate-validator:5.3.6.Final:GHSA-rmrm-75hp-phr2",
       "in_kev": false,
       "purl": "pkg:maven/org.hibernate/hibernate-validator@5.3.6.Final",
-      "raptor_risk_estimate": 7.936509505874999,
+      "raptor_risk_estimate": 8.7213310552875,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3166,7 +3168,7 @@
       "finding_id": "sca:vuln:Maven:org.hibernate:hibernate-validator:5.3.6.Final:GHSA-x83m-pf6f-pf9g",
       "in_kev": false,
       "purl": "pkg:maven/org.hibernate/hibernate-validator@5.3.6.Final",
-      "raptor_risk_estimate": 9.230371907249998,
+      "raptor_risk_estimate": 10.124067216524997,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3237,7 +3239,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-webmvc:@spring.version@:GHSA-2m8h-fgr8-2q9w",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-webmvc@@spring.version@",
-      "raptor_risk_estimate": 12.218950884375,
+      "raptor_risk_estimate": 13.230743295937497,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3311,7 +3313,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-webmvc:@spring.version@:GHSA-36p3-wjmg-h94x",
       "in_kev": true,
       "purl": "pkg:maven/org.springframework/spring-webmvc@@spring.version@",
-      "raptor_risk_estimate": 59.388587483148015,
+      "raptor_risk_estimate": 63.45642529031653,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3379,7 +3381,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-webmvc:@spring.version@:GHSA-6p4f-wcwh-5vvm",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-webmvc@@spring.version@",
-      "raptor_risk_estimate": 7.900950825375,
+      "raptor_risk_estimate": 8.689328242837497,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3445,7 +3447,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-webmvc:@spring.version@:GHSA-8cmm-qj8g-fcp6",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-webmvc@@spring.version@",
-      "raptor_risk_estimate": 7.807807274999999,
+      "raptor_risk_estimate": 6.8129212379999995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3514,7 +3516,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-webmvc:@spring.version@:GHSA-g5vr-rgqm-vf78",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-webmvc@@spring.version@",
-      "raptor_risk_estimate": 30.796428290625,
+      "raptor_risk_estimate": 29.950472961562497,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3653,7 +3655,7 @@
       "finding_id": "sca:vuln:Maven:org.elasticsearch:elasticsearch:2.4.6:GHSA-2cqf-6xv9-f22w",
       "in_kev": false,
       "purl": "pkg:maven/org.elasticsearch/elasticsearch@2.4.6",
-      "raptor_risk_estimate": 11.346046115625,
+      "raptor_risk_estimate": 12.445129004062498,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3722,7 +3724,7 @@
       "finding_id": "sca:vuln:Maven:org.elasticsearch:elasticsearch:2.4.6:GHSA-2hjr-vmf3-xwvp",
       "in_kev": false,
       "purl": "pkg:maven/org.elasticsearch/elasticsearch@2.4.6",
-      "raptor_risk_estimate": 7.8470784794999995,
+      "raptor_risk_estimate": 8.61106063155,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3792,7 +3794,7 @@
       "finding_id": "sca:vuln:Maven:org.elasticsearch:elasticsearch:2.4.6:GHSA-3393-hvrj-w7v3",
       "in_kev": false,
       "purl": "pkg:maven/org.elasticsearch/elasticsearch@2.4.6",
-      "raptor_risk_estimate": 8.522203757625,
+      "raptor_risk_estimate": 9.367585881862501,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3863,7 +3865,7 @@
       "finding_id": "sca:vuln:Maven:org.elasticsearch:elasticsearch:2.4.6:GHSA-5v8f-xx9m-wj44",
       "in_kev": false,
       "purl": "pkg:maven/org.elasticsearch/elasticsearch@2.4.6",
-      "raptor_risk_estimate": 7.495634149500001,
+      "raptor_risk_estimate": 8.205413234549999,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3932,7 +3934,7 @@
       "finding_id": "sca:vuln:Maven:org.elasticsearch:elasticsearch:2.4.6:GHSA-62ww-4p3p-7fhj",
       "in_kev": false,
       "purl": "pkg:maven/org.elasticsearch/elasticsearch@2.4.6",
-      "raptor_risk_estimate": 7.915415373375,
+      "raptor_risk_estimate": 8.7023463360375,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4002,7 +4004,7 @@
       "finding_id": "sca:vuln:Maven:org.elasticsearch:elasticsearch:2.4.6:GHSA-c77j-p484-h84m",
       "in_kev": false,
       "purl": "pkg:maven/org.elasticsearch/elasticsearch@2.4.6",
-      "raptor_risk_estimate": 9.71183499,
+      "raptor_risk_estimate": 10.676513990999997,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4072,7 +4074,7 @@
       "finding_id": "sca:vuln:Maven:org.elasticsearch:elasticsearch:2.4.6:GHSA-cqgv-256r-m9r8",
       "in_kev": false,
       "purl": "pkg:maven/org.elasticsearch/elasticsearch@2.4.6",
-      "raptor_risk_estimate": 7.337388355500002,
+      "raptor_risk_estimate": 8.06299201995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4141,7 +4143,7 @@
       "finding_id": "sca:vuln:Maven:org.elasticsearch:elasticsearch:2.4.6:GHSA-fj32-6v7m-57pg",
       "in_kev": false,
       "purl": "pkg:maven/org.elasticsearch/elasticsearch@2.4.6",
-      "raptor_risk_estimate": 12.226097059874999,
+      "raptor_risk_estimate": 13.415869853887498,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4212,7 +4214,7 @@
       "finding_id": "sca:vuln:Maven:org.elasticsearch:elasticsearch:2.4.6:GHSA-g9fw-9x87-rmrj",
       "in_kev": false,
       "purl": "pkg:maven/org.elasticsearch/elasticsearch@2.4.6",
-      "raptor_risk_estimate": 4.6230734426249995,
+      "raptor_risk_estimate": 5.0840235983625,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4282,7 +4284,7 @@
       "finding_id": "sca:vuln:Maven:org.elasticsearch:elasticsearch:2.4.6:GHSA-hr65-qq6p-87r4",
       "in_kev": false,
       "purl": "pkg:maven/org.elasticsearch/elasticsearch@2.4.6",
-      "raptor_risk_estimate": 7.908183099375,
+      "raptor_risk_estimate": 8.695837289437499,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4352,7 +4354,7 @@
       "finding_id": "sca:vuln:Maven:org.elasticsearch:elasticsearch:2.4.6:GHSA-jgx4-7v3v-vwfm",
       "in_kev": false,
       "purl": "pkg:maven/org.elasticsearch/elasticsearch@2.4.6",
-      "raptor_risk_estimate": 9.845990261249998,
+      "raptor_risk_estimate": 10.797253735124999,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4420,7 +4422,7 @@
       "finding_id": "sca:vuln:Maven:org.elasticsearch:elasticsearch:2.4.6:GHSA-jqm6-m3j3-8gg9",
       "in_kev": false,
       "purl": "pkg:maven/org.elasticsearch/elasticsearch@2.4.6",
-      "raptor_risk_estimate": 8.850413405625002,
+      "raptor_risk_estimate": 9.722539565062501,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4488,7 +4490,7 @@
       "finding_id": "sca:vuln:Maven:org.elasticsearch:elasticsearch:2.4.6:GHSA-mjpc-qx7h-r8c9",
       "in_kev": false,
       "purl": "pkg:maven/org.elasticsearch/elasticsearch@2.4.6",
-      "raptor_risk_estimate": 9.121293636375,
+      "raptor_risk_estimate": 10.0258967727375,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4559,7 +4561,7 @@
       "finding_id": "sca:vuln:Maven:org.elasticsearch:elasticsearch:2.4.6:GHSA-mm3m-5497-xggg",
       "in_kev": false,
       "purl": "pkg:maven/org.elasticsearch/elasticsearch@2.4.6",
-      "raptor_risk_estimate": 9.715715514374999,
+      "raptor_risk_estimate": 10.680006462937497,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -4631,7 +4633,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-25xr-qj8w-c4vf",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 9.621978078951562,
+      "raptor_risk_estimate": 9.48611170073306,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -4700,7 +4702,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-2rvv-w9r2-rg7m",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 14.816211574347564,
+      "raptor_risk_estimate": 13.332802350500902,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -4766,7 +4768,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-3p2h-wqq4-wf4h",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 12.79918119377612,
+      "raptor_risk_estimate": 14.903368669016979,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -4834,7 +4836,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-46j3-r4pj-4835",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 11.501233092885936,
+      "raptor_risk_estimate": 11.008408756940435,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -4902,7 +4904,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-5j33-cvvr-w245",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 32.203130499799876,
+      "raptor_risk_estimate": 28.296869816377995,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -4971,7 +4973,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-5q99-f34m-67gc",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 27.9026317058144,
+      "raptor_risk_estimate": 29.70723779795765,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -5039,7 +5041,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-6rxj-58jh-436r",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 7.822361473740002,
+      "raptor_risk_estimate": 7.667409766329599,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -5105,7 +5107,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-6v52-mj5r-7j2m",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 8.585670818538002,
+      "raptor_risk_estimate": 8.285731154297519,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -5174,7 +5176,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-7w75-32cg-r6g2",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 20.951155026140622,
+      "raptor_risk_estimate": 18.663350866295623,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -5246,7 +5248,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-83qj-6fr2-vhqg",
       "in_kev": true,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 49.876096128170005,
+      "raptor_risk_estimate": 47.97332505495381,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -5270,7 +5272,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "critical",
-      "ssvc_exploitation": "active"
+      "ssvc_exploitation": "active",
+      "ssvc_automatable": "no"
     },
     {
       "advisory": {
@@ -5318,7 +5321,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-8vmx-qmch-mpqg",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 37.18572936414236,
+      "raptor_risk_estimate": 35.76556899336524,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -5385,7 +5388,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-9xcj-c8cr-8c3c",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 9.983152448156249,
+      "raptor_risk_estimate": 9.778682253926249,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -5460,7 +5463,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-c9hw-wf7x-jp9j",
       "in_kev": true,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 49.98945324992816,
+      "raptor_risk_estimate": 48.074332918506315,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -5527,7 +5530,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-f4qf-m5gf-8jm8",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 15.95141816773725,
+      "raptor_risk_estimate": 14.117036804381485,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -5596,7 +5599,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-fccv-jmmp-qg76",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 19.784560019399997,
+      "raptor_risk_estimate": 17.718346526076,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -5660,7 +5663,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-ff77-26x5-69cr",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 6.309750604781251,
+      "raptor_risk_estimate": 4.991278947752998,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -5728,7 +5731,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-fpj8-gq4v-p354",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 11.414300624539313,
+      "raptor_risk_estimate": 11.29890505678457,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -5797,7 +5800,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-g8pj-r55q-5c2v",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 6.729162279815251,
+      "raptor_risk_estimate": 6.6465163664006095,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -5861,7 +5864,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-h2fw-rfh5-95r3",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 6.2812824809625,
+      "raptor_risk_estimate": 4.972830385630799,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -5929,7 +5932,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-h3gc-qfqq-6h8f",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 9.534420656114062,
+      "raptor_risk_estimate": 9.415185506019562,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -5993,7 +5996,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-hgrr-935x-pq79",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 6.280684411134375,
+      "raptor_risk_estimate": 4.9724428107962995,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -6060,7 +6063,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-hh3j-x4mc-g48r",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 8.831138953415623,
+      "raptor_risk_estimate": 8.732703390686623,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -6128,7 +6131,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-j39c-c8hj-x4j3",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 9.857916626146876,
+      "raptor_risk_estimate": 9.677234540995872,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -6197,7 +6200,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-jgwr-3qm3-26f3",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 8.939317823926872,
+      "raptor_risk_estimate": 8.820334060767074,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -6266,7 +6269,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-jjpq-gp5q-8q6w",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 13.818933302187752,
+      "raptor_risk_estimate": 15.902893694431178,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -6333,7 +6336,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-jx6h-3fjx-cgv5",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 11.500480664083124,
+      "raptor_risk_estimate": 10.782226594373322,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -6401,7 +6404,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-m59c-jpc8-m2x4",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 12.726678170714063,
+      "raptor_risk_estimate": 12.001084801803561,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -6470,7 +6473,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-p22x-g9px-3945",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 9.432330136453126,
+      "raptor_risk_estimate": 9.332486725708124,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -6539,7 +6542,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-q3mw-pvr8-9ggc",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 9.334635828742124,
+      "raptor_risk_estimate": 8.937547395167684,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -6605,7 +6608,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-q4hg-rmq2-52q9",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 22.190953779843753,
+      "raptor_risk_estimate": 19.667654156193745,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -6671,7 +6674,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-qcxh-w3j9-58qr",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 21.164845375729687,
+      "raptor_risk_estimate": 18.836451476754185,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -6765,7 +6768,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-qppj-fm5r-hxr3",
       "in_kev": true,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 49.36926765257756,
+      "raptor_risk_estimate": 47.47847691241325,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -6789,7 +6792,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "active"
+      "ssvc_exploitation": "active",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -6830,7 +6834,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-qq5r-98hh-rxc9",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 6.284512058034375,
+      "raptor_risk_estimate": 4.9749232897371,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -6898,7 +6902,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-qxf4-chvg-4r8r",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 6.171730669962,
+      "raptor_risk_estimate": 6.082180625742478,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -6966,7 +6970,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-r4x2-3cq5-hqvp",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 25.21953131604638,
+      "raptor_risk_estimate": 22.639781023035855,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -7035,7 +7039,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-r6j3-px5g-cq3x",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 14.182306085629683,
+      "raptor_risk_estimate": 12.683961412950184,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -7099,7 +7103,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-wc4r-xq3c-5cf3",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 6.307238711503125,
+      "raptor_risk_estimate": 4.9896511334481,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -7167,7 +7171,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-wm9w-rjj3-j356",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 13.262787964645312,
+      "raptor_risk_estimate": 12.435362403860811,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -7235,7 +7239,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-wmwf-9ccg-fff5",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 9.418335302474999,
+      "raptor_risk_estimate": 9.321150161798998,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -7303,7 +7307,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-core:8.5.27:GHSA-wr62-c79q-cv37",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@8.5.27",
-      "raptor_risk_estimate": 9.520784664032812,
+      "raptor_risk_estimate": 9.404139623236311,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -7368,7 +7372,7 @@
       "finding_id": "sca:vuln:Maven:org.jolokia:jolokia-core:1.3.7:GHSA-hfpg-gqjw-779m",
       "in_kev": false,
       "purl": "pkg:maven/org.jolokia/jolokia-core@1.3.7",
-      "raptor_risk_estimate": 22.397627915624998,
+      "raptor_risk_estimate": 21.974597624062497,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -7436,7 +7440,7 @@
       "finding_id": "sca:vuln:Maven:org.jolokia:jolokia-core:1.3.7:GHSA-rhqj-4pp8-vvgf",
       "in_kev": false,
       "purl": "pkg:maven/org.jolokia/jolokia-core@1.3.7",
-      "raptor_risk_estimate": 33.039541139624994,
+      "raptor_risk_estimate": 32.147969525662496,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -7504,7 +7508,7 @@
       "finding_id": "sca:vuln:Maven:org.jolokia:jolokia-core:1.3.7:GHSA-xcxf-7q4p-cj26",
       "in_kev": false,
       "purl": "pkg:maven/org.jolokia/jolokia-core@1.3.7",
-      "raptor_risk_estimate": 12.552163450875,
+      "raptor_risk_estimate": 13.709329605787497,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -7569,7 +7573,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-2w73-fqqj-c92p",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 12.168528841125,
+      "raptor_risk_estimate": 13.364058457012499,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -7638,7 +7642,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-339q-62wm-c39w",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 11.234321128125,
+      "raptor_risk_estimate": 12.3445765153125,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -7709,7 +7713,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-33hj-rcmx-86mv",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 11.2324021875,
+      "raptor_risk_estimate": 12.342849468749998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -7779,7 +7783,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-3jrv-jgp8-45v3",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 12.56786844,
+      "raptor_risk_estimate": 13.514986595999996,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -7848,7 +7852,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-3x3v-w654-m28m",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 8.893352189625,
+      "raptor_risk_estimate": 9.7611844706625,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -7919,7 +7923,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-6h4f-pj3g-q8fq",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 11.218969603125,
+      "raptor_risk_estimate": 12.330760142812501,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -7988,7 +7992,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-8vh8-vc28-m2hf",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 14.718238584000002,
+      "raptor_risk_estimate": 16.165099725600005,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -8058,7 +8062,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-9442-gm4v-r222",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 11.599985924999999,
+      "raptor_risk_estimate": 12.673674832499998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -8128,7 +8132,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-95h4-w6j8-2rp8",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 11.5309040625,
+      "raptor_risk_estimate": 12.61150115625,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -8198,7 +8202,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-95rf-557x-44g5",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 11.233468265625,
+      "raptor_risk_estimate": 12.3438089390625,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -8268,7 +8272,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-9623-mqmm-5rcf",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 13.449631471875,
+      "raptor_risk_estimate": 14.338355824687499,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -8338,7 +8342,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-97cq-f4jm-mv8h",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 11.323445259374997,
+      "raptor_risk_estimate": 12.4247882334375,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -8405,7 +8409,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-cccf-7xw3-p2vr",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 9.710171908125,
+      "raptor_risk_estimate": 10.675017217312497,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -8475,7 +8479,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-ch7q-gpff-h9hp",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 8.5595397765,
+      "raptor_risk_estimate": 9.282058298849998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -8545,7 +8549,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-cp7v-vmv7-6x2q",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 8.874901930875,
+      "raptor_risk_estimate": 9.7445792377875,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -8615,7 +8619,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-fj7c-vg2v-ccrm",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 11.22771144375,
+      "raptor_risk_estimate": 12.338627799374999,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -8682,7 +8686,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-g4cp-h53p-v3v8",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 11.232188971874999,
+      "raptor_risk_estimate": 12.342657574687498,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -8752,7 +8756,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-gjjx-gqm4-wcgm",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 9.809956820625,
+      "raptor_risk_estimate": 10.764823638562497,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -8821,7 +8825,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-gv2w-88hx-8m9r",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 12.961968890999998,
+      "raptor_risk_estimate": 14.227067001899998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -8891,7 +8895,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-j382-5jj3-vw4j",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 14.3092458,
+      "raptor_risk_estimate": 15.737441219999996,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -8960,7 +8964,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-jwgx-9mmh-684w",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 14.754178209750002,
+      "raptor_risk_estimate": 16.197445388775,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -9030,7 +9034,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-m4mm-pg93-fv78",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 11.289330759375,
+      "raptor_risk_estimate": 12.394085183437499,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -9099,7 +9103,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-mfhv-gwf8-4m88",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 8.814183806625,
+      "raptor_risk_estimate": 9.6899329259625,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -9167,7 +9171,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-p9w3-gwc2-cr49",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 7.164584334000001,
+      "raptor_risk_estimate": 7.8776859006,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -9237,7 +9241,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-pfcc-3g6r-8rg8",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 14.636608271250001,
+      "raptor_risk_estimate": 16.091632444125004,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -9306,7 +9310,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-qjwc-v72v-fq6r",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 7.172635356,
+      "raptor_risk_estimate": 7.8849318203999985,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -9375,7 +9379,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-rf6q-vx79-mjxr",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 11.230909678125002,
+      "raptor_risk_estimate": 12.341506210312499,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -9444,7 +9448,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-rhcw-wjcm-9h6g",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 11.20724274375,
+      "raptor_risk_estimate": 12.320205969375,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -9514,7 +9518,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-v76w-3ph8-vm66",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 9.414756177000001,
+      "raptor_risk_estimate": 10.0517530593,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -9583,7 +9587,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-vf6r-mmhc-3xcm",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 7.999038541499999,
+      "raptor_risk_estimate": 8.77760718735,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -9651,7 +9655,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-vjxc-frw4-jmh5",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 11.218543171875,
+      "raptor_risk_estimate": 12.330376354687498,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -9721,7 +9725,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-w6qf-42m7-vh68",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 16.005873599999997,
+      "raptor_risk_estimate": 16.638973739999997,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -9791,7 +9795,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-core:1.4.22.Final:GHSA-xpp6-8r3j-ww43",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-core@1.4.22.Final",
-      "raptor_risk_estimate": 11.957122096874999,
+      "raptor_risk_estimate": 12.995097387187498,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -9860,7 +9864,7 @@
       "finding_id": "sca:vuln:Maven:io.undertow:undertow-servlet:1.4.22.Final:GHSA-w69w-jvc7-wjgv",
       "in_kev": false,
       "purl": "pkg:maven/io.undertow/undertow-servlet@1.4.22.Final",
-      "raptor_risk_estimate": 11.4899666625,
+      "raptor_risk_estimate": 12.574657496249998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -9929,7 +9933,7 @@
       "finding_id": "sca:vuln:Maven:org.hsqldb:hsqldb:2.3.5:GHSA-77xx-rxvh-q682",
       "in_kev": false,
       "purl": "pkg:maven/org.hsqldb/hsqldb@2.3.5",
-      "raptor_risk_estimate": 34.135666152000006,
+      "raptor_risk_estimate": 33.6407845368,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -9996,7 +10000,7 @@
       "finding_id": "sca:vuln:Maven:com.google.code.gson:gson:2.8.2:GHSA-4jrv-ppp4-jm57",
       "in_kev": false,
       "purl": "pkg:maven/com.google.code.gson/gson@2.8.2",
-      "raptor_risk_estimate": 10.164266902510876,
+      "raptor_risk_estimate": 9.970509178218434,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -10061,7 +10065,7 @@
       "finding_id": "sca:vuln:Maven:com.unboundid:unboundid-ldapsdk:3.2.1:GHSA-qwq9-8rpf-8mp7",
       "in_kev": false,
       "purl": "pkg:maven/com.unboundid/unboundid-ldapsdk@3.2.1",
-      "raptor_risk_estimate": 15.061754541750002,
+      "raptor_risk_estimate": 16.474264087574998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -10133,7 +10137,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-webapp:9.4.8.v20171121:GHSA-g3wg-6mcf-8jj6",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-webapp@9.4.8.v20171121",
-      "raptor_risk_estimate": 10.4417851125,
+      "raptor_risk_estimate": 11.482381601249998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -10200,7 +10204,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework.batch:spring-batch-core:3.0.8.RELEASE:GHSA-3wc8-659g-r88q",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework.batch/spring-batch-core@3.0.8.RELEASE",
-      "raptor_risk_estimate": 7.735029674999999,
+      "raptor_risk_estimate": 6.760521365999999,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -10274,7 +10278,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework.security.oauth:spring-security-oauth2:2.0.14.RELEASE:GHSA-77rv-6vfw-x4gc",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework.security.oauth/spring-security-oauth2@2.0.14.RELEASE",
-      "raptor_risk_estimate": 13.896231090705374,
+      "raptor_risk_estimate": 15.978658258578909,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -10342,7 +10346,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework.security.oauth:spring-security-oauth2:2.0.14.RELEASE:GHSA-h8w4-qv99-f7vj",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework.security.oauth/spring-security-oauth2@2.0.14.RELEASE",
-      "raptor_risk_estimate": 10.213269896275875,
+      "raptor_risk_estimate": 10.100433285649034,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -10410,7 +10414,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework.security.oauth:spring-security-oauth2:2.0.14.RELEASE:GHSA-rrpm-pj7p-7j9q",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework.security.oauth/spring-security-oauth2@2.0.14.RELEASE",
-      "raptor_risk_estimate": 24.538238875198125,
+      "raptor_risk_estimate": 22.08789771319792,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -10472,7 +10476,7 @@
       "finding_id": "sca:vuln:Maven:org.thymeleaf:thymeleaf:2.1.6.RELEASE:GHSA-c9ph-gxww-7744",
       "in_kev": false,
       "purl": "pkg:maven/org.thymeleaf/thymeleaf@2.1.6.RELEASE",
-      "raptor_risk_estimate": 26.1950625,
+      "raptor_risk_estimate": 26.255981249999998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -10539,7 +10543,7 @@
       "finding_id": "sca:vuln:Maven:org.thymeleaf:thymeleaf:2.1.6.RELEASE:GHSA-r4v4-5mwr-2fwr",
       "in_kev": false,
       "purl": "pkg:maven/org.thymeleaf/thymeleaf@2.1.6.RELEASE",
-      "raptor_risk_estimate": 13.415173796249999,
+      "raptor_risk_estimate": 14.754081416625,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -10606,7 +10610,7 @@
       "finding_id": "sca:vuln:Maven:org.thymeleaf:thymeleaf:2.1.6.RELEASE:GHSA-xjw8-8c5c-9r79",
       "in_kev": false,
       "purl": "pkg:maven/org.thymeleaf/thymeleaf@2.1.6.RELEASE",
-      "raptor_risk_estimate": 13.415173796249999,
+      "raptor_risk_estimate": 14.754081416625,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -10674,7 +10678,7 @@
       "finding_id": "sca:vuln:Maven:mysql:mysql-connector-java:5.1.45:GHSA-4vrv-ch96-6h42",
       "in_kev": false,
       "purl": "pkg:maven/mysql/mysql-connector-java@5.1.45",
-      "raptor_risk_estimate": 11.895876361017,
+      "raptor_risk_estimate": 11.621335359544679,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -10736,7 +10740,7 @@
       "finding_id": "sca:vuln:Maven:mysql:mysql-connector-java:5.1.45:GHSA-g76j-4cxx-23h9",
       "in_kev": false,
       "purl": "pkg:maven/mysql/mysql-connector-java@5.1.45",
-      "raptor_risk_estimate": 8.430236457340499,
+      "raptor_risk_estimate": 8.317721868229617,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -10801,7 +10805,7 @@
       "finding_id": "sca:vuln:Maven:mysql:mysql-connector-java:5.1.45:GHSA-jcq3-cprp-m333",
       "in_kev": false,
       "purl": "pkg:maven/mysql/mysql-connector-java@5.1.45",
-      "raptor_risk_estimate": 8.047043891097749,
+      "raptor_risk_estimate": 7.939643601491907,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -10866,7 +10870,7 @@
       "finding_id": "sca:vuln:Maven:mysql:mysql-connector-java:5.1.45:GHSA-m6vm-37g8-gqvh",
       "in_kev": false,
       "purl": "pkg:maven/mysql/mysql-connector-java@5.1.45",
-      "raptor_risk_estimate": 11.09428633225069,
+      "raptor_risk_estimate": 10.859218242967028,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -10935,7 +10939,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.tomcat.embed:tomcat-embed-websocket:8.5.27:GHSA-v682-8vv8-vpwr",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-websocket@8.5.27",
-      "raptor_risk_estimate": 8.110795742496563,
+      "raptor_risk_estimate": 7.991286010314861,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -11002,7 +11006,7 @@
       "finding_id": "sca:vuln:Maven:org.codehaus.groovy:groovy:2.4.13:GHSA-rcjj-h6gh-jf3r",
       "in_kev": false,
       "purl": "pkg:maven/org.codehaus.groovy/groovy@2.4.13",
-      "raptor_risk_estimate": 8.559349033125,
+      "raptor_risk_estimate": 9.341451629812498,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -11070,7 +11074,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework.boot:spring-boot-devtools:1.5.10.RELEASE:GHSA-56v8-86gj-66jp",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework.boot/spring-boot-devtools@1.5.10.RELEASE",
-      "raptor_risk_estimate": 11.190398709375,
+      "raptor_risk_estimate": 12.3050463384375,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -11138,7 +11142,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework.boot:spring-boot-starter-actuator:1.5.10.RELEASE:GHSA-mgvc-8q2h-5pgc",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework.boot/spring-boot-starter-actuator@1.5.10.RELEASE",
-      "raptor_risk_estimate": 12.217119125249999,
+      "raptor_risk_estimate": 13.437572212725,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -11212,7 +11216,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework.boot:spring-boot-starter-web:1.5.10.RELEASE:GHSA-36p3-wjmg-h94x",
       "in_kev": true,
       "purl": "pkg:maven/org.springframework.boot/spring-boot-starter-web@1.5.10.RELEASE",
-      "raptor_risk_estimate": 59.388587483148015,
+      "raptor_risk_estimate": 63.45642529031653,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -11278,7 +11282,7 @@
       "finding_id": "sca:vuln:Maven:ch.qos.logback:logback-core:1.1.11:GHSA-25qh-j22f-pwp8",
       "in_kev": false,
       "purl": "pkg:maven/ch.qos.logback/logback-core@1.1.11",
-      "raptor_risk_estimate": 7.4544379125,
+      "raptor_risk_estimate": 6.5584952969999994,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -11347,7 +11351,7 @@
       "finding_id": "sca:vuln:Maven:ch.qos.logback:logback-core:1.1.11:GHSA-668q-qrv7-99fm",
       "in_kev": false,
       "purl": "pkg:maven/ch.qos.logback/logback-core@1.1.11",
-      "raptor_risk_estimate": 10.340266587749998,
+      "raptor_risk_estimate": 11.271884928974996,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -11413,7 +11417,7 @@
       "finding_id": "sca:vuln:Maven:ch.qos.logback:logback-core:1.1.11:GHSA-6v67-2wr5-gvf4",
       "in_kev": false,
       "purl": "pkg:maven/ch.qos.logback/logback-core@1.1.11",
-      "raptor_risk_estimate": 7.4521636125,
+      "raptor_risk_estimate": 6.556857800999999,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -11479,7 +11483,7 @@
       "finding_id": "sca:vuln:Maven:ch.qos.logback:logback-core:1.1.11:GHSA-pr98-23f8-jwxv",
       "in_kev": false,
       "purl": "pkg:maven/ch.qos.logback/logback-core@1.1.11",
-      "raptor_risk_estimate": 7.462824393749999,
+      "raptor_risk_estimate": 6.5645335634999995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -11544,7 +11548,7 @@
       "finding_id": "sca:vuln:Maven:ch.qos.logback:logback-core:1.1.11:GHSA-qqpg-mvqg-649v",
       "in_kev": false,
       "purl": "pkg:maven/ch.qos.logback/logback-core@1.1.11",
-      "raptor_risk_estimate": 7.4473307250000005,
+      "raptor_risk_estimate": 6.553378121999999,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -11613,7 +11617,7 @@
       "finding_id": "sca:vuln:Maven:ch.qos.logback:logback-core:1.1.11:GHSA-vmfg-rjjm-rjrj",
       "in_kev": false,
       "purl": "pkg:maven/ch.qos.logback/logback-core@1.1.11",
-      "raptor_risk_estimate": 17.419561152,
+      "raptor_risk_estimate": 18.596290036799996,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -11684,7 +11688,7 @@
       "finding_id": "sca:vuln:Maven:ch.qos.logback:logback-core:1.1.11:GHSA-vmq6-5m68-f53m",
       "in_kev": false,
       "purl": "pkg:maven/ch.qos.logback/logback-core@1.1.11",
-      "raptor_risk_estimate": 10.699949298750001,
+      "raptor_risk_estimate": 11.744511868875,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -11754,7 +11758,7 @@
       "finding_id": "sca:vuln:Maven:com.querydsl:querydsl-apt:4.1.4:GHSA-6q3q-6v5j-h6vg",
       "in_kev": false,
       "purl": "pkg:maven/com.querydsl/querydsl-apt@4.1.4",
-      "raptor_risk_estimate": 13.504948576978665,
+      "raptor_risk_estimate": 17.783467443103763,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -11778,7 +11782,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "high",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -11821,7 +11826,7 @@
       "finding_id": "sca:vuln:Maven:com.querydsl:querydsl-jpa:4.1.4:GHSA-6q3q-6v5j-h6vg",
       "in_kev": false,
       "purl": "pkg:maven/com.querydsl/querydsl-jpa@4.1.4",
-      "raptor_risk_estimate": 13.504948576978665,
+      "raptor_risk_estimate": 17.783467443103763,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -11845,7 +11850,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "high",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -11887,7 +11893,7 @@
       "finding_id": "sca:vuln:Maven:commons-beanutils:commons-beanutils:1.9.3:GHSA-6phf-73q6-gh87",
       "in_kev": false,
       "purl": "pkg:maven/commons-beanutils/commons-beanutils@1.9.3",
-      "raptor_risk_estimate": 9.363994905727687,
+      "raptor_risk_estimate": 9.232017003530107,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -11954,7 +11960,7 @@
       "finding_id": "sca:vuln:Maven:commons-beanutils:commons-beanutils:1.9.3:GHSA-p66x-2cv9-qq3v",
       "in_kev": false,
       "purl": "pkg:maven/commons-beanutils/commons-beanutils@1.9.3",
-      "raptor_risk_estimate": 29.99318553163192,
+      "raptor_risk_estimate": 31.756324873771316,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -12020,7 +12026,7 @@
       "finding_id": "sca:vuln:Maven:commons-beanutils:commons-beanutils:1.9.3:GHSA-wxr5-93ph-8wr9",
       "in_kev": false,
       "purl": "pkg:maven/commons-beanutils/commons-beanutils@1.9.3",
-      "raptor_risk_estimate": 11.081582759511003,
+      "raptor_risk_estimate": 10.96171399721244,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -12086,7 +12092,7 @@
       "finding_id": "sca:vuln:Maven:dom4j:dom4j:1.6.1:GHSA-6pcc-3rfx-4gpm",
       "in_kev": false,
       "purl": "pkg:maven/dom4j/dom4j@1.6.1",
-      "raptor_risk_estimate": 9.68728730418281,
+      "raptor_risk_estimate": 9.53901566564231,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -12152,7 +12158,7 @@
       "finding_id": "sca:vuln:Maven:dom4j:dom4j:1.6.1:GHSA-hwj3-m3p6-hj38",
       "in_kev": false,
       "purl": "pkg:maven/dom4j/dom4j@1.6.1",
-      "raptor_risk_estimate": 13.912093010970004,
+      "raptor_risk_estimate": 13.4801513200788,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -12217,7 +12223,7 @@
       "finding_id": "sca:vuln:Maven:net.sourceforge.htmlunit:htmlunit:2.21:GHSA-3xrr-7m6p-p7xh",
       "in_kev": false,
       "purl": "pkg:maven/net.sourceforge.htmlunit/htmlunit@2.21",
-      "raptor_risk_estimate": 13.224470599060876,
+      "raptor_risk_estimate": 12.923140395180434,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -12282,7 +12288,7 @@
       "finding_id": "sca:vuln:Maven:net.sourceforge.htmlunit:htmlunit:2.21:GHSA-5mh9-r3rr-9597",
       "in_kev": false,
       "purl": "pkg:maven/net.sourceforge.htmlunit/htmlunit@2.21",
-      "raptor_risk_estimate": 10.554119460441564,
+      "raptor_risk_estimate": 10.376539659872662,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -12348,7 +12354,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.activemq:activemq-client:5.14.5:GHSA-5568-6qcg-g7fx",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.activemq/activemq-client@5.14.5",
-      "raptor_risk_estimate": 11.179737928125,
+      "raptor_risk_estimate": 12.295451635312498,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -12423,7 +12429,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.activemq:activemq-client:5.14.5:GHSA-crg9-44h2-xw35",
       "in_kev": true,
       "purl": "pkg:maven/org.apache.activemq/activemq-client@5.14.5",
-      "raptor_risk_estimate": 60.60390175620001,
+      "raptor_risk_estimate": 64.754723638638,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -12451,7 +12457,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "critical",
-      "ssvc_exploitation": "active"
+      "ssvc_exploitation": "active",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -12494,7 +12501,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.activemq:activemq-client:5.14.5:GHSA-h2h4-5m64-m273",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.activemq/activemq-client@5.14.5",
-      "raptor_risk_estimate": 6.412650259125,
+      "raptor_risk_estimate": 7.052032733212499,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -12563,7 +12570,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.activemq:activemq-client:5.14.5:GHSA-jpv3-g4cc-6vfx",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.activemq/activemq-client@5.14.5",
-      "raptor_risk_estimate": 13.3611469875,
+      "raptor_risk_estimate": 14.258719788749998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -12632,7 +12639,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.activemq:activemq-client:5.14.5:GHSA-m9w8-v359-9ffr",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.activemq/activemq-client@5.14.5",
-      "raptor_risk_estimate": 11.123028392999998,
+      "raptor_risk_estimate": 12.214630553699998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -12707,7 +12714,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.activemq:activemq-client:5.14.5:GHSA-whxr-3p84-rf3c",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.activemq/activemq-client@5.14.5",
-      "raptor_risk_estimate": 15.248295304790622,
+      "raptor_risk_estimate": 18.31209898299272,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -12779,7 +12786,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.activemq:activemq-mqtt:5.14.5:GHSA-c825-6ph3-4h84",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.activemq/activemq-mqtt@5.14.5",
-      "raptor_risk_estimate": 8.04910427775,
+      "raptor_risk_estimate": 8.852448849975,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -12849,7 +12856,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.activemq:activemq-openwire-generator:5.14.5:GHSA-7qm4-p377-fr2r",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.activemq/activemq-openwire-generator@5.14.5",
-      "raptor_risk_estimate": 12.423452555999999,
+      "raptor_risk_estimate": 12.283059800399998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -12924,7 +12931,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.activemq:activemq-openwire-legacy:5.14.5:GHSA-crg9-44h2-xw35",
       "in_kev": true,
       "purl": "pkg:maven/org.apache.activemq/activemq-openwire-legacy@5.14.5",
-      "raptor_risk_estimate": 60.60390175620001,
+      "raptor_risk_estimate": 64.754723638638,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -12952,7 +12959,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "critical",
-      "ssvc_exploitation": "active"
+      "ssvc_exploitation": "active",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -13000,7 +13008,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.activemq:activemq-openwire-legacy:5.14.5:GHSA-whxr-3p84-rf3c",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.activemq/activemq-openwire-legacy@5.14.5",
-      "raptor_risk_estimate": 15.248295304790622,
+      "raptor_risk_estimate": 18.31209898299272,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -13070,7 +13078,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.activemq:activemq-web:5.14.5:GHSA-h2h4-5m64-m273",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.activemq/activemq-web@5.14.5",
-      "raptor_risk_estimate": 6.412650259125,
+      "raptor_risk_estimate": 7.052032733212499,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -13139,7 +13147,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.activemq:artemis-core-client:1.5.5:GHSA-gf8c-j759-86mg",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.activemq/artemis-core-client@1.5.5",
-      "raptor_risk_estimate": 8.530460008124999,
+      "raptor_risk_estimate": 9.2558865073125,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -13208,7 +13216,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.activemq:artemis-core-client:1.5.5:GHSA-pr38-qpxm-g88x",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.activemq/artemis-core-client@1.5.5",
-      "raptor_risk_estimate": 11.682073940625,
+      "raptor_risk_estimate": 12.747554046562499,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -13278,7 +13286,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.activemq:artemis-native:1.5.5:GHSA-gc96-h5pr-839j",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.activemq/artemis-native@1.5.5",
-      "raptor_risk_estimate": 12.747299203125,
+      "raptor_risk_estimate": 13.706256782812497,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -13345,7 +13353,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.activemq:artemis-server:1.5.5:GHSA-cv6r-h2fm-pvrp",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.activemq/artemis-server@1.5.5",
-      "raptor_risk_estimate": 10.447574424374999,
+      "raptor_risk_estimate": 11.219549481937499,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -13414,7 +13422,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.derby:derby:10.13.1.1:GHSA-42xw-p62x-hwcf",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.derby/derby@10.13.1.1",
-      "raptor_risk_estimate": 6.73930554410025,
+      "raptor_risk_estimate": 6.654732952892009,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -13481,7 +13489,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.derby:derby:10.13.1.1:GHSA-rcjc-c4pj-xxrp",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.derby/derby@10.13.1.1",
-      "raptor_risk_estimate": 12.291385976013377,
+      "raptor_risk_estimate": 12.167291952938532,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -13547,7 +13555,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.httpcomponents:httpclient:4.5.5:GHSA-7r82-7xv7-xcpj",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.httpcomponents/httpclient@4.5.5",
-      "raptor_risk_estimate": 7.968452049374999,
+      "raptor_risk_estimate": 8.750079344437498,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -13616,7 +13624,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.solr:solr-core:5.5.5:GHSA-3gm7-v7vw-866c",
       "in_kev": true,
       "purl": "pkg:maven/org.apache.solr/solr-core@5.5.5",
-      "raptor_risk_estimate": 58.121153110785606,
+      "raptor_risk_estimate": 62.144582930877725,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -13686,7 +13694,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.solr:solr-core:5.5.5:GHSA-3pph-2595-cgfh",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.solr/solr-core@5.5.5",
-      "raptor_risk_estimate": 12.0937933125,
+      "raptor_risk_estimate": 13.11810148125,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -13752,7 +13760,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.solr:solr-core:5.5.5:GHSA-68r2-fwcg-qpm8",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.solr/solr-core@5.5.5",
-      "raptor_risk_estimate": 7.55607069375,
+      "raptor_risk_estimate": 6.631670899499999,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -13822,7 +13830,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.solr:solr-core:5.5.5:GHSA-j346-h5wc-rw2m",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.solr/solr-core@5.5.5",
-      "raptor_risk_estimate": 6.421696287374999,
+      "raptor_risk_estimate": 7.0601741586374995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -13892,7 +13900,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.solr:solr-core:5.5.5:GHSA-jgcr-fg3g-qvw8",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.solr/solr-core@5.5.5",
-      "raptor_risk_estimate": 16.761296559375,
+      "raptor_risk_estimate": 17.3188544034375,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -13962,7 +13970,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.solr:solr-core:5.5.5:GHSA-qr3p-2xj2-q7hq",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.solr/solr-core@5.5.5",
-      "raptor_risk_estimate": 12.2541845295,
+      "raptor_risk_estimate": 13.470931076549999,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -14031,7 +14039,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.solr:solr-core:5.5.5:GHSA-vrh8-27q8-fr8f",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.solr/solr-core@5.5.5",
-      "raptor_risk_estimate": 23.863295812500002,
+      "raptor_risk_estimate": 23.710653731249998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -14105,7 +14113,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.solr:solr-core:5.5.5:GHSA-ww97-9w65-2crx",
       "in_kev": true,
       "purl": "pkg:maven/org.apache.solr/solr-core@5.5.5",
-      "raptor_risk_estimate": 58.67816249473201,
+      "raptor_risk_estimate": 62.696022220984666,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -14174,7 +14182,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.solr:solr-core:5.5.5:GHSA-xhcq-fv7x-grr2",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.solr/solr-core@5.5.5",
-      "raptor_risk_estimate": 40.655225703750006,
+      "raptor_risk_estimate": 39.508388133375,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -14239,7 +14247,7 @@
       "finding_id": "sca:vuln:Maven:org.assertj:assertj-core:2.6.0:GHSA-rqfh-9r24-8c9r",
       "in_kev": false,
       "purl": "pkg:maven/org.assertj/assertj-core@2.6.0",
-      "raptor_risk_estimate": 7.447615012499999,
+      "raptor_risk_estimate": 6.553582809,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -14308,7 +14316,7 @@
       "finding_id": "sca:vuln:Maven:org.codehaus.groovy:groovy-all:2.4.13:GHSA-rcjj-h6gh-jf3r",
       "in_kev": false,
       "purl": "pkg:maven/org.codehaus.groovy/groovy-all@2.4.13",
-      "raptor_risk_estimate": 8.559349033125,
+      "raptor_risk_estimate": 9.341451629812498,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -14381,7 +14389,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-http:9.4.8.v20171121:GHSA-355h-qmc2-wpwf",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-http@9.4.8.v20171121",
-      "raptor_risk_estimate": 14.427862760157,
+      "raptor_risk_estimate": 17.456986942055426,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -14409,7 +14417,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "high",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "no"
     },
     {
       "advisory": {
@@ -14453,7 +14462,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-http:9.4.8.v20171121:GHSA-cj7v-27pg-wf7q",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-http@9.4.8.v20171121",
-      "raptor_risk_estimate": 4.108524980625,
+      "raptor_risk_estimate": 4.501799982562499,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -14525,7 +14534,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-http:9.4.8.v20171121:GHSA-hmr7-m48g-48f6",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-http@9.4.8.v20171121",
-      "raptor_risk_estimate": 8.620562088375,
+      "raptor_risk_estimate": 9.3369783795375,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -14594,7 +14603,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-http:9.4.8.v20171121:GHSA-qh8g-58pp-2wxh",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-http@9.4.8.v20171121",
-      "raptor_risk_estimate": 13.116157229290499,
+      "raptor_risk_estimate": 17.396860681747352,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -14622,7 +14631,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "low",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "no"
     },
     {
       "advisory": {
@@ -14665,7 +14675,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-http:9.4.8.v20171121:GHSA-wjpw-4j6x-6rwh",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-http@9.4.8.v20171121",
-      "raptor_risk_estimate": 5.52049151025,
+      "raptor_risk_estimate": 6.070394859224999,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -14738,7 +14748,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-jaspi:9.4.8.v20171121:GHSA-r7p8-xq5m-436c",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-jaspi@9.4.8.v20171121",
-      "raptor_risk_estimate": 11.023732455,
+      "raptor_risk_estimate": 12.125264209499997,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -14810,7 +14820,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-server:9.4.8.v20171121:GHSA-26vr-8j45-3r4w",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-server@9.4.8.v20171121",
-      "raptor_risk_estimate": 13.724039981249998,
+      "raptor_risk_estimate": 14.585323483124998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -14881,7 +14891,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-server:9.4.8.v20171121:GHSA-6x9x-8qw9-9pp6",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-server@9.4.8.v20171121",
-      "raptor_risk_estimate": 16.992743271000002,
+      "raptor_risk_estimate": 18.212153943900002,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -14952,7 +14962,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-server:9.4.8.v20171121:GHSA-7vx9-xjhr-rw6h",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-server@9.4.8.v20171121",
-      "raptor_risk_estimate": 10.76336382225,
+      "raptor_risk_estimate": 11.503759940024999,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -15022,7 +15032,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-server:9.4.8.v20171121:GHSA-84q7-p226-4x5w",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-server@9.4.8.v20171121",
-      "raptor_risk_estimate": 12.9432443625,
+      "raptor_risk_estimate": 13.882607426249999,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -15093,7 +15103,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-server:9.4.8.v20171121:GHSA-86wm-rrjm-8wh8",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-server@9.4.8.v20171121",
-      "raptor_risk_estimate": 7.229538341999999,
+      "raptor_risk_estimate": 7.936144507799999,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -15163,7 +15173,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-server:9.4.8.v20171121:GHSA-9rgv-h7x4-qw8g",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-server@9.4.8.v20171121",
-      "raptor_risk_estimate": 8.435235067125001,
+      "raptor_risk_estimate": 9.170184060412497,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -15235,7 +15245,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-server:9.4.8.v20171121:GHSA-g8m5-722r-8whq",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-server@9.4.8.v20171121",
-      "raptor_risk_estimate": 8.975371976249999,
+      "raptor_risk_estimate": 9.835002278625,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -15305,7 +15315,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-server:9.4.8.v20171121:GHSA-h2f4-v4c4-6wx4",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-server@9.4.8.v20171121",
-      "raptor_risk_estimate": 11.923220812499999,
+      "raptor_risk_estimate": 12.96458623125,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -15379,7 +15389,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-server:9.4.8.v20171121:GHSA-m394-8rww-3jr7",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-server@9.4.8.v20171121",
-      "raptor_risk_estimate": 12.987499532999998,
+      "raptor_risk_estimate": 13.267222079699998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -15450,7 +15460,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-server:9.4.8.v20171121:GHSA-m6cp-vxjx-65j6",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-server@9.4.8.v20171121",
-      "raptor_risk_estimate": 5.238902169375001,
+      "raptor_risk_estimate": 5.757399452437499,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -15519,7 +15529,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-server:9.4.8.v20171121:GHSA-mwcx-532g-8pq3",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-server@9.4.8.v20171121",
-      "raptor_risk_estimate": 13.233139095,
+      "raptor_risk_estimate": 14.5306851855,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -15591,7 +15601,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-server:9.4.8.v20171121:GHSA-p26g-97m4-6q7c",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-server@9.4.8.v20171121",
-      "raptor_risk_estimate": 3.596756715,
+      "raptor_risk_estimate": 3.9518610434999997,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -15659,7 +15669,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-server:9.4.8.v20171121:GHSA-q4rv-gq96-w7c5",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-server@9.4.8.v20171121",
-      "raptor_risk_estimate": 10.835096597999998,
+      "raptor_risk_estimate": 11.895926938199999,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -15730,7 +15740,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-server:9.4.8.v20171121:GHSA-qw69-rqj8-6qw8",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-server@9.4.8.v20171121",
-      "raptor_risk_estimate": 13.433791107749999,
+      "raptor_risk_estimate": 13.668884496974998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -15801,7 +15811,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-server:9.4.8.v20171121:GHSA-r28m-g6j9-r2h5",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-server@9.4.8.v20171121",
-      "raptor_risk_estimate": 8.281549244625,
+      "raptor_risk_estimate": 9.031866820162499,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -15872,7 +15882,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-server:9.4.8.v20171121:GHSA-xc67-hjx6-cgg6",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-server@9.4.8.v20171121",
-      "raptor_risk_estimate": 8.360049552,
+      "raptor_risk_estimate": 9.1025170968,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -15944,7 +15954,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-servlets:9.4.8.v20171121:GHSA-3gh6-v5v9-6v9j",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-servlets@9.4.8.v20171121",
-      "raptor_risk_estimate": 5.349546864375,
+      "raptor_risk_estimate": 5.856979677937499,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -16015,7 +16025,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-servlets:9.4.8.v20171121:GHSA-gwcr-j4wh-j3cq",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-servlets@9.4.8.v20171121",
-      "raptor_risk_estimate": 21.492051067499997,
+      "raptor_risk_estimate": 20.921318460749998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -16088,7 +16098,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-servlets:9.4.8.v20171121:GHSA-j26w-f9rq-mr2q",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-servlets@9.4.8.v20171121",
-      "raptor_risk_estimate": 7.994819715000001,
+      "raptor_risk_estimate": 8.773810243499998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -16158,7 +16168,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty:jetty-xml:9.4.8.v20171121:GHSA-58qw-p7qm-5rvh",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty/jetty-xml@9.4.8.v20171121",
-      "raptor_risk_estimate": 11.35119375,
+      "raptor_risk_estimate": 11.377591874999998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -16231,7 +16241,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty.http2:http2-common:9.4.8.v20171121:GHSA-mmxm-8w33-wc4h",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty.http2/http2-common@9.4.8.v20171121",
-      "raptor_risk_estimate": 9.430356506020312,
+      "raptor_risk_estimate": 9.33088797951581,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -16325,7 +16335,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty.http2:http2-common:9.4.8.v20171121:GHSA-qppj-fm5r-hxr3",
       "in_kev": true,
       "purl": "pkg:maven/org.eclipse.jetty.http2/http2-common@9.4.8.v20171121",
-      "raptor_risk_estimate": 49.36926765257756,
+      "raptor_risk_estimate": 47.47847691241325,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -16349,7 +16359,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "active"
+      "ssvc_exploitation": "active",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -16394,7 +16405,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty.http2:http2-common:9.4.8.v20171121:GHSA-rggv-cv7r-mw98",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty.http2/http2-common@9.4.8.v20171121",
-      "raptor_risk_estimate": 12.43358423455237,
+      "raptor_risk_estimate": 13.515070434802823,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -16418,7 +16429,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "high",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "no"
     },
     {
       "advisory": {
@@ -16463,7 +16475,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty.http2:http2-hpack:9.4.8.v20171121:GHSA-wgh7-54f2-x98r",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty.http2/http2-hpack@9.4.8.v20171121",
-      "raptor_risk_estimate": 9.632563914909376,
+      "raptor_risk_estimate": 9.494686793946375,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -16557,7 +16569,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty.http2:http2-server:9.4.8.v20171121:GHSA-qppj-fm5r-hxr3",
       "in_kev": true,
       "purl": "pkg:maven/org.eclipse.jetty.http2/http2-server@9.4.8.v20171121",
-      "raptor_risk_estimate": 49.36926765257756,
+      "raptor_risk_estimate": 47.47847691241325,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -16581,7 +16593,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "active"
+      "ssvc_exploitation": "active",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -16626,7 +16639,7 @@
       "finding_id": "sca:vuln:Maven:org.eclipse.jetty.http2:http2-server:9.4.8.v20171121:GHSA-wgmr-mf83-7x4j",
       "in_kev": false,
       "purl": "pkg:maven/org.eclipse.jetty.http2/http2-server@9.4.8.v20171121",
-      "raptor_risk_estimate": 9.617492555240625,
+      "raptor_risk_estimate": 9.482478186659621,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -16691,7 +16704,7 @@
       "finding_id": "sca:vuln:Maven:org.glassfish:javax.el:3.0.0:GHSA-v6w3-2prq-h95f",
       "in_kev": false,
       "purl": "pkg:maven/org.glassfish/javax.el@3.0.0",
-      "raptor_risk_estimate": 7.909689823125,
+      "raptor_risk_estimate": 8.6971933408125,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -16762,7 +16775,7 @@
       "finding_id": "sca:vuln:Maven:org.hibernate:hibernate-core:5.0.12.Final:GHSA-8grg-q944-cch5",
       "in_kev": false,
       "purl": "pkg:maven/org.hibernate/hibernate-core@5.0.12.Final",
-      "raptor_risk_estimate": 9.99271104,
+      "raptor_risk_estimate": 10.929302435999999,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -16832,7 +16845,7 @@
       "finding_id": "sca:vuln:Maven:org.hibernate:hibernate-core:5.0.12.Final:GHSA-j8jw-g6fq-mp7h",
       "in_kev": false,
       "purl": "pkg:maven/org.hibernate/hibernate-core@5.0.12.Final",
-      "raptor_risk_estimate": 11.161736978999999,
+      "raptor_risk_estimate": 12.249468281099999,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -16902,7 +16915,7 @@
       "finding_id": "sca:vuln:Maven:org.jdom:jdom2:2.0.6:GHSA-2363-cqg2-863c",
       "in_kev": false,
       "purl": "pkg:maven/org.jdom/jdom2@2.0.6",
-      "raptor_risk_estimate": 9.648173537423439,
+      "raptor_risk_estimate": 9.507331422921936,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -16968,7 +16981,7 @@
       "finding_id": "sca:vuln:Maven:org.json:json:20140107:GHSA-3vqj-43w4-2q58",
       "in_kev": false,
       "purl": "pkg:maven/org.json/json@20140107",
-      "raptor_risk_estimate": 11.4277077,
+      "raptor_risk_estimate": 12.51862443,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -17037,7 +17050,7 @@
       "finding_id": "sca:vuln:Maven:org.json:json:20140107:GHSA-4jq9-2xhw-jpx7",
       "in_kev": false,
       "purl": "pkg:maven/org.json/json@20140107",
-      "raptor_risk_estimate": 11.343913959374998,
+      "raptor_risk_estimate": 12.4432100634375,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -17112,7 +17125,7 @@
       "finding_id": "sca:vuln:Maven:org.postgresql:postgresql:9.4.1212.jre7:GHSA-24rp-q3w6-vc56",
       "in_kev": false,
       "purl": "pkg:maven/org.postgresql/postgresql@9.4.1212.jre7",
-      "raptor_risk_estimate": 16.552120915689976,
+      "raptor_risk_estimate": 21.77629019976949,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -17136,7 +17149,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "critical",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -17179,7 +17193,7 @@
       "finding_id": "sca:vuln:Maven:org.postgresql:postgresql:9.4.1212.jre7:GHSA-88cc-g835-76rp",
       "in_kev": false,
       "purl": "pkg:maven/org.postgresql/postgresql@9.4.1212.jre7",
-      "raptor_risk_estimate": 11.085847054344562,
+      "raptor_risk_estimate": 10.71703838356478,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -17247,7 +17261,7 @@
       "finding_id": "sca:vuln:Maven:org.postgresql:postgresql:9.4.1212.jre7:GHSA-r38f-c4h4-hqq2",
       "in_kev": false,
       "purl": "pkg:maven/org.postgresql/postgresql@9.4.1212.jre7",
-      "raptor_risk_estimate": 9.458700686987063,
+      "raptor_risk_estimate": 9.263619219830481,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -17314,7 +17328,7 @@
       "finding_id": "sca:vuln:Maven:org.postgresql:postgresql:9.4.1212.jre7:GHSA-v7wg-cpwc-24m4",
       "in_kev": false,
       "purl": "pkg:maven/org.postgresql/postgresql@9.4.1212.jre7",
-      "raptor_risk_estimate": 9.677144609488124,
+      "raptor_risk_estimate": 9.418013213049525,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -17380,7 +17394,7 @@
       "finding_id": "sca:vuln:Maven:org.slf4j:slf4j-ext:1.7.25:GHSA-w77p-8cfg-2x43",
       "in_kev": false,
       "purl": "pkg:maven/org.slf4j/slf4j-ext@1.7.25",
-      "raptor_risk_estimate": 15.196040585250001,
+      "raptor_risk_estimate": 16.595121526725002,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -17452,7 +17466,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework:spring-framework-bom:4.3.14.RELEASE:GHSA-rv39-3qh7-9v7w",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework/spring-framework-bom@4.3.14.RELEASE",
-      "raptor_risk_estimate": 21.4738891575,
+      "raptor_risk_estimate": 21.262362741749996,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -17522,7 +17536,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework.amqp:spring-amqp:1.7.6.RELEASE:GHSA-w4g2-9hj6-5472",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework.amqp/spring-amqp@1.7.6.RELEASE",
-      "raptor_risk_estimate": 8.878424253000002,
+      "raptor_risk_estimate": 9.747749327700001,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -17590,7 +17604,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework.ldap:spring-ldap-core:2.3.2.RELEASE:GHSA-mqvr-2rp8-j7h4",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework.ldap/spring-ldap-core@2.3.2.RELEASE",
-      "raptor_risk_estimate": 5.5236471015,
+      "raptor_risk_estimate": 6.07323489135,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -17661,7 +17675,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework.security:spring-security-bom:4.2.4.RELEASE:GHSA-gq28-h5vg-8prx",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework.security/spring-security-bom@4.2.4.RELEASE",
-      "raptor_risk_estimate": 13.349219367,
+      "raptor_risk_estimate": 14.635157430300003,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -17735,7 +17749,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework.security.oauth:spring-security-oauth:2.0.14.RELEASE:GHSA-77rv-6vfw-x4gc",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework.security.oauth/spring-security-oauth@2.0.14.RELEASE",
-      "raptor_risk_estimate": 13.896231090705374,
+      "raptor_risk_estimate": 15.978658258578909,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -17804,7 +17818,7 @@
       "finding_id": "sca:vuln:Maven:org.springframework.security.oauth:spring-security-oauth:2.0.14.RELEASE:GHSA-mmf6-6597-3v6m",
       "in_kev": false,
       "purl": "pkg:maven/org.springframework.security.oauth/spring-security-oauth@2.0.14.RELEASE",
-      "raptor_risk_estimate": 12.18534581437147,
+      "raptor_risk_estimate": 14.30170889490264,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -17868,7 +17882,7 @@
       "finding_id": "sca:vuln:Maven:org.xerial:sqlite-jdbc:3.15.1:GHSA-6phf-6h5g-97j2",
       "in_kev": false,
       "purl": "pkg:maven/org.xerial/sqlite-jdbc@3.15.1",
-      "raptor_risk_estimate": 12.174816128854502,
+      "raptor_risk_estimate": 11.847291488058179,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -17931,7 +17945,7 @@
       "finding_id": "sca:vuln:Maven:log4j:log4j:1.2.17:GHSA-2qrg-x229-3v8q",
       "in_kev": false,
       "purl": "pkg:maven/log4j/log4j@1.2.17",
-      "raptor_risk_estimate": 20.946566406583127,
+      "raptor_risk_estimate": 19.178450945573324,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -17994,7 +18008,7 @@
       "finding_id": "sca:vuln:Maven:log4j:log4j:1.2.17:GHSA-65fg-84f6-3jq3",
       "in_kev": false,
       "purl": "pkg:maven/log4j/log4j@1.2.17",
-      "raptor_risk_estimate": 14.497498112414627,
+      "raptor_risk_estimate": 13.954360757334586,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -18057,7 +18071,7 @@
       "finding_id": "sca:vuln:Maven:log4j:log4j:1.2.17:GHSA-f7vh-qwp3-x37m",
       "in_kev": false,
       "purl": "pkg:maven/log4j/log4j@1.2.17",
-      "raptor_risk_estimate": 12.90703427252663,
+      "raptor_risk_estimate": 12.665999995483066,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -18120,7 +18134,7 @@
       "finding_id": "sca:vuln:Maven:log4j:log4j:1.2.17:GHSA-fp5r-v3w9-4333",
       "in_kev": false,
       "purl": "pkg:maven/log4j/log4j@1.2.17",
-      "raptor_risk_estimate": 22.352791475334374,
+      "raptor_risk_estimate": 19.798751343963374,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -18184,7 +18198,7 @@
       "finding_id": "sca:vuln:Maven:log4j:log4j:1.2.17:GHSA-vp98-w2p3-mv35",
       "in_kev": false,
       "purl": "pkg:maven/log4j/log4j@1.2.17",
-      "raptor_risk_estimate": 9.425332719464064,
+      "raptor_risk_estimate": 9.32681844375356,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -18247,7 +18261,7 @@
       "finding_id": "sca:vuln:Maven:log4j:log4j:1.2.17:GHSA-w9p3-5cr8-m3jj",
       "in_kev": false,
       "purl": "pkg:maven/log4j/log4j@1.2.17",
-      "raptor_risk_estimate": 11.1971585576565,
+      "raptor_risk_estimate": 11.05533657423426,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -18314,7 +18328,7 @@
       "finding_id": "sca:vuln:Maven:com.squareup.okhttp3:okhttp:3.4.1:GHSA-3cqm-mf7h-prrj",
       "in_kev": false,
       "purl": "pkg:maven/com.squareup.okhttp3/okhttp@3.4.1",
-      "raptor_risk_estimate": 9.584299679779688,
+      "raptor_risk_estimate": 9.455590182516186,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -18379,7 +18393,7 @@
       "finding_id": "sca:vuln:Maven:io.netty:netty-all:4.0.38.Final:GHSA-p979-4mfw-53vg",
       "in_kev": false,
       "purl": "pkg:maven/io.netty/netty-all@4.0.38.Final",
-      "raptor_risk_estimate": 10.12094773655625,
+      "raptor_risk_estimate": 9.890303806262247,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -18444,7 +18458,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.ivy:ivy:2.3.0:GHSA-2jc4-r94c-rp7h",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.ivy/ivy@2.3.0",
-      "raptor_risk_estimate": 10.3075806096945,
+      "raptor_risk_estimate": 10.199387272371778,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -18507,7 +18521,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.ivy:ivy:2.3.0:GHSA-wv7w-rj2x-556x",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.ivy/ivy@2.3.0",
-      "raptor_risk_estimate": 9.584837942625,
+      "raptor_risk_estimate": 9.456026204204997,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -18573,7 +18587,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.maven:maven-core:3.1.1:GHSA-2f88-5hg8-9x2x",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.maven/maven-core@3.1.1",
-      "raptor_risk_estimate": 25.477441114124993,
+      "raptor_risk_estimate": 25.639904502712493,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -18642,7 +18656,7 @@
       "finding_id": "sca:vuln:Maven:org.codehaus.plexus:plexus-archiver:2.8.1:GHSA-hcxq-x77q-3469",
       "in_kev": false,
       "purl": "pkg:maven/org.codehaus.plexus/plexus-archiver@2.8.1",
-      "raptor_risk_estimate": 8.831412170625,
+      "raptor_risk_estimate": 9.5863084535625,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -18711,7 +18725,7 @@
       "finding_id": "sca:vuln:Maven:org.codehaus.plexus:plexus-archiver:2.8.1:GHSA-wh3p-fphp-9h2m",
       "in_kev": false,
       "purl": "pkg:maven/org.codehaus.plexus/plexus-archiver@2.8.1",
-      "raptor_risk_estimate": 26.808618797903247,
+      "raptor_risk_estimate": 30.014122171674213,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -18739,7 +18753,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "high",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "no"
     },
     {
       "advisory": {
@@ -18778,7 +18793,7 @@
       "finding_id": "sca:vuln:Maven:org.codehaus.plexus:plexus-utils:3.0.20:GHSA-6fmv-xxpf-w3cw",
       "in_kev": false,
       "purl": "pkg:maven/org.codehaus.plexus/plexus-utils@3.0.20",
-      "raptor_risk_estimate": 7.484430243749999,
+      "raptor_risk_estimate": 6.5800897754999985,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -18847,7 +18862,7 @@
       "finding_id": "sca:vuln:Maven:org.codehaus.plexus:plexus-utils:3.0.20:GHSA-g6ph-x5wf-g337",
       "in_kev": false,
       "purl": "pkg:maven/org.codehaus.plexus/plexus-utils@3.0.20",
-      "raptor_risk_estimate": 11.22515285625,
+      "raptor_risk_estimate": 12.336325070624998,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -18916,7 +18931,7 @@
       "finding_id": "sca:vuln:Maven:org.codehaus.plexus:plexus-utils:3.0.20:GHSA-jcwr-x25h-x5fh",
       "in_kev": false,
       "purl": "pkg:maven/org.codehaus.plexus/plexus-utils@3.0.20",
-      "raptor_risk_estimate": 6.410449873874999,
+      "raptor_risk_estimate": 7.050052386487499,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -18979,7 +18994,7 @@
       "finding_id": "sca:vuln:Maven:org.gradle:gradle-core:${gradle.version}:GHSA-hhr2-f668-ff2w",
       "in_kev": false,
       "purl": "pkg:maven/org.gradle/gradle-core@${gradle.version}",
-      "raptor_risk_estimate": 7.4686522875,
+      "raptor_risk_estimate": 6.568729647,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -19048,7 +19063,7 @@
       "finding_id": "sca:vuln:Maven:org.zeroturnaround:zt-zip:1.7:GHSA-qcf3-9vmh-xw4r",
       "in_kev": false,
       "purl": "pkg:maven/org.zeroturnaround/zt-zip@1.7",
-      "raptor_risk_estimate": 8.418783078750002,
+      "raptor_risk_estimate": 9.214942270875,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -19116,7 +19131,7 @@
       "finding_id": "sca:vuln:Maven:org.webjars:bootstrap:3.0.3:GHSA-3mgp-fx93-9xv5",
       "in_kev": false,
       "purl": "pkg:maven/org.webjars/bootstrap@3.0.3",
-      "raptor_risk_estimate": 8.49087413066475,
+      "raptor_risk_estimate": 8.254055298778587,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -19182,7 +19197,7 @@
       "finding_id": "sca:vuln:Maven:org.webjars:bootstrap:3.0.3:GHSA-3wqf-4x89-9g79",
       "in_kev": false,
       "purl": "pkg:maven/org.webjars/bootstrap@3.0.3",
-      "raptor_risk_estimate": 7.924961321058373,
+      "raptor_risk_estimate": 7.795635660280335,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -19248,7 +19263,7 @@
       "finding_id": "sca:vuln:Maven:org.webjars:bootstrap:3.0.3:GHSA-4p24-vmcr-4gqj",
       "in_kev": false,
       "purl": "pkg:maven/org.webjars/bootstrap@3.0.3",
-      "raptor_risk_estimate": 8.525751170761687,
+      "raptor_risk_estimate": 8.282307566339467,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -19314,7 +19329,7 @@
       "finding_id": "sca:vuln:Maven:org.webjars:bootstrap:3.0.3:GHSA-7mvr-5x2g-wfc8",
       "in_kev": false,
       "purl": "pkg:maven/org.webjars/bootstrap@3.0.3",
-      "raptor_risk_estimate": 7.985813729930438,
+      "raptor_risk_estimate": 7.844929365606215,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -19380,7 +19395,7 @@
       "finding_id": "sca:vuln:Maven:org.webjars:bootstrap:3.0.3:GHSA-9v3m-8fp8-mj99",
       "in_kev": false,
       "purl": "pkg:maven/org.webjars/bootstrap@3.0.3",
-      "raptor_risk_estimate": 7.894024364989124,
+      "raptor_risk_estimate": 7.770575071481564,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -19445,7 +19460,7 @@
       "finding_id": "sca:vuln:Maven:org.webjars:bootstrap:3.0.3:GHSA-ph58-4vrj-w6hr",
       "in_kev": false,
       "purl": "pkg:maven/org.webjars/bootstrap@3.0.3",
-      "raptor_risk_estimate": 9.138507201586124,
+      "raptor_risk_estimate": 8.778672719009444,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -19511,7 +19526,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.ant:ant:1.9.3:GHSA-4p6w-m9wc-c9c9",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.ant/ant@1.9.3",
-      "raptor_risk_estimate": 7.900098134327437,
+      "raptor_risk_estimate": 7.820609680446095,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -19577,7 +19592,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.ant:ant:1.9.3:GHSA-5v34-g2px-j4fw",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.ant/ant@1.9.3",
-      "raptor_risk_estimate": 6.91046333195625,
+      "raptor_risk_estimate": 6.838494444878249,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -19643,7 +19658,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.ant:ant:1.9.3:GHSA-f62v-xpxf-3v68",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.ant/ant@1.9.3",
-      "raptor_risk_estimate": 9.596320883325,
+      "raptor_risk_estimate": 9.465328000232997,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -19709,7 +19724,7 @@
       "finding_id": "sca:vuln:Maven:org.apache.ant:ant:1.9.3:GHSA-q5r4-cfpx-h6fh",
       "in_kev": false,
       "purl": "pkg:maven/org.apache.ant/ant@1.9.3",
-      "raptor_risk_estimate": 6.905595043555312,
+      "raptor_risk_estimate": 6.834550870937212,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -19776,7 +19791,7 @@
       "finding_id": "sca:vuln:Maven:org.bouncycastle:bcprov-jdk16:1.46:GHSA-6xx3-rg99-gc3p",
       "in_kev": false,
       "purl": "pkg:maven/org.bouncycastle/bcprov-jdk16@1.46",
-      "raptor_risk_estimate": 6.439971822959812,
+      "raptor_risk_estimate": 6.36714210061739,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -19842,7 +19857,7 @@
       "finding_id": "sca:vuln:Maven:org.bouncycastle:bcprov-jdk16:1.46:GHSA-72m5-fvvv-55m6",
       "in_kev": false,
       "purl": "pkg:maven/org.bouncycastle/bcprov-jdk16@1.46",
-      "raptor_risk_estimate": 6.950412232031813,
+      "raptor_risk_estimate": 6.825740659244271,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -19907,7 +19922,7 @@
       "finding_id": "sca:vuln:Maven:org.bouncycastle:bcprov-jdk16:1.46:GHSA-wjxj-5m7g-mg7q",
       "in_kev": false,
       "purl": "pkg:maven/org.bouncycastle/bcprov-jdk16@1.46",
-      "raptor_risk_estimate": 6.912963263837814,
+      "raptor_risk_estimate": 6.840519523388512,
       "reachability": {
         "confidence": {
           "level": "low",

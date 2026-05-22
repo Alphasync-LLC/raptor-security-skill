@@ -178,6 +178,16 @@ class Advisory:
     ecosystem_specific: Optional[Dict[str, Any]] = None
     # ecosystem_specific.imports[].symbols populated for Go advisories;
     # used by Go function-level reachability.
+    # RUSTSEC ``informational`` tag (and similar non-security markers
+    # on other ecos). Values seen in the wild: ``"unsound"``,
+    # ``"unmaintained"``, ``"notice"``. When set, the advisory is NOT
+    # a security vulnerability — it's a soundness / quality concern
+    # the upstream curators wanted to surface. Consumers (calibration
+    # validate / refit; future: scan-time severity gating) skip these
+    # from exploitation ground-truth so they don't inflate the
+    # signal set. ``None`` for advisories that are real
+    # vulnerabilities (vast majority).
+    informational: Optional[str] = None
 
 
 # ---------------------------------------------------------------------------
@@ -264,6 +274,16 @@ class VulnFinding:
     # ``None`` means either CISA hasn't enriched the CVE yet, or
     # the Vulnrichment lookup wasn't wired into this run.
     ssvc_exploitation: Optional[str] = None
+    # SSVC ``Automatable`` decision — one of ``"yes"`` /
+    # ``"no"`` / ``None``. Indicates whether the steps of an
+    # attack can be reliably automated (think: wormable
+    # potential, mass-scanning feasibility). Independent of
+    # ``Exploitation``: a CVE can be poc + automatable=yes
+    # (high-fanout exploitation likely) OR active + automatable
+    # =no (skilled-actor-only). The risk formula applies a small
+    # bonus multiplier on top of the SSVC tier when both
+    # Exploitation>=poc AND Automatable=yes hold.
+    ssvc_automatable: Optional[str] = None
     related_findings: List[str] = field(default_factory=list)
     suppressed: bool = False
     suppression_reason: Optional[str] = None

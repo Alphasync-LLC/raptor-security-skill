@@ -50,7 +50,7 @@
       "finding_id": "sca:vuln:Go:github.com/dgrijalva/jwt-go:v3.2.0+incompatible:GHSA-w73w-5m7g-f7qc",
       "in_kev": false,
       "purl": "pkg:golang/github.com/dgrijalva/jwt-go@v3.2.0+incompatible",
-      "raptor_risk_estimate": 6.742757125139063,
+      "raptor_risk_estimate": 7.903640051831389,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -118,7 +118,7 @@
       "finding_id": "sca:vuln:Go:github.com/gogo/protobuf:v1.1.1:GHSA-c3h9-896r-86jm",
       "in_kev": false,
       "purl": "pkg:golang/github.com/gogo/protobuf@v1.1.1",
-      "raptor_risk_estimate": 5.923494457276312,
+      "raptor_risk_estimate": 7.273201383906311,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -186,7 +186,7 @@
       "finding_id": "sca:vuln:Go:github.com/gogo/protobuf:v1.2.0:GHSA-c3h9-896r-86jm",
       "in_kev": false,
       "purl": "pkg:golang/github.com/gogo/protobuf@v1.2.0",
-      "raptor_risk_estimate": 5.923494457276312,
+      "raptor_risk_estimate": 7.273201383906311,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -252,7 +252,7 @@
       "finding_id": "sca:vuln:Go:github.com/prometheus/client_golang:v0.9.1:GHSA-cg3q-j54f-5p7p",
       "in_kev": false,
       "purl": "pkg:golang/github.com/prometheus/client_golang@v0.9.1",
-      "raptor_risk_estimate": 11.2204621125,
+      "raptor_risk_estimate": 12.332103401249999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -320,7 +320,7 @@
       "finding_id": "sca:vuln:Go:github.com/prometheus/client_golang:v0.9.3-0.20190127221311-3c4408c8b829:GHSA-cg3q-j54f-5p7p",
       "in_kev": false,
       "purl": "pkg:golang/github.com/prometheus/client_golang@v0.9.3-0.20190127221311-3c4408c8b829",
-      "raptor_risk_estimate": 11.2204621125,
+      "raptor_risk_estimate": 12.332103401249999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -388,7 +388,7 @@
       "finding_id": "sca:vuln:Go:github.com/prometheus/client_golang:v0.9.3:GHSA-cg3q-j54f-5p7p",
       "in_kev": false,
       "purl": "pkg:golang/github.com/prometheus/client_golang@v0.9.3",
-      "raptor_risk_estimate": 11.2204621125,
+      "raptor_risk_estimate": 12.332103401249999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -456,7 +456,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GHSA-2wp2-chmh-r934",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 11.307454087499998,
+      "raptor_risk_estimate": 12.410396178749998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -527,7 +527,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GHSA-2wrh-6pvc-2jm9",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 9.100483791374998,
+      "raptor_risk_estimate": 10.007167912237499,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -601,7 +601,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GHSA-39qc-96h7-956f",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 22.0919004,
+      "raptor_risk_estimate": 22.116397859999996,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -674,7 +674,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GHSA-4374-p667-p6c8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 11.200419843749998,
+      "raptor_risk_estimate": 12.314065359374998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -748,7 +748,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GHSA-4r78-hx75-jjj2",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 11.316195928125,
+      "raptor_risk_estimate": 12.4182638353125,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -823,7 +823,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GHSA-4v7x-pqxf-cx7m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 18.425114874374998,
+      "raptor_risk_estimate": 18.161075886937496,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -895,7 +895,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GHSA-5p4h-3377-7w67",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 11.328349218749999,
+      "raptor_risk_estimate": 12.429201796874997,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -968,7 +968,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GHSA-69cg-p879-7622",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 11.196795178125,
+      "raptor_risk_estimate": 12.310803160312497,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1041,7 +1041,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GHSA-83g2-8m93-v3w7",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 11.19871411875,
+      "raptor_risk_estimate": 12.312530206874998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1113,7 +1113,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GHSA-fcf9-6fv2-fc5v",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 11.298285815625,
+      "raptor_risk_estimate": 12.4021447340625,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1186,7 +1186,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GHSA-h86h-8ppg-mxmh",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 8.78952755175,
+      "raptor_risk_estimate": 9.667742296575002,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1286,7 +1286,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GHSA-qppj-fm5r-hxr3",
       "in_kev": true,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 58.668173086842025,
+      "raptor_risk_estimate": 62.686132707173556,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1316,7 +1316,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "active"
+      "ssvc_exploitation": "active",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -1359,7 +1360,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GHSA-qxp5-gwg8-xv66",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 6.555026989500001,
+      "raptor_risk_estimate": 7.209954290550001,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1431,7 +1432,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GHSA-vfw5-hrgq-h5wf",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 11.30702765625,
+      "raptor_risk_estimate": 12.410012390624999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1499,7 +1500,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GHSA-vvgc-356p-c3xw",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 7.4623979625,
+      "raptor_risk_estimate": 6.5642265329999985,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1572,7 +1573,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GHSA-vvpx-j8f3-3w6h",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 11.224939640625,
+      "raptor_risk_estimate": 12.336133176562498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1645,7 +1646,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GHSA-xrjj-mj9h-534m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 7.942235056125001,
+      "raptor_risk_estimate": 8.726484050512498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1714,7 +1715,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GO-2022-0288",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 7.45813365,
+      "raptor_risk_estimate": 6.561156228,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1780,7 +1781,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GO-2024-3333",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 7.4498893125,
+      "raptor_risk_estimate": 6.555220305,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1846,7 +1847,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GO-2026-4440",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 7.44804144375,
+      "raptor_risk_estimate": 6.553889839499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1911,7 +1912,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GO-2026-4441",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 7.447188581250001,
+      "raptor_risk_estimate": 6.553275778499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1979,7 +1980,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180724234803-3673e40ba225:GO-2026-4918",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180724234803-3673e40ba225",
-      "raptor_risk_estimate": 7.44676215,
+      "raptor_risk_estimate": 6.552968748,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -2051,7 +2052,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180826012351-8a410e7b638d:GHSA-2wp2-chmh-r934",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180826012351-8a410e7b638d",
-      "raptor_risk_estimate": 11.307454087499998,
+      "raptor_risk_estimate": 12.410396178749998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -2122,7 +2123,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180826012351-8a410e7b638d:GHSA-2wrh-6pvc-2jm9",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180826012351-8a410e7b638d",
-      "raptor_risk_estimate": 9.100483791374998,
+      "raptor_risk_estimate": 10.007167912237499,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -2196,7 +2197,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180826012351-8a410e7b638d:GHSA-39qc-96h7-956f",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180826012351-8a410e7b638d",
-      "raptor_risk_estimate": 22.0919004,
+      "raptor_risk_estimate": 22.116397859999996,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -2269,7 +2270,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180826012351-8a410e7b638d:GHSA-4374-p667-p6c8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180826012351-8a410e7b638d",
-      "raptor_risk_estimate": 11.200419843749998,
+      "raptor_risk_estimate": 12.314065359374998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -2343,7 +2344,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180826012351-8a410e7b638d:GHSA-4r78-hx75-jjj2",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180826012351-8a410e7b638d",
-      "raptor_risk_estimate": 11.316195928125,
+      "raptor_risk_estimate": 12.4182638353125,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -2418,7 +2419,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180826012351-8a410e7b638d:GHSA-4v7x-pqxf-cx7m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180826012351-8a410e7b638d",
-      "raptor_risk_estimate": 18.425114874374998,
+      "raptor_risk_estimate": 18.161075886937496,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -2491,7 +2492,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180826012351-8a410e7b638d:GHSA-69cg-p879-7622",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180826012351-8a410e7b638d",
-      "raptor_risk_estimate": 11.196795178125,
+      "raptor_risk_estimate": 12.310803160312497,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -2564,7 +2565,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180826012351-8a410e7b638d:GHSA-83g2-8m93-v3w7",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180826012351-8a410e7b638d",
-      "raptor_risk_estimate": 11.19871411875,
+      "raptor_risk_estimate": 12.312530206874998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -2636,7 +2637,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180826012351-8a410e7b638d:GHSA-fcf9-6fv2-fc5v",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180826012351-8a410e7b638d",
-      "raptor_risk_estimate": 11.298285815625,
+      "raptor_risk_estimate": 12.4021447340625,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -2709,7 +2710,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180826012351-8a410e7b638d:GHSA-h86h-8ppg-mxmh",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180826012351-8a410e7b638d",
-      "raptor_risk_estimate": 8.78952755175,
+      "raptor_risk_estimate": 9.667742296575002,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -2809,7 +2810,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180826012351-8a410e7b638d:GHSA-qppj-fm5r-hxr3",
       "in_kev": true,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180826012351-8a410e7b638d",
-      "raptor_risk_estimate": 58.668173086842025,
+      "raptor_risk_estimate": 62.686132707173556,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -2839,7 +2840,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "active"
+      "ssvc_exploitation": "active",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -2882,7 +2884,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180826012351-8a410e7b638d:GHSA-qxp5-gwg8-xv66",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180826012351-8a410e7b638d",
-      "raptor_risk_estimate": 6.555026989500001,
+      "raptor_risk_estimate": 7.209954290550001,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -2954,7 +2956,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180826012351-8a410e7b638d:GHSA-vfw5-hrgq-h5wf",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180826012351-8a410e7b638d",
-      "raptor_risk_estimate": 11.30702765625,
+      "raptor_risk_estimate": 12.410012390624999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -3022,7 +3024,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180826012351-8a410e7b638d:GHSA-vvgc-356p-c3xw",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180826012351-8a410e7b638d",
-      "raptor_risk_estimate": 7.4623979625,
+      "raptor_risk_estimate": 6.5642265329999985,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -3095,7 +3097,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180826012351-8a410e7b638d:GHSA-vvpx-j8f3-3w6h",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180826012351-8a410e7b638d",
-      "raptor_risk_estimate": 11.224939640625,
+      "raptor_risk_estimate": 12.336133176562498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -3168,7 +3170,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180826012351-8a410e7b638d:GHSA-xrjj-mj9h-534m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180826012351-8a410e7b638d",
-      "raptor_risk_estimate": 7.942235056125001,
+      "raptor_risk_estimate": 8.726484050512498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -3237,7 +3239,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180826012351-8a410e7b638d:GO-2022-0288",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180826012351-8a410e7b638d",
-      "raptor_risk_estimate": 7.45813365,
+      "raptor_risk_estimate": 6.561156228,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -3303,7 +3305,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180826012351-8a410e7b638d:GO-2024-3333",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180826012351-8a410e7b638d",
-      "raptor_risk_estimate": 7.4498893125,
+      "raptor_risk_estimate": 6.555220305,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -3369,7 +3371,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180826012351-8a410e7b638d:GO-2026-4440",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180826012351-8a410e7b638d",
-      "raptor_risk_estimate": 7.44804144375,
+      "raptor_risk_estimate": 6.553889839499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -3434,7 +3436,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180826012351-8a410e7b638d:GO-2026-4441",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180826012351-8a410e7b638d",
-      "raptor_risk_estimate": 7.447188581250001,
+      "raptor_risk_estimate": 6.553275778499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -3502,7 +3504,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180826012351-8a410e7b638d:GO-2026-4918",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180826012351-8a410e7b638d",
-      "raptor_risk_estimate": 7.44676215,
+      "raptor_risk_estimate": 6.552968748,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -3574,7 +3576,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180906233101-161cd47e91fd:GHSA-2wp2-chmh-r934",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180906233101-161cd47e91fd",
-      "raptor_risk_estimate": 11.307454087499998,
+      "raptor_risk_estimate": 12.410396178749998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -3645,7 +3647,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180906233101-161cd47e91fd:GHSA-2wrh-6pvc-2jm9",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180906233101-161cd47e91fd",
-      "raptor_risk_estimate": 9.100483791374998,
+      "raptor_risk_estimate": 10.007167912237499,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -3719,7 +3721,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180906233101-161cd47e91fd:GHSA-39qc-96h7-956f",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180906233101-161cd47e91fd",
-      "raptor_risk_estimate": 22.0919004,
+      "raptor_risk_estimate": 22.116397859999996,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -3792,7 +3794,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180906233101-161cd47e91fd:GHSA-4374-p667-p6c8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180906233101-161cd47e91fd",
-      "raptor_risk_estimate": 11.200419843749998,
+      "raptor_risk_estimate": 12.314065359374998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -3866,7 +3868,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180906233101-161cd47e91fd:GHSA-4r78-hx75-jjj2",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180906233101-161cd47e91fd",
-      "raptor_risk_estimate": 11.316195928125,
+      "raptor_risk_estimate": 12.4182638353125,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -3941,7 +3943,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180906233101-161cd47e91fd:GHSA-4v7x-pqxf-cx7m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180906233101-161cd47e91fd",
-      "raptor_risk_estimate": 18.425114874374998,
+      "raptor_risk_estimate": 18.161075886937496,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -4014,7 +4016,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180906233101-161cd47e91fd:GHSA-69cg-p879-7622",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180906233101-161cd47e91fd",
-      "raptor_risk_estimate": 11.196795178125,
+      "raptor_risk_estimate": 12.310803160312497,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -4087,7 +4089,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180906233101-161cd47e91fd:GHSA-83g2-8m93-v3w7",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180906233101-161cd47e91fd",
-      "raptor_risk_estimate": 11.19871411875,
+      "raptor_risk_estimate": 12.312530206874998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -4159,7 +4161,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180906233101-161cd47e91fd:GHSA-fcf9-6fv2-fc5v",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180906233101-161cd47e91fd",
-      "raptor_risk_estimate": 11.298285815625,
+      "raptor_risk_estimate": 12.4021447340625,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -4232,7 +4234,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180906233101-161cd47e91fd:GHSA-h86h-8ppg-mxmh",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180906233101-161cd47e91fd",
-      "raptor_risk_estimate": 8.78952755175,
+      "raptor_risk_estimate": 9.667742296575002,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -4332,7 +4334,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180906233101-161cd47e91fd:GHSA-qppj-fm5r-hxr3",
       "in_kev": true,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180906233101-161cd47e91fd",
-      "raptor_risk_estimate": 58.668173086842025,
+      "raptor_risk_estimate": 62.686132707173556,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -4362,7 +4364,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "active"
+      "ssvc_exploitation": "active",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -4405,7 +4408,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180906233101-161cd47e91fd:GHSA-qxp5-gwg8-xv66",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180906233101-161cd47e91fd",
-      "raptor_risk_estimate": 6.555026989500001,
+      "raptor_risk_estimate": 7.209954290550001,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -4477,7 +4480,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180906233101-161cd47e91fd:GHSA-vfw5-hrgq-h5wf",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180906233101-161cd47e91fd",
-      "raptor_risk_estimate": 11.30702765625,
+      "raptor_risk_estimate": 12.410012390624999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -4545,7 +4548,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180906233101-161cd47e91fd:GHSA-vvgc-356p-c3xw",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180906233101-161cd47e91fd",
-      "raptor_risk_estimate": 7.4623979625,
+      "raptor_risk_estimate": 6.5642265329999985,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -4618,7 +4621,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180906233101-161cd47e91fd:GHSA-vvpx-j8f3-3w6h",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180906233101-161cd47e91fd",
-      "raptor_risk_estimate": 11.224939640625,
+      "raptor_risk_estimate": 12.336133176562498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -4691,7 +4694,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180906233101-161cd47e91fd:GHSA-xrjj-mj9h-534m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180906233101-161cd47e91fd",
-      "raptor_risk_estimate": 7.942235056125001,
+      "raptor_risk_estimate": 8.726484050512498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -4760,7 +4763,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180906233101-161cd47e91fd:GO-2022-0288",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180906233101-161cd47e91fd",
-      "raptor_risk_estimate": 7.45813365,
+      "raptor_risk_estimate": 6.561156228,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -4826,7 +4829,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180906233101-161cd47e91fd:GO-2024-3333",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180906233101-161cd47e91fd",
-      "raptor_risk_estimate": 7.4498893125,
+      "raptor_risk_estimate": 6.555220305,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -4892,7 +4895,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180906233101-161cd47e91fd:GO-2026-4440",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180906233101-161cd47e91fd",
-      "raptor_risk_estimate": 7.44804144375,
+      "raptor_risk_estimate": 6.553889839499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -4957,7 +4960,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180906233101-161cd47e91fd:GO-2026-4441",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180906233101-161cd47e91fd",
-      "raptor_risk_estimate": 7.447188581250001,
+      "raptor_risk_estimate": 6.553275778499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -5025,7 +5028,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20180906233101-161cd47e91fd:GO-2026-4918",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20180906233101-161cd47e91fd",
-      "raptor_risk_estimate": 7.44676215,
+      "raptor_risk_estimate": 6.552968748,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -5096,7 +5099,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181023162649-9b4f9f5ad519:GHSA-2wrh-6pvc-2jm9",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181023162649-9b4f9f5ad519",
-      "raptor_risk_estimate": 9.100483791374998,
+      "raptor_risk_estimate": 10.007167912237499,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -5170,7 +5173,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181023162649-9b4f9f5ad519:GHSA-39qc-96h7-956f",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181023162649-9b4f9f5ad519",
-      "raptor_risk_estimate": 22.0919004,
+      "raptor_risk_estimate": 22.116397859999996,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -5243,7 +5246,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181023162649-9b4f9f5ad519:GHSA-4374-p667-p6c8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181023162649-9b4f9f5ad519",
-      "raptor_risk_estimate": 11.200419843749998,
+      "raptor_risk_estimate": 12.314065359374998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -5317,7 +5320,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181023162649-9b4f9f5ad519:GHSA-4r78-hx75-jjj2",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181023162649-9b4f9f5ad519",
-      "raptor_risk_estimate": 11.316195928125,
+      "raptor_risk_estimate": 12.4182638353125,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -5392,7 +5395,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181023162649-9b4f9f5ad519:GHSA-4v7x-pqxf-cx7m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181023162649-9b4f9f5ad519",
-      "raptor_risk_estimate": 18.425114874374998,
+      "raptor_risk_estimate": 18.161075886937496,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -5465,7 +5468,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181023162649-9b4f9f5ad519:GHSA-69cg-p879-7622",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181023162649-9b4f9f5ad519",
-      "raptor_risk_estimate": 11.196795178125,
+      "raptor_risk_estimate": 12.310803160312497,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -5538,7 +5541,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181023162649-9b4f9f5ad519:GHSA-83g2-8m93-v3w7",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181023162649-9b4f9f5ad519",
-      "raptor_risk_estimate": 11.19871411875,
+      "raptor_risk_estimate": 12.312530206874998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -5611,7 +5614,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181023162649-9b4f9f5ad519:GHSA-h86h-8ppg-mxmh",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181023162649-9b4f9f5ad519",
-      "raptor_risk_estimate": 8.78952755175,
+      "raptor_risk_estimate": 9.667742296575002,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -5711,7 +5714,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181023162649-9b4f9f5ad519:GHSA-qppj-fm5r-hxr3",
       "in_kev": true,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181023162649-9b4f9f5ad519",
-      "raptor_risk_estimate": 58.668173086842025,
+      "raptor_risk_estimate": 62.686132707173556,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -5741,7 +5744,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "active"
+      "ssvc_exploitation": "active",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -5784,7 +5788,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181023162649-9b4f9f5ad519:GHSA-qxp5-gwg8-xv66",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181023162649-9b4f9f5ad519",
-      "raptor_risk_estimate": 6.555026989500001,
+      "raptor_risk_estimate": 7.209954290550001,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -5856,7 +5860,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181023162649-9b4f9f5ad519:GHSA-vfw5-hrgq-h5wf",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181023162649-9b4f9f5ad519",
-      "raptor_risk_estimate": 11.30702765625,
+      "raptor_risk_estimate": 12.410012390624999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -5924,7 +5928,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181023162649-9b4f9f5ad519:GHSA-vvgc-356p-c3xw",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181023162649-9b4f9f5ad519",
-      "raptor_risk_estimate": 7.4623979625,
+      "raptor_risk_estimate": 6.5642265329999985,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -5997,7 +6001,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181023162649-9b4f9f5ad519:GHSA-vvpx-j8f3-3w6h",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181023162649-9b4f9f5ad519",
-      "raptor_risk_estimate": 11.224939640625,
+      "raptor_risk_estimate": 12.336133176562498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6070,7 +6074,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181023162649-9b4f9f5ad519:GHSA-xrjj-mj9h-534m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181023162649-9b4f9f5ad519",
-      "raptor_risk_estimate": 7.942235056125001,
+      "raptor_risk_estimate": 8.726484050512498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6139,7 +6143,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181023162649-9b4f9f5ad519:GO-2022-0288",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181023162649-9b4f9f5ad519",
-      "raptor_risk_estimate": 7.45813365,
+      "raptor_risk_estimate": 6.561156228,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6205,7 +6209,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181023162649-9b4f9f5ad519:GO-2024-3333",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181023162649-9b4f9f5ad519",
-      "raptor_risk_estimate": 7.4498893125,
+      "raptor_risk_estimate": 6.555220305,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6271,7 +6275,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181023162649-9b4f9f5ad519:GO-2026-4440",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181023162649-9b4f9f5ad519",
-      "raptor_risk_estimate": 7.44804144375,
+      "raptor_risk_estimate": 6.553889839499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6336,7 +6340,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181023162649-9b4f9f5ad519:GO-2026-4441",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181023162649-9b4f9f5ad519",
-      "raptor_risk_estimate": 7.447188581250001,
+      "raptor_risk_estimate": 6.553275778499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6404,7 +6408,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181023162649-9b4f9f5ad519:GO-2026-4918",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181023162649-9b4f9f5ad519",
-      "raptor_risk_estimate": 7.44676215,
+      "raptor_risk_estimate": 6.552968748,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6475,7 +6479,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181114220301-adae6a3d119a:GHSA-2wrh-6pvc-2jm9",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a",
-      "raptor_risk_estimate": 9.100483791374998,
+      "raptor_risk_estimate": 10.007167912237499,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6549,7 +6553,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181114220301-adae6a3d119a:GHSA-39qc-96h7-956f",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a",
-      "raptor_risk_estimate": 22.0919004,
+      "raptor_risk_estimate": 22.116397859999996,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6622,7 +6626,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181114220301-adae6a3d119a:GHSA-4374-p667-p6c8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a",
-      "raptor_risk_estimate": 11.200419843749998,
+      "raptor_risk_estimate": 12.314065359374998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6696,7 +6700,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181114220301-adae6a3d119a:GHSA-4r78-hx75-jjj2",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a",
-      "raptor_risk_estimate": 11.316195928125,
+      "raptor_risk_estimate": 12.4182638353125,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6771,7 +6775,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181114220301-adae6a3d119a:GHSA-4v7x-pqxf-cx7m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a",
-      "raptor_risk_estimate": 18.425114874374998,
+      "raptor_risk_estimate": 18.161075886937496,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6844,7 +6848,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181114220301-adae6a3d119a:GHSA-69cg-p879-7622",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a",
-      "raptor_risk_estimate": 11.196795178125,
+      "raptor_risk_estimate": 12.310803160312497,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6917,7 +6921,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181114220301-adae6a3d119a:GHSA-83g2-8m93-v3w7",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a",
-      "raptor_risk_estimate": 11.19871411875,
+      "raptor_risk_estimate": 12.312530206874998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -6990,7 +6994,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181114220301-adae6a3d119a:GHSA-h86h-8ppg-mxmh",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a",
-      "raptor_risk_estimate": 8.78952755175,
+      "raptor_risk_estimate": 9.667742296575002,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7090,7 +7094,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181114220301-adae6a3d119a:GHSA-qppj-fm5r-hxr3",
       "in_kev": true,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a",
-      "raptor_risk_estimate": 58.668173086842025,
+      "raptor_risk_estimate": 62.686132707173556,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7120,7 +7124,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "active"
+      "ssvc_exploitation": "active",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -7163,7 +7168,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181114220301-adae6a3d119a:GHSA-qxp5-gwg8-xv66",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a",
-      "raptor_risk_estimate": 6.555026989500001,
+      "raptor_risk_estimate": 7.209954290550001,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7235,7 +7240,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181114220301-adae6a3d119a:GHSA-vfw5-hrgq-h5wf",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a",
-      "raptor_risk_estimate": 11.30702765625,
+      "raptor_risk_estimate": 12.410012390624999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7303,7 +7308,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181114220301-adae6a3d119a:GHSA-vvgc-356p-c3xw",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a",
-      "raptor_risk_estimate": 7.4623979625,
+      "raptor_risk_estimate": 6.5642265329999985,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7376,7 +7381,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181114220301-adae6a3d119a:GHSA-vvpx-j8f3-3w6h",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a",
-      "raptor_risk_estimate": 11.224939640625,
+      "raptor_risk_estimate": 12.336133176562498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7449,7 +7454,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181114220301-adae6a3d119a:GHSA-xrjj-mj9h-534m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a",
-      "raptor_risk_estimate": 7.942235056125001,
+      "raptor_risk_estimate": 8.726484050512498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7518,7 +7523,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181114220301-adae6a3d119a:GO-2022-0288",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a",
-      "raptor_risk_estimate": 7.45813365,
+      "raptor_risk_estimate": 6.561156228,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7584,7 +7589,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181114220301-adae6a3d119a:GO-2024-3333",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a",
-      "raptor_risk_estimate": 7.4498893125,
+      "raptor_risk_estimate": 6.555220305,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7650,7 +7655,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181114220301-adae6a3d119a:GO-2026-4440",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a",
-      "raptor_risk_estimate": 7.44804144375,
+      "raptor_risk_estimate": 6.553889839499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7715,7 +7720,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181114220301-adae6a3d119a:GO-2026-4441",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a",
-      "raptor_risk_estimate": 7.447188581250001,
+      "raptor_risk_estimate": 6.553275778499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7783,7 +7788,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181114220301-adae6a3d119a:GO-2026-4918",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181114220301-adae6a3d119a",
-      "raptor_risk_estimate": 7.44676215,
+      "raptor_risk_estimate": 6.552968748,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7854,7 +7859,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181201002055-351d144fa1fc:GHSA-2wrh-6pvc-2jm9",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181201002055-351d144fa1fc",
-      "raptor_risk_estimate": 9.100483791374998,
+      "raptor_risk_estimate": 10.007167912237499,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -7928,7 +7933,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181201002055-351d144fa1fc:GHSA-39qc-96h7-956f",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181201002055-351d144fa1fc",
-      "raptor_risk_estimate": 22.0919004,
+      "raptor_risk_estimate": 22.116397859999996,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -8001,7 +8006,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181201002055-351d144fa1fc:GHSA-4374-p667-p6c8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181201002055-351d144fa1fc",
-      "raptor_risk_estimate": 11.200419843749998,
+      "raptor_risk_estimate": 12.314065359374998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -8075,7 +8080,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181201002055-351d144fa1fc:GHSA-4r78-hx75-jjj2",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181201002055-351d144fa1fc",
-      "raptor_risk_estimate": 11.316195928125,
+      "raptor_risk_estimate": 12.4182638353125,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -8150,7 +8155,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181201002055-351d144fa1fc:GHSA-4v7x-pqxf-cx7m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181201002055-351d144fa1fc",
-      "raptor_risk_estimate": 18.425114874374998,
+      "raptor_risk_estimate": 18.161075886937496,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -8223,7 +8228,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181201002055-351d144fa1fc:GHSA-69cg-p879-7622",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181201002055-351d144fa1fc",
-      "raptor_risk_estimate": 11.196795178125,
+      "raptor_risk_estimate": 12.310803160312497,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -8296,7 +8301,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181201002055-351d144fa1fc:GHSA-83g2-8m93-v3w7",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181201002055-351d144fa1fc",
-      "raptor_risk_estimate": 11.19871411875,
+      "raptor_risk_estimate": 12.312530206874998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -8369,7 +8374,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181201002055-351d144fa1fc:GHSA-h86h-8ppg-mxmh",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181201002055-351d144fa1fc",
-      "raptor_risk_estimate": 8.78952755175,
+      "raptor_risk_estimate": 9.667742296575002,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -8469,7 +8474,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181201002055-351d144fa1fc:GHSA-qppj-fm5r-hxr3",
       "in_kev": true,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181201002055-351d144fa1fc",
-      "raptor_risk_estimate": 58.668173086842025,
+      "raptor_risk_estimate": 62.686132707173556,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -8499,7 +8504,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "active"
+      "ssvc_exploitation": "active",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -8542,7 +8548,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181201002055-351d144fa1fc:GHSA-qxp5-gwg8-xv66",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181201002055-351d144fa1fc",
-      "raptor_risk_estimate": 6.555026989500001,
+      "raptor_risk_estimate": 7.209954290550001,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -8614,7 +8620,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181201002055-351d144fa1fc:GHSA-vfw5-hrgq-h5wf",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181201002055-351d144fa1fc",
-      "raptor_risk_estimate": 11.30702765625,
+      "raptor_risk_estimate": 12.410012390624999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -8682,7 +8688,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181201002055-351d144fa1fc:GHSA-vvgc-356p-c3xw",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181201002055-351d144fa1fc",
-      "raptor_risk_estimate": 7.4623979625,
+      "raptor_risk_estimate": 6.5642265329999985,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -8755,7 +8761,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181201002055-351d144fa1fc:GHSA-vvpx-j8f3-3w6h",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181201002055-351d144fa1fc",
-      "raptor_risk_estimate": 11.224939640625,
+      "raptor_risk_estimate": 12.336133176562498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -8828,7 +8834,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181201002055-351d144fa1fc:GHSA-xrjj-mj9h-534m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181201002055-351d144fa1fc",
-      "raptor_risk_estimate": 7.942235056125001,
+      "raptor_risk_estimate": 8.726484050512498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -8897,7 +8903,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181201002055-351d144fa1fc:GO-2022-0288",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181201002055-351d144fa1fc",
-      "raptor_risk_estimate": 7.45813365,
+      "raptor_risk_estimate": 6.561156228,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -8963,7 +8969,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181201002055-351d144fa1fc:GO-2024-3333",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181201002055-351d144fa1fc",
-      "raptor_risk_estimate": 7.4498893125,
+      "raptor_risk_estimate": 6.555220305,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -9029,7 +9035,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181201002055-351d144fa1fc:GO-2026-4440",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181201002055-351d144fa1fc",
-      "raptor_risk_estimate": 7.44804144375,
+      "raptor_risk_estimate": 6.553889839499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -9094,7 +9100,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181201002055-351d144fa1fc:GO-2026-4441",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181201002055-351d144fa1fc",
-      "raptor_risk_estimate": 7.447188581250001,
+      "raptor_risk_estimate": 6.553275778499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -9162,7 +9168,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181201002055-351d144fa1fc:GO-2026-4918",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181201002055-351d144fa1fc",
-      "raptor_risk_estimate": 7.44676215,
+      "raptor_risk_estimate": 6.552968748,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -9233,7 +9239,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181220203305-927f97764cc3:GHSA-2wrh-6pvc-2jm9",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181220203305-927f97764cc3",
-      "raptor_risk_estimate": 9.100483791374998,
+      "raptor_risk_estimate": 10.007167912237499,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -9307,7 +9313,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181220203305-927f97764cc3:GHSA-39qc-96h7-956f",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181220203305-927f97764cc3",
-      "raptor_risk_estimate": 22.0919004,
+      "raptor_risk_estimate": 22.116397859999996,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -9380,7 +9386,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181220203305-927f97764cc3:GHSA-4374-p667-p6c8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181220203305-927f97764cc3",
-      "raptor_risk_estimate": 11.200419843749998,
+      "raptor_risk_estimate": 12.314065359374998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -9454,7 +9460,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181220203305-927f97764cc3:GHSA-4r78-hx75-jjj2",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181220203305-927f97764cc3",
-      "raptor_risk_estimate": 11.316195928125,
+      "raptor_risk_estimate": 12.4182638353125,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -9529,7 +9535,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181220203305-927f97764cc3:GHSA-4v7x-pqxf-cx7m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181220203305-927f97764cc3",
-      "raptor_risk_estimate": 18.425114874374998,
+      "raptor_risk_estimate": 18.161075886937496,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -9602,7 +9608,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181220203305-927f97764cc3:GHSA-69cg-p879-7622",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181220203305-927f97764cc3",
-      "raptor_risk_estimate": 11.196795178125,
+      "raptor_risk_estimate": 12.310803160312497,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -9675,7 +9681,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181220203305-927f97764cc3:GHSA-83g2-8m93-v3w7",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181220203305-927f97764cc3",
-      "raptor_risk_estimate": 11.19871411875,
+      "raptor_risk_estimate": 12.312530206874998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -9748,7 +9754,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181220203305-927f97764cc3:GHSA-h86h-8ppg-mxmh",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181220203305-927f97764cc3",
-      "raptor_risk_estimate": 8.78952755175,
+      "raptor_risk_estimate": 9.667742296575002,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -9848,7 +9854,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181220203305-927f97764cc3:GHSA-qppj-fm5r-hxr3",
       "in_kev": true,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181220203305-927f97764cc3",
-      "raptor_risk_estimate": 58.668173086842025,
+      "raptor_risk_estimate": 62.686132707173556,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -9878,7 +9884,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "active"
+      "ssvc_exploitation": "active",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -9921,7 +9928,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181220203305-927f97764cc3:GHSA-qxp5-gwg8-xv66",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181220203305-927f97764cc3",
-      "raptor_risk_estimate": 6.555026989500001,
+      "raptor_risk_estimate": 7.209954290550001,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -9993,7 +10000,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181220203305-927f97764cc3:GHSA-vfw5-hrgq-h5wf",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181220203305-927f97764cc3",
-      "raptor_risk_estimate": 11.30702765625,
+      "raptor_risk_estimate": 12.410012390624999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -10061,7 +10068,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181220203305-927f97764cc3:GHSA-vvgc-356p-c3xw",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181220203305-927f97764cc3",
-      "raptor_risk_estimate": 7.4623979625,
+      "raptor_risk_estimate": 6.5642265329999985,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -10134,7 +10141,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181220203305-927f97764cc3:GHSA-vvpx-j8f3-3w6h",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181220203305-927f97764cc3",
-      "raptor_risk_estimate": 11.224939640625,
+      "raptor_risk_estimate": 12.336133176562498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -10207,7 +10214,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181220203305-927f97764cc3:GHSA-xrjj-mj9h-534m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181220203305-927f97764cc3",
-      "raptor_risk_estimate": 7.942235056125001,
+      "raptor_risk_estimate": 8.726484050512498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -10276,7 +10283,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181220203305-927f97764cc3:GO-2022-0288",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181220203305-927f97764cc3",
-      "raptor_risk_estimate": 7.45813365,
+      "raptor_risk_estimate": 6.561156228,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -10342,7 +10349,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181220203305-927f97764cc3:GO-2024-3333",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181220203305-927f97764cc3",
-      "raptor_risk_estimate": 7.4498893125,
+      "raptor_risk_estimate": 6.555220305,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -10408,7 +10415,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181220203305-927f97764cc3:GO-2026-4440",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181220203305-927f97764cc3",
-      "raptor_risk_estimate": 7.44804144375,
+      "raptor_risk_estimate": 6.553889839499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -10473,7 +10480,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181220203305-927f97764cc3:GO-2026-4441",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181220203305-927f97764cc3",
-      "raptor_risk_estimate": 7.447188581250001,
+      "raptor_risk_estimate": 6.553275778499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -10541,7 +10548,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20181220203305-927f97764cc3:GO-2026-4918",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20181220203305-927f97764cc3",
-      "raptor_risk_estimate": 7.44676215,
+      "raptor_risk_estimate": 6.552968748,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -10612,7 +10619,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190108225652-1e06a53dbb7e:GHSA-2wrh-6pvc-2jm9",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190108225652-1e06a53dbb7e",
-      "raptor_risk_estimate": 9.100483791374998,
+      "raptor_risk_estimate": 10.007167912237499,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -10686,7 +10693,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190108225652-1e06a53dbb7e:GHSA-39qc-96h7-956f",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190108225652-1e06a53dbb7e",
-      "raptor_risk_estimate": 22.0919004,
+      "raptor_risk_estimate": 22.116397859999996,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -10759,7 +10766,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190108225652-1e06a53dbb7e:GHSA-4374-p667-p6c8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190108225652-1e06a53dbb7e",
-      "raptor_risk_estimate": 11.200419843749998,
+      "raptor_risk_estimate": 12.314065359374998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -10833,7 +10840,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190108225652-1e06a53dbb7e:GHSA-4r78-hx75-jjj2",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190108225652-1e06a53dbb7e",
-      "raptor_risk_estimate": 11.316195928125,
+      "raptor_risk_estimate": 12.4182638353125,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -10908,7 +10915,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190108225652-1e06a53dbb7e:GHSA-4v7x-pqxf-cx7m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190108225652-1e06a53dbb7e",
-      "raptor_risk_estimate": 18.425114874374998,
+      "raptor_risk_estimate": 18.161075886937496,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -10981,7 +10988,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190108225652-1e06a53dbb7e:GHSA-69cg-p879-7622",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190108225652-1e06a53dbb7e",
-      "raptor_risk_estimate": 11.196795178125,
+      "raptor_risk_estimate": 12.310803160312497,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -11054,7 +11061,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190108225652-1e06a53dbb7e:GHSA-83g2-8m93-v3w7",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190108225652-1e06a53dbb7e",
-      "raptor_risk_estimate": 11.19871411875,
+      "raptor_risk_estimate": 12.312530206874998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -11127,7 +11134,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190108225652-1e06a53dbb7e:GHSA-h86h-8ppg-mxmh",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190108225652-1e06a53dbb7e",
-      "raptor_risk_estimate": 8.78952755175,
+      "raptor_risk_estimate": 9.667742296575002,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -11227,7 +11234,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190108225652-1e06a53dbb7e:GHSA-qppj-fm5r-hxr3",
       "in_kev": true,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190108225652-1e06a53dbb7e",
-      "raptor_risk_estimate": 58.668173086842025,
+      "raptor_risk_estimate": 62.686132707173556,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -11257,7 +11264,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "active"
+      "ssvc_exploitation": "active",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -11300,7 +11308,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190108225652-1e06a53dbb7e:GHSA-qxp5-gwg8-xv66",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190108225652-1e06a53dbb7e",
-      "raptor_risk_estimate": 6.555026989500001,
+      "raptor_risk_estimate": 7.209954290550001,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -11372,7 +11380,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190108225652-1e06a53dbb7e:GHSA-vfw5-hrgq-h5wf",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190108225652-1e06a53dbb7e",
-      "raptor_risk_estimate": 11.30702765625,
+      "raptor_risk_estimate": 12.410012390624999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -11440,7 +11448,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190108225652-1e06a53dbb7e:GHSA-vvgc-356p-c3xw",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190108225652-1e06a53dbb7e",
-      "raptor_risk_estimate": 7.4623979625,
+      "raptor_risk_estimate": 6.5642265329999985,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -11513,7 +11521,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190108225652-1e06a53dbb7e:GHSA-vvpx-j8f3-3w6h",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190108225652-1e06a53dbb7e",
-      "raptor_risk_estimate": 11.224939640625,
+      "raptor_risk_estimate": 12.336133176562498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -11586,7 +11594,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190108225652-1e06a53dbb7e:GHSA-xrjj-mj9h-534m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190108225652-1e06a53dbb7e",
-      "raptor_risk_estimate": 7.942235056125001,
+      "raptor_risk_estimate": 8.726484050512498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -11655,7 +11663,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190108225652-1e06a53dbb7e:GO-2022-0288",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190108225652-1e06a53dbb7e",
-      "raptor_risk_estimate": 7.45813365,
+      "raptor_risk_estimate": 6.561156228,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -11721,7 +11729,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190108225652-1e06a53dbb7e:GO-2024-3333",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190108225652-1e06a53dbb7e",
-      "raptor_risk_estimate": 7.4498893125,
+      "raptor_risk_estimate": 6.555220305,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -11787,7 +11795,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190108225652-1e06a53dbb7e:GO-2026-4440",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190108225652-1e06a53dbb7e",
-      "raptor_risk_estimate": 7.44804144375,
+      "raptor_risk_estimate": 6.553889839499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -11852,7 +11860,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190108225652-1e06a53dbb7e:GO-2026-4441",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190108225652-1e06a53dbb7e",
-      "raptor_risk_estimate": 7.447188581250001,
+      "raptor_risk_estimate": 6.553275778499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -11920,7 +11928,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190108225652-1e06a53dbb7e:GO-2026-4918",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190108225652-1e06a53dbb7e",
-      "raptor_risk_estimate": 7.44676215,
+      "raptor_risk_estimate": 6.552968748,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -11991,7 +11999,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190125091013-d26f9f9a57f3:GHSA-2wrh-6pvc-2jm9",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190125091013-d26f9f9a57f3",
-      "raptor_risk_estimate": 9.100483791374998,
+      "raptor_risk_estimate": 10.007167912237499,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -12065,7 +12073,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190125091013-d26f9f9a57f3:GHSA-39qc-96h7-956f",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190125091013-d26f9f9a57f3",
-      "raptor_risk_estimate": 22.0919004,
+      "raptor_risk_estimate": 22.116397859999996,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -12138,7 +12146,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190125091013-d26f9f9a57f3:GHSA-4374-p667-p6c8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190125091013-d26f9f9a57f3",
-      "raptor_risk_estimate": 11.200419843749998,
+      "raptor_risk_estimate": 12.314065359374998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -12213,7 +12221,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190125091013-d26f9f9a57f3:GHSA-4v7x-pqxf-cx7m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190125091013-d26f9f9a57f3",
-      "raptor_risk_estimate": 18.425114874374998,
+      "raptor_risk_estimate": 18.161075886937496,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -12286,7 +12294,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190125091013-d26f9f9a57f3:GHSA-69cg-p879-7622",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190125091013-d26f9f9a57f3",
-      "raptor_risk_estimate": 11.196795178125,
+      "raptor_risk_estimate": 12.310803160312497,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -12359,7 +12367,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190125091013-d26f9f9a57f3:GHSA-83g2-8m93-v3w7",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190125091013-d26f9f9a57f3",
-      "raptor_risk_estimate": 11.19871411875,
+      "raptor_risk_estimate": 12.312530206874998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -12432,7 +12440,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190125091013-d26f9f9a57f3:GHSA-h86h-8ppg-mxmh",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190125091013-d26f9f9a57f3",
-      "raptor_risk_estimate": 8.78952755175,
+      "raptor_risk_estimate": 9.667742296575002,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -12532,7 +12540,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190125091013-d26f9f9a57f3:GHSA-qppj-fm5r-hxr3",
       "in_kev": true,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190125091013-d26f9f9a57f3",
-      "raptor_risk_estimate": 58.668173086842025,
+      "raptor_risk_estimate": 62.686132707173556,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -12562,7 +12570,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "active"
+      "ssvc_exploitation": "active",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -12605,7 +12614,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190125091013-d26f9f9a57f3:GHSA-qxp5-gwg8-xv66",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190125091013-d26f9f9a57f3",
-      "raptor_risk_estimate": 6.555026989500001,
+      "raptor_risk_estimate": 7.209954290550001,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -12673,7 +12682,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190125091013-d26f9f9a57f3:GHSA-vvgc-356p-c3xw",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190125091013-d26f9f9a57f3",
-      "raptor_risk_estimate": 7.4623979625,
+      "raptor_risk_estimate": 6.5642265329999985,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -12746,7 +12755,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190125091013-d26f9f9a57f3:GHSA-vvpx-j8f3-3w6h",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190125091013-d26f9f9a57f3",
-      "raptor_risk_estimate": 11.224939640625,
+      "raptor_risk_estimate": 12.336133176562498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -12819,7 +12828,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190125091013-d26f9f9a57f3:GHSA-xrjj-mj9h-534m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190125091013-d26f9f9a57f3",
-      "raptor_risk_estimate": 7.942235056125001,
+      "raptor_risk_estimate": 8.726484050512498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -12888,7 +12897,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190125091013-d26f9f9a57f3:GO-2022-0288",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190125091013-d26f9f9a57f3",
-      "raptor_risk_estimate": 7.45813365,
+      "raptor_risk_estimate": 6.561156228,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -12954,7 +12963,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190125091013-d26f9f9a57f3:GO-2024-3333",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190125091013-d26f9f9a57f3",
-      "raptor_risk_estimate": 7.4498893125,
+      "raptor_risk_estimate": 6.555220305,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -13020,7 +13029,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190125091013-d26f9f9a57f3:GO-2026-4440",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190125091013-d26f9f9a57f3",
-      "raptor_risk_estimate": 7.44804144375,
+      "raptor_risk_estimate": 6.553889839499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -13085,7 +13094,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190125091013-d26f9f9a57f3:GO-2026-4441",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190125091013-d26f9f9a57f3",
-      "raptor_risk_estimate": 7.447188581250001,
+      "raptor_risk_estimate": 6.553275778499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -13153,7 +13162,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190125091013-d26f9f9a57f3:GO-2026-4918",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190125091013-d26f9f9a57f3",
-      "raptor_risk_estimate": 7.44676215,
+      "raptor_risk_estimate": 6.552968748,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -13224,7 +13233,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190213061140-3a22650c66bd:GHSA-2wrh-6pvc-2jm9",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190213061140-3a22650c66bd",
-      "raptor_risk_estimate": 9.100483791374998,
+      "raptor_risk_estimate": 10.007167912237499,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -13298,7 +13307,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190213061140-3a22650c66bd:GHSA-39qc-96h7-956f",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190213061140-3a22650c66bd",
-      "raptor_risk_estimate": 22.0919004,
+      "raptor_risk_estimate": 22.116397859999996,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -13371,7 +13380,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190213061140-3a22650c66bd:GHSA-4374-p667-p6c8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190213061140-3a22650c66bd",
-      "raptor_risk_estimate": 11.200419843749998,
+      "raptor_risk_estimate": 12.314065359374998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -13446,7 +13455,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190213061140-3a22650c66bd:GHSA-4v7x-pqxf-cx7m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190213061140-3a22650c66bd",
-      "raptor_risk_estimate": 18.425114874374998,
+      "raptor_risk_estimate": 18.161075886937496,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -13519,7 +13528,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190213061140-3a22650c66bd:GHSA-69cg-p879-7622",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190213061140-3a22650c66bd",
-      "raptor_risk_estimate": 11.196795178125,
+      "raptor_risk_estimate": 12.310803160312497,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -13592,7 +13601,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190213061140-3a22650c66bd:GHSA-83g2-8m93-v3w7",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190213061140-3a22650c66bd",
-      "raptor_risk_estimate": 11.19871411875,
+      "raptor_risk_estimate": 12.312530206874998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -13665,7 +13674,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190213061140-3a22650c66bd:GHSA-h86h-8ppg-mxmh",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190213061140-3a22650c66bd",
-      "raptor_risk_estimate": 8.78952755175,
+      "raptor_risk_estimate": 9.667742296575002,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -13765,7 +13774,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190213061140-3a22650c66bd:GHSA-qppj-fm5r-hxr3",
       "in_kev": true,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190213061140-3a22650c66bd",
-      "raptor_risk_estimate": 58.668173086842025,
+      "raptor_risk_estimate": 62.686132707173556,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -13795,7 +13804,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "active"
+      "ssvc_exploitation": "active",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -13838,7 +13848,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190213061140-3a22650c66bd:GHSA-qxp5-gwg8-xv66",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190213061140-3a22650c66bd",
-      "raptor_risk_estimate": 6.555026989500001,
+      "raptor_risk_estimate": 7.209954290550001,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -13906,7 +13916,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190213061140-3a22650c66bd:GHSA-vvgc-356p-c3xw",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190213061140-3a22650c66bd",
-      "raptor_risk_estimate": 7.4623979625,
+      "raptor_risk_estimate": 6.5642265329999985,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -13979,7 +13989,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190213061140-3a22650c66bd:GHSA-vvpx-j8f3-3w6h",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190213061140-3a22650c66bd",
-      "raptor_risk_estimate": 11.224939640625,
+      "raptor_risk_estimate": 12.336133176562498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -14052,7 +14062,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190213061140-3a22650c66bd:GHSA-xrjj-mj9h-534m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190213061140-3a22650c66bd",
-      "raptor_risk_estimate": 7.942235056125001,
+      "raptor_risk_estimate": 8.726484050512498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -14121,7 +14131,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190213061140-3a22650c66bd:GO-2022-0288",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190213061140-3a22650c66bd",
-      "raptor_risk_estimate": 7.45813365,
+      "raptor_risk_estimate": 6.561156228,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -14187,7 +14197,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190213061140-3a22650c66bd:GO-2024-3333",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190213061140-3a22650c66bd",
-      "raptor_risk_estimate": 7.4498893125,
+      "raptor_risk_estimate": 6.555220305,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -14253,7 +14263,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190213061140-3a22650c66bd:GO-2026-4440",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190213061140-3a22650c66bd",
-      "raptor_risk_estimate": 7.44804144375,
+      "raptor_risk_estimate": 6.553889839499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -14318,7 +14328,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190213061140-3a22650c66bd:GO-2026-4441",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190213061140-3a22650c66bd",
-      "raptor_risk_estimate": 7.447188581250001,
+      "raptor_risk_estimate": 6.553275778499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -14386,7 +14396,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190213061140-3a22650c66bd:GO-2026-4918",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190213061140-3a22650c66bd",
-      "raptor_risk_estimate": 7.44676215,
+      "raptor_risk_estimate": 6.552968748,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -14457,7 +14467,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190311183353-d8887717615a:GHSA-2wrh-6pvc-2jm9",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190311183353-d8887717615a",
-      "raptor_risk_estimate": 9.100483791374998,
+      "raptor_risk_estimate": 10.007167912237499,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -14531,7 +14541,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190311183353-d8887717615a:GHSA-39qc-96h7-956f",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190311183353-d8887717615a",
-      "raptor_risk_estimate": 22.0919004,
+      "raptor_risk_estimate": 22.116397859999996,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -14604,7 +14614,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190311183353-d8887717615a:GHSA-4374-p667-p6c8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190311183353-d8887717615a",
-      "raptor_risk_estimate": 11.200419843749998,
+      "raptor_risk_estimate": 12.314065359374998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -14679,7 +14689,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190311183353-d8887717615a:GHSA-4v7x-pqxf-cx7m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190311183353-d8887717615a",
-      "raptor_risk_estimate": 18.425114874374998,
+      "raptor_risk_estimate": 18.161075886937496,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -14752,7 +14762,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190311183353-d8887717615a:GHSA-69cg-p879-7622",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190311183353-d8887717615a",
-      "raptor_risk_estimate": 11.196795178125,
+      "raptor_risk_estimate": 12.310803160312497,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -14825,7 +14835,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190311183353-d8887717615a:GHSA-83g2-8m93-v3w7",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190311183353-d8887717615a",
-      "raptor_risk_estimate": 11.19871411875,
+      "raptor_risk_estimate": 12.312530206874998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -14898,7 +14908,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190311183353-d8887717615a:GHSA-h86h-8ppg-mxmh",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190311183353-d8887717615a",
-      "raptor_risk_estimate": 8.78952755175,
+      "raptor_risk_estimate": 9.667742296575002,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -14998,7 +15008,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190311183353-d8887717615a:GHSA-qppj-fm5r-hxr3",
       "in_kev": true,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190311183353-d8887717615a",
-      "raptor_risk_estimate": 58.668173086842025,
+      "raptor_risk_estimate": 62.686132707173556,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -15028,7 +15038,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "active"
+      "ssvc_exploitation": "active",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -15071,7 +15082,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190311183353-d8887717615a:GHSA-qxp5-gwg8-xv66",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190311183353-d8887717615a",
-      "raptor_risk_estimate": 6.555026989500001,
+      "raptor_risk_estimate": 7.209954290550001,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -15139,7 +15150,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190311183353-d8887717615a:GHSA-vvgc-356p-c3xw",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190311183353-d8887717615a",
-      "raptor_risk_estimate": 7.4623979625,
+      "raptor_risk_estimate": 6.5642265329999985,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -15212,7 +15223,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190311183353-d8887717615a:GHSA-vvpx-j8f3-3w6h",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190311183353-d8887717615a",
-      "raptor_risk_estimate": 11.224939640625,
+      "raptor_risk_estimate": 12.336133176562498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -15285,7 +15296,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190311183353-d8887717615a:GHSA-xrjj-mj9h-534m",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190311183353-d8887717615a",
-      "raptor_risk_estimate": 7.942235056125001,
+      "raptor_risk_estimate": 8.726484050512498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -15354,7 +15365,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190311183353-d8887717615a:GO-2022-0288",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190311183353-d8887717615a",
-      "raptor_risk_estimate": 7.45813365,
+      "raptor_risk_estimate": 6.561156228,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -15420,7 +15431,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190311183353-d8887717615a:GO-2024-3333",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190311183353-d8887717615a",
-      "raptor_risk_estimate": 7.4498893125,
+      "raptor_risk_estimate": 6.555220305,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -15486,7 +15497,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190311183353-d8887717615a:GO-2026-4440",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190311183353-d8887717615a",
-      "raptor_risk_estimate": 7.44804144375,
+      "raptor_risk_estimate": 6.553889839499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -15551,7 +15562,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190311183353-d8887717615a:GO-2026-4441",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190311183353-d8887717615a",
-      "raptor_risk_estimate": 7.447188581250001,
+      "raptor_risk_estimate": 6.553275778499999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -15619,7 +15630,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/net:v0.0.0-20190311183353-d8887717615a:GO-2026-4918",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/net@v0.0.0-20190311183353-d8887717615a",
-      "raptor_risk_estimate": 7.44676215,
+      "raptor_risk_estimate": 6.552968748,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -15690,7 +15701,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/oauth2:v0.0.0-20180821212333-d2e6202438be:GHSA-6v2p-p543-phr9",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/oauth2@v0.0.0-20180821212333-d2e6202438be",
-      "raptor_risk_estimate": 11.195089453124998,
+      "raptor_risk_estimate": 12.309268007812497,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -15761,7 +15772,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/oauth2:v0.0.0-20190226205417-e64efc72b421:GHSA-6v2p-p543-phr9",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/oauth2@v0.0.0-20190226205417-e64efc72b421",
-      "raptor_risk_estimate": 11.195089453124998,
+      "raptor_risk_estimate": 12.309268007812497,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -15834,7 +15845,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/sys:v0.0.0-20180830151530-49385e6e1522:GHSA-p782-xgp4-8hr8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/sys@v0.0.0-20180830151530-49385e6e1522",
-      "raptor_risk_estimate": 4.776422256453975,
+      "raptor_risk_estimate": 5.596309004505219,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -15901,7 +15912,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/sys:v0.0.0-20180905080454-ebe1bf3edb33:GHSA-p782-xgp4-8hr8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/sys@v0.0.0-20180905080454-ebe1bf3edb33",
-      "raptor_risk_estimate": 4.776422256453975,
+      "raptor_risk_estimate": 5.596309004505219,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -15968,7 +15979,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/sys:v0.0.0-20180909124046-d0be0721c37e:GHSA-p782-xgp4-8hr8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/sys@v0.0.0-20180909124046-d0be0721c37e",
-      "raptor_risk_estimate": 4.776422256453975,
+      "raptor_risk_estimate": 5.596309004505219,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -16035,7 +16046,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/sys:v0.0.0-20181026203630-95b1ffbd15a5:GHSA-p782-xgp4-8hr8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/sys@v0.0.0-20181026203630-95b1ffbd15a5",
-      "raptor_risk_estimate": 4.776422256453975,
+      "raptor_risk_estimate": 5.596309004505219,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -16102,7 +16113,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/sys:v0.0.0-20181107165924-66b7b1311ac8:GHSA-p782-xgp4-8hr8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/sys@v0.0.0-20181107165924-66b7b1311ac8",
-      "raptor_risk_estimate": 4.776422256453975,
+      "raptor_risk_estimate": 5.596309004505219,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -16169,7 +16180,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/sys:v0.0.0-20181116152217-5ac8a444bdc5:GHSA-p782-xgp4-8hr8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/sys@v0.0.0-20181116152217-5ac8a444bdc5",
-      "raptor_risk_estimate": 4.776422256453975,
+      "raptor_risk_estimate": 5.596309004505219,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -16236,7 +16247,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/sys:v0.0.0-20181122145206-62eef0e2fa9b:GHSA-p782-xgp4-8hr8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/sys@v0.0.0-20181122145206-62eef0e2fa9b",
-      "raptor_risk_estimate": 4.776422256453975,
+      "raptor_risk_estimate": 5.596309004505219,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -16303,7 +16314,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/sys:v0.0.0-20190209173611-3b5209105503:GHSA-p782-xgp4-8hr8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/sys@v0.0.0-20190209173611-3b5209105503",
-      "raptor_risk_estimate": 4.776422256453975,
+      "raptor_risk_estimate": 5.596309004505219,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -16370,7 +16381,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/sys:v0.0.0-20190215142949-d0b11bdaac8a:GHSA-p782-xgp4-8hr8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/sys@v0.0.0-20190215142949-d0b11bdaac8a",
-      "raptor_risk_estimate": 4.776422256453975,
+      "raptor_risk_estimate": 5.596309004505219,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -16437,7 +16448,7 @@
       "finding_id": "sca:vuln:Go:google.golang.org/grpc:v1.17.0:GHSA-m425-mq94-257g",
       "in_kev": false,
       "purl": "pkg:golang/google.golang.org/grpc@v1.17.0",
-      "raptor_risk_estimate": 21.82921875,
+      "raptor_risk_estimate": 21.879984374999996,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -16507,7 +16518,7 @@
       "finding_id": "sca:vuln:Go:google.golang.org/grpc:v1.17.0:GHSA-p77j-4mvh-x3m3",
       "in_kev": false,
       "purl": "pkg:golang/google.golang.org/grpc@v1.17.0",
-      "raptor_risk_estimate": 13.556211532499997,
+      "raptor_risk_estimate": 14.910797879249996,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -16573,7 +16584,7 @@
       "finding_id": "sca:vuln:Go:google.golang.org/grpc:v1.17.0:GO-2023-2153",
       "in_kev": false,
       "purl": "pkg:golang/google.golang.org/grpc@v1.17.0",
-      "raptor_risk_estimate": 14.552812499999998,
+      "raptor_risk_estimate": 11.669324999999997,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -16646,7 +16657,7 @@
       "finding_id": "sca:vuln:Go:google.golang.org/grpc:v1.19.0:GHSA-m425-mq94-257g",
       "in_kev": false,
       "purl": "pkg:golang/google.golang.org/grpc@v1.19.0",
-      "raptor_risk_estimate": 21.82921875,
+      "raptor_risk_estimate": 21.879984374999996,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -16716,7 +16727,7 @@
       "finding_id": "sca:vuln:Go:google.golang.org/grpc:v1.19.0:GHSA-p77j-4mvh-x3m3",
       "in_kev": false,
       "purl": "pkg:golang/google.golang.org/grpc@v1.19.0",
-      "raptor_risk_estimate": 13.556211532499997,
+      "raptor_risk_estimate": 14.910797879249996,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -16782,7 +16793,7 @@
       "finding_id": "sca:vuln:Go:google.golang.org/grpc:v1.19.0:GO-2023-2153",
       "in_kev": false,
       "purl": "pkg:golang/google.golang.org/grpc@v1.19.0",
-      "raptor_risk_estimate": 14.552812499999998,
+      "raptor_risk_estimate": 11.669324999999997,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -16855,7 +16866,7 @@
       "finding_id": "sca:vuln:Go:google.golang.org/grpc:v1.19.1:GHSA-m425-mq94-257g",
       "in_kev": false,
       "purl": "pkg:golang/google.golang.org/grpc@v1.19.1",
-      "raptor_risk_estimate": 21.82921875,
+      "raptor_risk_estimate": 21.879984374999996,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -16925,7 +16936,7 @@
       "finding_id": "sca:vuln:Go:google.golang.org/grpc:v1.19.1:GHSA-p77j-4mvh-x3m3",
       "in_kev": false,
       "purl": "pkg:golang/google.golang.org/grpc@v1.19.1",
-      "raptor_risk_estimate": 13.556211532499997,
+      "raptor_risk_estimate": 14.910797879249996,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -16991,7 +17002,7 @@
       "finding_id": "sca:vuln:Go:google.golang.org/grpc:v1.19.1:GO-2023-2153",
       "in_kev": false,
       "purl": "pkg:golang/google.golang.org/grpc@v1.19.1",
-      "raptor_risk_estimate": 14.552812499999998,
+      "raptor_risk_estimate": 11.669324999999997,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -17063,7 +17074,7 @@
       "finding_id": "sca:vuln:Go:gopkg.in/yaml.v2:v2.0.0-20170812160011-eb3733d160e7:GHSA-6q6q-88xp-6f2r",
       "in_kev": false,
       "purl": "pkg:golang/gopkg.in/yaml.v2@v2.0.0-20170812160011-eb3733d160e7",
-      "raptor_risk_estimate": 11.6724792375,
+      "raptor_risk_estimate": 12.738918813749999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -17138,7 +17149,7 @@
       "finding_id": "sca:vuln:Go:gopkg.in/yaml.v2:v2.0.0-20170812160011-eb3733d160e7:GHSA-r88r-gmrh-7j83",
       "in_kev": false,
       "purl": "pkg:golang/gopkg.in/yaml.v2@v2.0.0-20170812160011-eb3733d160e7",
-      "raptor_risk_estimate": 8.195816392500001,
+      "raptor_risk_estimate": 9.014272253249999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -17213,7 +17224,7 @@
       "finding_id": "sca:vuln:Go:gopkg.in/yaml.v2:v2.0.0-20170812160011-eb3733d160e7:GHSA-wxc4-f4m6-wwqv",
       "in_kev": false,
       "purl": "pkg:golang/gopkg.in/yaml.v2@v2.0.0-20170812160011-eb3733d160e7",
-      "raptor_risk_estimate": 9.701671711874999,
+      "raptor_risk_estimate": 10.667367040687498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -17288,7 +17299,7 @@
       "finding_id": "sca:vuln:Go:gopkg.in/yaml.v2:v2.2.1:GHSA-6q6q-88xp-6f2r",
       "in_kev": false,
       "purl": "pkg:golang/gopkg.in/yaml.v2@v2.2.1",
-      "raptor_risk_estimate": 11.6724792375,
+      "raptor_risk_estimate": 12.738918813749999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -17363,7 +17374,7 @@
       "finding_id": "sca:vuln:Go:gopkg.in/yaml.v2:v2.2.1:GHSA-r88r-gmrh-7j83",
       "in_kev": false,
       "purl": "pkg:golang/gopkg.in/yaml.v2@v2.2.1",
-      "raptor_risk_estimate": 8.195816392500001,
+      "raptor_risk_estimate": 9.014272253249999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -17438,7 +17449,7 @@
       "finding_id": "sca:vuln:Go:gopkg.in/yaml.v2:v2.2.1:GHSA-wxc4-f4m6-wwqv",
       "in_kev": false,
       "purl": "pkg:golang/gopkg.in/yaml.v2@v2.2.1",
-      "raptor_risk_estimate": 9.701671711874999,
+      "raptor_risk_estimate": 10.667367040687498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -17513,7 +17524,7 @@
       "finding_id": "sca:vuln:Go:gopkg.in/yaml.v2:v2.2.2:GHSA-6q6q-88xp-6f2r",
       "in_kev": false,
       "purl": "pkg:golang/gopkg.in/yaml.v2@v2.2.2",
-      "raptor_risk_estimate": 11.6724792375,
+      "raptor_risk_estimate": 12.738918813749999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -17588,7 +17599,7 @@
       "finding_id": "sca:vuln:Go:gopkg.in/yaml.v2:v2.2.2:GHSA-r88r-gmrh-7j83",
       "in_kev": false,
       "purl": "pkg:golang/gopkg.in/yaml.v2@v2.2.2",
-      "raptor_risk_estimate": 8.195816392500001,
+      "raptor_risk_estimate": 9.014272253249999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -17663,7 +17674,7 @@
       "finding_id": "sca:vuln:Go:gopkg.in/yaml.v2:v2.2.2:GHSA-wxc4-f4m6-wwqv",
       "in_kev": false,
       "purl": "pkg:golang/gopkg.in/yaml.v2@v2.2.2",
-      "raptor_risk_estimate": 9.701671711874999,
+      "raptor_risk_estimate": 10.667367040687498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -17738,7 +17749,7 @@
       "finding_id": "sca:vuln:Go:github.com/apache/thrift:v0.12.0:GHSA-jq7p-26h5-w78r",
       "in_kev": false,
       "purl": "pkg:golang/github.com/apache/thrift@v0.12.0",
-      "raptor_risk_estimate": 6.8892215263143735,
+      "raptor_risk_estimate": 8.044132950502142,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -17803,7 +17814,7 @@
       "finding_id": "sca:vuln:Go:github.com/apache/thrift:v0.12.0:GHSA-wf45-q9ch-q8gh",
       "in_kev": false,
       "purl": "pkg:golang/github.com/apache/thrift@v0.12.0",
-      "raptor_risk_estimate": 6.758316556695,
+      "raptor_risk_estimate": 7.918565109547949,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -17869,7 +17880,7 @@
       "finding_id": "sca:vuln:Go:github.com/miekg/dns:v1.0.14:GHSA-44r7-7p62-q3fr",
       "in_kev": false,
       "purl": "pkg:golang/github.com/miekg/dns@v1.0.14",
-      "raptor_risk_estimate": 5.328782444090738,
+      "raptor_risk_estimate": 6.2410122649147475,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -17933,7 +17944,7 @@
       "finding_id": "sca:vuln:Go:github.com/sirupsen/logrus:v1.2.0:GHSA-4f99-4q7p-p3gh",
       "in_kev": false,
       "purl": "pkg:golang/github.com/sirupsen/logrus@v1.2.0",
-      "raptor_risk_estimate": 4.493799786429375,
+      "raptor_risk_estimate": 4.214222128256234,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -17999,7 +18010,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20180904163835-0709b304e793:GHSA-3vm4-22fp-5rfm",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20180904163835-0709b304e793",
-      "raptor_risk_estimate": 6.739670956896561,
+      "raptor_risk_estimate": 7.900679709804965,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -18068,7 +18079,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20180904163835-0709b304e793:GHSA-45x7-px36-x8w8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20180904163835-0709b304e793",
-      "raptor_risk_estimate": 15.692438970813921,
+      "raptor_risk_estimate": 20.21493734699079,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -18092,7 +18103,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "no"
     },
     {
       "advisory": {
@@ -18135,7 +18147,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20180904163835-0709b304e793:GHSA-8c26-wmh5-6g9v",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20180904163835-0709b304e793",
-      "raptor_risk_estimate": 6.747129196815938,
+      "raptor_risk_estimate": 7.9078338697021575,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -18204,7 +18216,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20180904163835-0709b304e793:GHSA-cjjc-xp8v-855w",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20180904163835-0709b304e793",
-      "raptor_risk_estimate": 6.819396969827811,
+      "raptor_risk_estimate": 7.977155212154278,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -18270,7 +18282,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20180904163835-0709b304e793:GHSA-f6x5-jh6r-wrfv",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20180904163835-0709b304e793",
-      "raptor_risk_estimate": 4.761156010881074,
+      "raptor_risk_estimate": 5.58166517928117,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -18338,7 +18350,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20180904163835-0709b304e793:GHSA-ffhg-7mh4-33c4",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20180904163835-0709b304e793",
-      "raptor_risk_estimate": 11.96165437312533,
+      "raptor_risk_estimate": 14.688759006659602,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -18404,7 +18416,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20180904163835-0709b304e793:GHSA-gwc9-m7rh-j2ww",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20180904163835-0709b304e793",
-      "raptor_risk_estimate": 6.7390280051793745,
+      "raptor_risk_estimate": 7.900062971882793,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -18470,7 +18482,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20180904163835-0709b304e793:GHSA-hcg3-q754-cr77",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20180904163835-0709b304e793",
-      "raptor_risk_estimate": 6.811681549221562,
+      "raptor_risk_estimate": 7.969754357088216,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -18536,7 +18548,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20180904163835-0709b304e793:GHSA-j5w8-q4qc-rx2x",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20180904163835-0709b304e793",
-      "raptor_risk_estimate": 4.764063867180675,
+      "raptor_risk_estimate": 5.5844544793238455,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -18602,7 +18614,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20180904163835-0709b304e793:GHSA-r5c5-pr8j-pfp7",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20180904163835-0709b304e793",
-      "raptor_risk_estimate": 5.509753635293025,
+      "raptor_risk_estimate": 6.41460507670985,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -18668,7 +18680,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20180904163835-0709b304e793:GHSA-v778-237x-gjrc",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20180904163835-0709b304e793",
-      "raptor_risk_estimate": 12.899502010586097,
+      "raptor_risk_estimate": 14.115670481289738,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -18734,7 +18746,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20180904163835-0709b304e793:GHSA-x3jr-pf6g-c48f",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20180904163835-0709b304e793",
-      "raptor_risk_estimate": 5.338898217774487,
+      "raptor_risk_estimate": 6.250715608223584,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -18792,7 +18804,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20180904163835-0709b304e793:GO-2024-2961",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20180904163835-0709b304e793",
-      "raptor_risk_estimate": 4.506658820773124,
+      "raptor_risk_estimate": 4.224089935010984,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -18852,7 +18864,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20180904163835-0709b304e793:GO-2025-4116",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20180904163835-0709b304e793",
-      "raptor_risk_estimate": 4.491999521621249,
+      "raptor_risk_estimate": 4.212840635310569,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -18918,7 +18930,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20181029021203-45a5f77698d3:GHSA-3vm4-22fp-5rfm",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20181029021203-45a5f77698d3",
-      "raptor_risk_estimate": 6.739670956896561,
+      "raptor_risk_estimate": 7.900679709804965,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -18987,7 +18999,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20181029021203-45a5f77698d3:GHSA-45x7-px36-x8w8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20181029021203-45a5f77698d3",
-      "raptor_risk_estimate": 15.692438970813921,
+      "raptor_risk_estimate": 20.21493734699079,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -19011,7 +19023,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "no"
     },
     {
       "advisory": {
@@ -19054,7 +19067,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20181029021203-45a5f77698d3:GHSA-8c26-wmh5-6g9v",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20181029021203-45a5f77698d3",
-      "raptor_risk_estimate": 6.747129196815938,
+      "raptor_risk_estimate": 7.9078338697021575,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -19123,7 +19136,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20181029021203-45a5f77698d3:GHSA-cjjc-xp8v-855w",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20181029021203-45a5f77698d3",
-      "raptor_risk_estimate": 6.819396969827811,
+      "raptor_risk_estimate": 7.977155212154278,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -19189,7 +19202,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20181029021203-45a5f77698d3:GHSA-f6x5-jh6r-wrfv",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20181029021203-45a5f77698d3",
-      "raptor_risk_estimate": 4.761156010881074,
+      "raptor_risk_estimate": 5.58166517928117,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -19257,7 +19270,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20181029021203-45a5f77698d3:GHSA-ffhg-7mh4-33c4",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20181029021203-45a5f77698d3",
-      "raptor_risk_estimate": 11.96165437312533,
+      "raptor_risk_estimate": 14.688759006659602,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -19323,7 +19336,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20181029021203-45a5f77698d3:GHSA-gwc9-m7rh-j2ww",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20181029021203-45a5f77698d3",
-      "raptor_risk_estimate": 6.7390280051793745,
+      "raptor_risk_estimate": 7.900062971882793,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -19389,7 +19402,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20181029021203-45a5f77698d3:GHSA-hcg3-q754-cr77",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20181029021203-45a5f77698d3",
-      "raptor_risk_estimate": 6.811681549221562,
+      "raptor_risk_estimate": 7.969754357088216,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -19455,7 +19468,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20181029021203-45a5f77698d3:GHSA-j5w8-q4qc-rx2x",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20181029021203-45a5f77698d3",
-      "raptor_risk_estimate": 4.764063867180675,
+      "raptor_risk_estimate": 5.5844544793238455,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -19521,7 +19534,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20181029021203-45a5f77698d3:GHSA-r5c5-pr8j-pfp7",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20181029021203-45a5f77698d3",
-      "raptor_risk_estimate": 5.509753635293025,
+      "raptor_risk_estimate": 6.41460507670985,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -19587,7 +19600,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20181029021203-45a5f77698d3:GHSA-v778-237x-gjrc",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20181029021203-45a5f77698d3",
-      "raptor_risk_estimate": 12.899502010586097,
+      "raptor_risk_estimate": 14.115670481289738,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -19653,7 +19666,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20181029021203-45a5f77698d3:GHSA-x3jr-pf6g-c48f",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20181029021203-45a5f77698d3",
-      "raptor_risk_estimate": 5.338898217774487,
+      "raptor_risk_estimate": 6.250715608223584,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -19711,7 +19724,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20181029021203-45a5f77698d3:GO-2024-2961",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20181029021203-45a5f77698d3",
-      "raptor_risk_estimate": 4.506658820773124,
+      "raptor_risk_estimate": 4.224089935010984,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -19771,7 +19784,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20181029021203-45a5f77698d3:GO-2025-4116",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20181029021203-45a5f77698d3",
-      "raptor_risk_estimate": 4.491999521621249,
+      "raptor_risk_estimate": 4.212840635310569,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -19837,7 +19850,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190211182817-74369b46fc67:GHSA-3vm4-22fp-5rfm",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190211182817-74369b46fc67",
-      "raptor_risk_estimate": 6.739670956896561,
+      "raptor_risk_estimate": 7.900679709804965,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -19906,7 +19919,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190211182817-74369b46fc67:GHSA-45x7-px36-x8w8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190211182817-74369b46fc67",
-      "raptor_risk_estimate": 15.692438970813921,
+      "raptor_risk_estimate": 20.21493734699079,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -19930,7 +19943,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "no"
     },
     {
       "advisory": {
@@ -19973,7 +19987,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190211182817-74369b46fc67:GHSA-8c26-wmh5-6g9v",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190211182817-74369b46fc67",
-      "raptor_risk_estimate": 6.747129196815938,
+      "raptor_risk_estimate": 7.9078338697021575,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -20042,7 +20056,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190211182817-74369b46fc67:GHSA-cjjc-xp8v-855w",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190211182817-74369b46fc67",
-      "raptor_risk_estimate": 6.819396969827811,
+      "raptor_risk_estimate": 7.977155212154278,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -20108,7 +20122,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190211182817-74369b46fc67:GHSA-f6x5-jh6r-wrfv",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190211182817-74369b46fc67",
-      "raptor_risk_estimate": 4.761156010881074,
+      "raptor_risk_estimate": 5.58166517928117,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -20176,7 +20190,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190211182817-74369b46fc67:GHSA-ffhg-7mh4-33c4",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190211182817-74369b46fc67",
-      "raptor_risk_estimate": 11.96165437312533,
+      "raptor_risk_estimate": 14.688759006659602,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -20242,7 +20256,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190211182817-74369b46fc67:GHSA-gwc9-m7rh-j2ww",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190211182817-74369b46fc67",
-      "raptor_risk_estimate": 6.7390280051793745,
+      "raptor_risk_estimate": 7.900062971882793,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -20308,7 +20322,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190211182817-74369b46fc67:GHSA-hcg3-q754-cr77",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190211182817-74369b46fc67",
-      "raptor_risk_estimate": 6.811681549221562,
+      "raptor_risk_estimate": 7.969754357088216,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -20374,7 +20388,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190211182817-74369b46fc67:GHSA-j5w8-q4qc-rx2x",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190211182817-74369b46fc67",
-      "raptor_risk_estimate": 4.764063867180675,
+      "raptor_risk_estimate": 5.5844544793238455,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -20440,7 +20454,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190211182817-74369b46fc67:GHSA-r5c5-pr8j-pfp7",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190211182817-74369b46fc67",
-      "raptor_risk_estimate": 5.509753635293025,
+      "raptor_risk_estimate": 6.41460507670985,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -20506,7 +20520,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190211182817-74369b46fc67:GHSA-v778-237x-gjrc",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190211182817-74369b46fc67",
-      "raptor_risk_estimate": 12.899502010586097,
+      "raptor_risk_estimate": 14.115670481289738,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -20572,7 +20586,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190211182817-74369b46fc67:GHSA-x3jr-pf6g-c48f",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190211182817-74369b46fc67",
-      "raptor_risk_estimate": 5.338898217774487,
+      "raptor_risk_estimate": 6.250715608223584,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -20630,7 +20644,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190211182817-74369b46fc67:GO-2024-2961",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190211182817-74369b46fc67",
-      "raptor_risk_estimate": 4.506658820773124,
+      "raptor_risk_estimate": 4.224089935010984,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -20690,7 +20704,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190211182817-74369b46fc67:GO-2025-4116",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190211182817-74369b46fc67",
-      "raptor_risk_estimate": 4.491999521621249,
+      "raptor_risk_estimate": 4.212840635310569,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -20756,7 +20770,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190308221718-c2843e01d9a2:GHSA-3vm4-22fp-5rfm",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190308221718-c2843e01d9a2",
-      "raptor_risk_estimate": 6.739670956896561,
+      "raptor_risk_estimate": 7.900679709804965,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -20825,7 +20839,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190308221718-c2843e01d9a2:GHSA-45x7-px36-x8w8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190308221718-c2843e01d9a2",
-      "raptor_risk_estimate": 15.692438970813921,
+      "raptor_risk_estimate": 20.21493734699079,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -20849,7 +20863,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "no"
     },
     {
       "advisory": {
@@ -20892,7 +20907,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190308221718-c2843e01d9a2:GHSA-8c26-wmh5-6g9v",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190308221718-c2843e01d9a2",
-      "raptor_risk_estimate": 6.747129196815938,
+      "raptor_risk_estimate": 7.9078338697021575,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -20961,7 +20976,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190308221718-c2843e01d9a2:GHSA-cjjc-xp8v-855w",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190308221718-c2843e01d9a2",
-      "raptor_risk_estimate": 6.819396969827811,
+      "raptor_risk_estimate": 7.977155212154278,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -21027,7 +21042,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190308221718-c2843e01d9a2:GHSA-f6x5-jh6r-wrfv",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190308221718-c2843e01d9a2",
-      "raptor_risk_estimate": 4.761156010881074,
+      "raptor_risk_estimate": 5.58166517928117,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -21095,7 +21110,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190308221718-c2843e01d9a2:GHSA-ffhg-7mh4-33c4",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190308221718-c2843e01d9a2",
-      "raptor_risk_estimate": 11.96165437312533,
+      "raptor_risk_estimate": 14.688759006659602,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -21161,7 +21176,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190308221718-c2843e01d9a2:GHSA-gwc9-m7rh-j2ww",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190308221718-c2843e01d9a2",
-      "raptor_risk_estimate": 6.7390280051793745,
+      "raptor_risk_estimate": 7.900062971882793,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -21227,7 +21242,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190308221718-c2843e01d9a2:GHSA-hcg3-q754-cr77",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190308221718-c2843e01d9a2",
-      "raptor_risk_estimate": 6.811681549221562,
+      "raptor_risk_estimate": 7.969754357088216,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -21293,7 +21308,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190308221718-c2843e01d9a2:GHSA-j5w8-q4qc-rx2x",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190308221718-c2843e01d9a2",
-      "raptor_risk_estimate": 4.764063867180675,
+      "raptor_risk_estimate": 5.5844544793238455,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -21359,7 +21374,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190308221718-c2843e01d9a2:GHSA-r5c5-pr8j-pfp7",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190308221718-c2843e01d9a2",
-      "raptor_risk_estimate": 5.509753635293025,
+      "raptor_risk_estimate": 6.41460507670985,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -21425,7 +21440,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190308221718-c2843e01d9a2:GHSA-v778-237x-gjrc",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190308221718-c2843e01d9a2",
-      "raptor_risk_estimate": 12.899502010586097,
+      "raptor_risk_estimate": 14.115670481289738,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -21491,7 +21506,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190308221718-c2843e01d9a2:GHSA-x3jr-pf6g-c48f",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190308221718-c2843e01d9a2",
-      "raptor_risk_estimate": 5.338898217774487,
+      "raptor_risk_estimate": 6.250715608223584,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -21549,7 +21564,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190308221718-c2843e01d9a2:GO-2024-2961",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190308221718-c2843e01d9a2",
-      "raptor_risk_estimate": 4.506658820773124,
+      "raptor_risk_estimate": 4.224089935010984,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -21609,7 +21624,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190308221718-c2843e01d9a2:GO-2025-4116",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190308221718-c2843e01d9a2",
-      "raptor_risk_estimate": 4.491999521621249,
+      "raptor_risk_estimate": 4.212840635310569,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -21675,7 +21690,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190325154230-a5d413f7728c:GHSA-3vm4-22fp-5rfm",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190325154230-a5d413f7728c",
-      "raptor_risk_estimate": 6.739670956896561,
+      "raptor_risk_estimate": 7.900679709804965,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -21744,7 +21759,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190325154230-a5d413f7728c:GHSA-45x7-px36-x8w8",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190325154230-a5d413f7728c",
-      "raptor_risk_estimate": 15.692438970813921,
+      "raptor_risk_estimate": 20.21493734699079,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -21768,7 +21783,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "no"
     },
     {
       "advisory": {
@@ -21811,7 +21827,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190325154230-a5d413f7728c:GHSA-8c26-wmh5-6g9v",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190325154230-a5d413f7728c",
-      "raptor_risk_estimate": 6.747129196815938,
+      "raptor_risk_estimate": 7.9078338697021575,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -21880,7 +21896,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190325154230-a5d413f7728c:GHSA-cjjc-xp8v-855w",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190325154230-a5d413f7728c",
-      "raptor_risk_estimate": 6.819396969827811,
+      "raptor_risk_estimate": 7.977155212154278,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -21946,7 +21962,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190325154230-a5d413f7728c:GHSA-f6x5-jh6r-wrfv",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190325154230-a5d413f7728c",
-      "raptor_risk_estimate": 4.761156010881074,
+      "raptor_risk_estimate": 5.58166517928117,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -22014,7 +22030,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190325154230-a5d413f7728c:GHSA-ffhg-7mh4-33c4",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190325154230-a5d413f7728c",
-      "raptor_risk_estimate": 11.96165437312533,
+      "raptor_risk_estimate": 14.688759006659602,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -22080,7 +22096,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190325154230-a5d413f7728c:GHSA-gwc9-m7rh-j2ww",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190325154230-a5d413f7728c",
-      "raptor_risk_estimate": 6.7390280051793745,
+      "raptor_risk_estimate": 7.900062971882793,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -22146,7 +22162,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190325154230-a5d413f7728c:GHSA-hcg3-q754-cr77",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190325154230-a5d413f7728c",
-      "raptor_risk_estimate": 6.811681549221562,
+      "raptor_risk_estimate": 7.969754357088216,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -22212,7 +22228,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190325154230-a5d413f7728c:GHSA-j5w8-q4qc-rx2x",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190325154230-a5d413f7728c",
-      "raptor_risk_estimate": 4.764063867180675,
+      "raptor_risk_estimate": 5.5844544793238455,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -22278,7 +22294,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190325154230-a5d413f7728c:GHSA-v778-237x-gjrc",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190325154230-a5d413f7728c",
-      "raptor_risk_estimate": 12.899502010586097,
+      "raptor_risk_estimate": 14.115670481289738,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -22344,7 +22360,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190325154230-a5d413f7728c:GHSA-x3jr-pf6g-c48f",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190325154230-a5d413f7728c",
-      "raptor_risk_estimate": 5.338898217774487,
+      "raptor_risk_estimate": 6.250715608223584,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -22402,7 +22418,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190325154230-a5d413f7728c:GO-2024-2961",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190325154230-a5d413f7728c",
-      "raptor_risk_estimate": 4.506658820773124,
+      "raptor_risk_estimate": 4.224089935010984,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -22462,7 +22478,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/crypto:v0.0.0-20190325154230-a5d413f7728c:GO-2025-4116",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/crypto@v0.0.0-20190325154230-a5d413f7728c",
-      "raptor_risk_estimate": 4.491999521621249,
+      "raptor_risk_estimate": 4.212840635310569,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -22528,7 +22544,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/text:v0.3.0:GHSA-5rcv-m4m3-hfh7",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/text@v0.3.0",
-      "raptor_risk_estimate": 6.7367133789975,
+      "raptor_risk_estimate": 7.897842715362973,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -22594,7 +22610,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/text:v0.3.0:GHSA-69ch-w2m2-3vjp",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/text@v0.3.0",
-      "raptor_risk_estimate": 6.7426285347956245,
+      "raptor_risk_estimate": 7.903516704246953,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -22660,7 +22676,7 @@
       "finding_id": "sca:vuln:Go:golang.org/x/text:v0.3.0:GHSA-ppp9-7jff-5vj2",
       "in_kev": false,
       "purl": "pkg:golang/golang.org/x/text@v0.3.0",
-      "raptor_risk_estimate": 6.742499944452187,
+      "raptor_risk_estimate": 7.90339335666252,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -22726,7 +22742,7 @@
       "finding_id": "sca:vuln:PyPI:idna:2.8:GHSA-jjg7-2v4v-x38h",
       "in_kev": false,
       "purl": "pkg:pypi/idna@2.8",
-      "raptor_risk_estimate": 7.898103087298874,
+      "raptor_risk_estimate": 7.796436320165954,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -22791,7 +22807,7 @@
       "finding_id": "sca:vuln:PyPI:requests:2.21.0:GHSA-9hjg-9r4m-mvj7",
       "in_kev": false,
       "purl": "pkg:pypi/requests@2.21.0",
-      "raptor_risk_estimate": 7.9237023540000004,
+      "raptor_risk_estimate": 8.7098046186,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -22859,7 +22875,7 @@
       "finding_id": "sca:vuln:PyPI:requests:2.21.0:GHSA-9wx4-h78v-vm56",
       "in_kev": false,
       "purl": "pkg:pypi/requests@2.21.0",
-      "raptor_risk_estimate": 8.346423245999999,
+      "raptor_risk_estimate": 9.179600921399997,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -22927,7 +22943,7 @@
       "finding_id": "sca:vuln:PyPI:requests:2.21.0:GHSA-gc5v-m9x4-r6x2",
       "in_kev": false,
       "purl": "pkg:pypi/requests@2.21.0",
-      "raptor_risk_estimate": 6.552775432500001,
+      "raptor_risk_estimate": 7.2079278892500005,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -22996,7 +23012,7 @@
       "finding_id": "sca:vuln:PyPI:requests:2.21.0:GHSA-j8r2-6x86-q33q",
       "in_kev": false,
       "purl": "pkg:pypi/requests@2.21.0",
-      "raptor_risk_estimate": 10.145138010375,
+      "raptor_risk_estimate": 10.947356709337496,
       "reachability": {
         "confidence": {
           "level": "high",

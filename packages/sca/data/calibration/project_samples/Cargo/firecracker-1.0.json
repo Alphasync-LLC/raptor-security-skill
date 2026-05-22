@@ -42,7 +42,7 @@
       "finding_id": "sca:vuln:Cargo:atty:0.2.14:GHSA-g98v-hv3f-hcfr",
       "in_kev": false,
       "purl": "pkg:cargo/atty@0.2.14",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -84,7 +84,8 @@
           "https://github.com/softprops/atty/issues/57"
         ],
         "severity": null,
-        "summary": "Potential unaligned read"
+        "summary": "Potential unaligned read",
+        "informational": "unsound"
       },
       "cvss_score": null,
       "dep_name": "atty",
@@ -101,7 +102,7 @@
       "finding_id": "sca:vuln:Cargo:atty:0.2.14:RUSTSEC-2021-0145",
       "in_kev": false,
       "purl": "pkg:cargo/atty@0.2.14",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -139,7 +140,8 @@
           "https://github.com/softprops/atty/issues/57"
         ],
         "severity": null,
-        "summary": "`atty` is unmaintained"
+        "summary": "`atty` is unmaintained",
+        "informational": "unmaintained"
       },
       "cvss_score": null,
       "dep_name": "atty",
@@ -156,7 +158,7 @@
       "finding_id": "sca:vuln:Cargo:atty:0.2.14:RUSTSEC-2024-0375",
       "in_kev": false,
       "purl": "pkg:cargo/atty@0.2.14",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -194,7 +196,8 @@
           "https://git.sr.ht/~stygianentity/bincode/tree/v3.0/item/README.md"
         ],
         "severity": null,
-        "summary": "Bincode is unmaintained"
+        "summary": "Bincode is unmaintained",
+        "informational": "unmaintained"
       },
       "cvss_score": null,
       "dep_name": "bincode",
@@ -211,7 +214,7 @@
       "finding_id": "sca:vuln:Cargo:bincode:1.3.3:RUSTSEC-2025-0141",
       "in_kev": false,
       "purl": "pkg:cargo/bincode@1.3.3",
-      "raptor_risk_estimate": 14.552812499999998,
+      "raptor_risk_estimate": 11.669324999999997,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -255,7 +258,8 @@
           "https://git.sr.ht/~stygianentity/bincode/tree/v3.0/item/README.md"
         ],
         "severity": null,
-        "summary": "Bincode is unmaintained"
+        "summary": "Bincode is unmaintained",
+        "informational": "unmaintained"
       },
       "cvss_score": null,
       "dep_name": "bincode",
@@ -272,7 +276,7 @@
       "finding_id": "sca:vuln:Cargo:bincode:1.3.1:RUSTSEC-2025-0141",
       "in_kev": false,
       "purl": "pkg:cargo/bincode@1.3.1",
-      "raptor_risk_estimate": 14.552812499999998,
+      "raptor_risk_estimate": 11.669324999999997,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -337,7 +341,7 @@
       "finding_id": "sca:vuln:Cargo:bumpalo:3.7.0:GHSA-f85w-wvc7-crwc",
       "in_kev": false,
       "purl": "pkg:cargo/bumpalo@3.7.0",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -379,7 +383,8 @@
           "https://github.com/fitzgen/bumpalo/blob/main/CHANGELOG.md#3111"
         ],
         "severity": null,
-        "summary": "Use-after-free due to a lifetime error in `Vec::into_iter()`"
+        "summary": "Use-after-free due to a lifetime error in `Vec::into_iter()`",
+        "informational": "unsound"
       },
       "cvss_score": null,
       "dep_name": "bumpalo",
@@ -396,7 +401,7 @@
       "finding_id": "sca:vuln:Cargo:bumpalo:3.7.0:RUSTSEC-2022-0078",
       "in_kev": false,
       "purl": "pkg:cargo/bumpalo@3.7.0",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -462,7 +467,7 @@
       "finding_id": "sca:vuln:Cargo:crossbeam-utils:0.8.5:GHSA-qc84-gqf4-9926",
       "in_kev": false,
       "purl": "pkg:cargo/crossbeam-utils@0.8.5",
-      "raptor_risk_estimate": 7.3246742318494125,
+      "raptor_risk_estimate": 8.576695165681773,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -521,7 +526,7 @@
       "finding_id": "sca:vuln:Cargo:kvm-ioctls:0.9.0:GHSA-3qx8-rv27-j6gp",
       "in_kev": false,
       "purl": "pkg:cargo/kvm-ioctls@0.9.0",
-      "raptor_risk_estimate": 14.552812499999998,
+      "raptor_risk_estimate": 11.669324999999997,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -570,7 +575,8 @@
           "https://github.com/rust-vmm/kvm/pull/298"
         ],
         "severity": null,
-        "summary": "Undefined behaviour in `kvm_ioctls::ioctls::vm::VmFd::create_device`"
+        "summary": "Undefined behaviour in `kvm_ioctls::ioctls::vm::VmFd::create_device`",
+        "informational": "unsound"
       },
       "cvss_score": null,
       "dep_name": "kvm-ioctls",
@@ -587,7 +593,7 @@
       "finding_id": "sca:vuln:Cargo:kvm-ioctls:0.9.0:RUSTSEC-2024-0428",
       "in_kev": false,
       "purl": "pkg:cargo/kvm-ioctls@0.9.0",
-      "raptor_risk_estimate": 14.552812499999998,
+      "raptor_risk_estimate": 11.669324999999997,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -659,7 +665,7 @@
       "finding_id": "sca:vuln:Cargo:linux-loader:0.4.0:GHSA-52h2-m2cf-9jh6",
       "in_kev": false,
       "purl": "pkg:cargo/linux-loader@0.4.0",
-      "raptor_risk_estimate": 2.8317681581249996,
+      "raptor_risk_estimate": 3.1144588423124993,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -727,7 +733,7 @@
       "finding_id": "sca:vuln:Cargo:rand:0.8.4:GHSA-cq8v-f236-94qc",
       "in_kev": false,
       "purl": "pkg:cargo/rand@0.8.4",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -771,7 +777,8 @@
           "https://github.com/rust-random/rand/pull/1763"
         ],
         "severity": null,
-        "summary": "Rand is unsound with a custom logger using `rand::rng()`"
+        "summary": "Rand is unsound with a custom logger using `rand::rng()`",
+        "informational": "unsound"
       },
       "cvss_score": null,
       "dep_name": "rand",
@@ -788,7 +795,7 @@
       "finding_id": "sca:vuln:Cargo:rand:0.8.4:RUSTSEC-2026-0097",
       "in_kev": false,
       "purl": "pkg:cargo/rand@0.8.4",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -854,7 +861,7 @@
       "finding_id": "sca:vuln:Cargo:regex:1.5.4:GHSA-m5pq-gvj9-9vr8",
       "in_kev": false,
       "purl": "pkg:cargo/regex@1.5.4",
-      "raptor_risk_estimate": 13.3867328625,
+      "raptor_risk_estimate": 14.281747076249998,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -894,7 +901,8 @@
           "https://github.com/pyfisch/cbor"
         ],
         "severity": null,
-        "summary": "serde_cbor is unmaintained"
+        "summary": "serde_cbor is unmaintained",
+        "informational": "unmaintained"
       },
       "cvss_score": null,
       "dep_name": "serde_cbor",
@@ -911,7 +919,7 @@
       "finding_id": "sca:vuln:Cargo:serde_cbor:0.11.2:RUSTSEC-2021-0127",
       "in_kev": false,
       "purl": "pkg:cargo/serde_cbor@0.11.2",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -977,7 +985,7 @@
       "finding_id": "sca:vuln:Cargo:versionize:0.1.6:GHSA-8vxc-r5wp-vgvc",
       "in_kev": false,
       "purl": "pkg:cargo/versionize@0.1.6",
-      "raptor_risk_estimate": 8.5340329605,
+      "raptor_risk_estimate": 9.378232164449999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1050,7 +1058,7 @@
       "finding_id": "sca:vuln:Cargo:vm-memory:0.1.0:GHSA-49hh-fprx-m68g",
       "in_kev": false,
       "purl": "pkg:cargo/vm-memory@0.1.0",
-      "raptor_risk_estimate": 3.724091793749999,
+      "raptor_risk_estimate": 4.096245114375,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1124,7 +1132,7 @@
       "finding_id": "sca:vuln:Cargo:vm-memory:0.1.0:GHSA-mm4m-qg48-f7wc",
       "in_kev": false,
       "purl": "pkg:cargo/vm-memory@0.1.0",
-      "raptor_risk_estimate": 11.250525515625,
+      "raptor_risk_estimate": 12.3591604640625,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1197,7 +1205,7 @@
       "finding_id": "sca:vuln:Cargo:vm-memory:0.7.0:GHSA-49hh-fprx-m68g",
       "in_kev": false,
       "purl": "pkg:cargo/vm-memory@0.7.0",
-      "raptor_risk_estimate": 3.724091793749999,
+      "raptor_risk_estimate": 4.096245114375,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1270,7 +1278,7 @@
       "finding_id": "sca:vuln:Cargo:vmm-sys-util:0.8.0:GHSA-875g-mfp6-g7f9",
       "in_kev": false,
       "purl": "pkg:cargo/vmm-sys-util@0.8.0",
-      "raptor_risk_estimate": 8.504216887500002,
+      "raptor_risk_estimate": 9.351397698749999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1336,7 +1344,7 @@
       "finding_id": "sca:vuln:PyPI:certifi:2021.10.8:GHSA-248v-346w-9cwc",
       "in_kev": false,
       "purl": "pkg:pypi/certifi@2021.10.8",
-      "raptor_risk_estimate": 8.805256769615623,
+      "raptor_risk_estimate": 6.608473702187698,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -1402,7 +1410,7 @@
       "finding_id": "sca:vuln:PyPI:certifi:2021.10.8:GHSA-43fp-rhv2-5gv8",
       "in_kev": false,
       "purl": "pkg:pypi/certifi@2021.10.8",
-      "raptor_risk_estimate": 8.52936749965575,
+      "raptor_risk_estimate": 8.443137844630229,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -1468,7 +1476,7 @@
       "finding_id": "sca:vuln:PyPI:certifi:2021.10.8:GHSA-xqr8-7jwr-rhp7",
       "in_kev": false,
       "purl": "pkg:pypi/certifi@2021.10.8",
-      "raptor_risk_estimate": 9.418335302474999,
+      "raptor_risk_estimate": 9.321150161798998,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -1534,7 +1542,7 @@
       "finding_id": "sca:vuln:PyPI:idna:3.3:GHSA-jjg7-2v4v-x38h",
       "in_kev": false,
       "purl": "pkg:pypi/idna@3.3",
-      "raptor_risk_estimate": 7.898103087298874,
+      "raptor_risk_estimate": 7.796436320165954,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -1594,7 +1602,7 @@
       "finding_id": "sca:vuln:PyPI:py:1.11.0:PYSEC-2022-42969",
       "in_kev": false,
       "purl": "pkg:pypi/py@1.11.0",
-      "raptor_risk_estimate": 6.2811628669968735,
+      "raptor_risk_estimate": 4.972752870663899,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -1659,7 +1667,7 @@
       "finding_id": "sca:vuln:PyPI:pytest:6.2.5:GHSA-6w46-j5rx-g56g",
       "in_kev": false,
       "purl": "pkg:pypi/pytest@6.2.5",
-      "raptor_risk_estimate": 8.522047124959501,
+      "raptor_risk_estimate": 8.43720794966238,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -1724,7 +1732,7 @@
       "finding_id": "sca:vuln:PyPI:requests:2.27.1:GHSA-9hjg-9r4m-mvj7",
       "in_kev": false,
       "purl": "pkg:pypi/requests@2.27.1",
-      "raptor_risk_estimate": 6.667795530891,
+      "raptor_risk_estimate": 6.596806018127639,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -1789,7 +1797,7 @@
       "finding_id": "sca:vuln:PyPI:requests:2.27.1:GHSA-9wx4-h78v-vm56",
       "in_kev": false,
       "purl": "pkg:pypi/requests@2.27.1",
-      "raptor_risk_estimate": 7.023515161508999,
+      "raptor_risk_estimate": 6.952629737868358,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -1854,7 +1862,7 @@
       "finding_id": "sca:vuln:PyPI:requests:2.27.1:GHSA-gc5v-m9x4-r6x2",
       "in_kev": false,
       "purl": "pkg:pypi/requests@2.27.1",
-      "raptor_risk_estimate": 5.514160526448752,
+      "raptor_risk_estimate": 5.45928458331795,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -1920,7 +1928,7 @@
       "finding_id": "sca:vuln:PyPI:requests:2.27.1:GHSA-j8r2-6x86-q33q",
       "in_kev": false,
       "purl": "pkg:pypi/requests@2.27.1",
-      "raptor_risk_estimate": 8.537133635730562,
+      "raptor_risk_estimate": 8.29152797165222,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -1980,7 +1988,7 @@
       "finding_id": "sca:vuln:PyPI:urllib3:1.26.8:GHSA-2xpw-w6gg-jr37",
       "in_kev": false,
       "purl": "pkg:pypi/urllib3@1.26.8",
-      "raptor_risk_estimate": 6.26716803301875,
+      "raptor_risk_estimate": 4.963683619536599,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -2046,7 +2054,7 @@
       "finding_id": "sca:vuln:PyPI:urllib3:1.26.8:GHSA-34jh-p97f-mpxf",
       "in_kev": false,
       "purl": "pkg:pypi/urllib3@1.26.8",
-      "raptor_risk_estimate": 5.541317681204251,
+      "raptor_risk_estimate": 5.48128333092417,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -2111,7 +2119,7 @@
       "finding_id": "sca:vuln:PyPI:urllib3:1.26.8:GHSA-38jv-5279-wg99",
       "in_kev": false,
       "purl": "pkg:pypi/urllib3@1.26.8",
-      "raptor_risk_estimate": 9.403981626600002,
+      "raptor_risk_estimate": 9.309522916764,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -2178,7 +2186,7 @@
       "finding_id": "sca:vuln:PyPI:urllib3:1.26.8:GHSA-g4mx-q9vg-27p4",
       "in_kev": false,
       "purl": "pkg:pypi/urllib3@1.26.8",
-      "raptor_risk_estimate": 5.268641128443001,
+      "raptor_risk_estimate": 5.215286210553721,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -2238,7 +2246,7 @@
       "finding_id": "sca:vuln:PyPI:urllib3:1.26.8:GHSA-gm62-xv2j-4w53",
       "in_kev": false,
       "purl": "pkg:pypi/urllib3@1.26.8",
-      "raptor_risk_estimate": 6.26740726095,
+      "raptor_risk_estimate": 4.963838649470398,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -2303,7 +2311,7 @@
       "finding_id": "sca:vuln:PyPI:urllib3:1.26.8:GHSA-pq67-6m6q-mj2v",
       "in_kev": false,
       "purl": "pkg:pypi/urllib3@1.26.8",
-      "raptor_risk_estimate": 6.651439517231437,
+      "raptor_risk_estimate": 6.583556772410256,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -2370,7 +2378,7 @@
       "finding_id": "sca:vuln:PyPI:urllib3:1.26.8:GHSA-v845-jxx5-vc9f",
       "in_kev": false,
       "purl": "pkg:pypi/urllib3@1.26.8",
-      "raptor_risk_estimate": 7.527369511715627,
+      "raptor_risk_estimate": 7.428450502118625,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -2434,7 +2442,7 @@
       "finding_id": "sca:vuln:PyPI:zipp:3.6.0:GHSA-jfmj-5v4g-7637",
       "in_kev": false,
       "purl": "pkg:pypi/zipp@3.6.0",
-      "raptor_risk_estimate": 7.771585003577999,
+      "raptor_risk_estimate": 7.693949906679118,
       "reachability": {
         "confidence": {
           "level": "low",

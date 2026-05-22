@@ -45,7 +45,7 @@
       "finding_id": "sca:vuln:PyPI:black:22.3.0:GHSA-3936-cmfr-pm3m",
       "in_kev": false,
       "purl": "pkg:pypi/black@22.3.0",
-      "raptor_risk_estimate": 6.268005330778125,
+      "raptor_risk_estimate": 4.964226224304899,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -111,7 +111,7 @@
       "finding_id": "sca:vuln:PyPI:black:22.3.0:GHSA-fj7x-q9j7-g6q6",
       "in_kev": false,
       "purl": "pkg:pypi/black@22.3.0",
-      "raptor_risk_estimate": 10.842761765680354,
+      "raptor_risk_estimate": 15.712764028790914,
       "reachability": {
         "confidence": {
           "level": "low",
@@ -135,7 +135,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -177,7 +178,7 @@
       "finding_id": "sca:vuln:PyPI:cryptography:40.0.0:GHSA-3ww4-gg4f-jr7f",
       "in_kev": false,
       "purl": "pkg:pypi/cryptography@40.0.0",
-      "raptor_risk_estimate": 14.858114548921874,
+      "raptor_risk_estimate": 17.92582003468265,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -204,7 +205,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "high",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "no"
     },
     {
       "advisory": {
@@ -239,7 +241,7 @@
       "finding_id": "sca:vuln:PyPI:cryptography:40.0.0:GHSA-5cpq-8wj7-hf2v",
       "in_kev": false,
       "purl": "pkg:pypi/cryptography@40.0.0",
-      "raptor_risk_estimate": 14.552812499999998,
+      "raptor_risk_estimate": 11.669324999999997,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -308,7 +310,7 @@
       "finding_id": "sca:vuln:PyPI:cryptography:40.0.0:GHSA-6vqw-3v5j-54x4",
       "in_kev": false,
       "purl": "pkg:pypi/cryptography@40.0.0",
-      "raptor_risk_estimate": 11.259054140624999,
+      "raptor_risk_estimate": 12.366836226562498,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -376,7 +378,7 @@
       "finding_id": "sca:vuln:PyPI:cryptography:40.0.0:GHSA-9v9h-cgj8-h64p",
       "in_kev": false,
       "purl": "pkg:pypi/cryptography@40.0.0",
-      "raptor_risk_estimate": 8.227088017500002,
+      "raptor_risk_estimate": 9.042416715749999,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -445,7 +447,7 @@
       "finding_id": "sca:vuln:PyPI:cryptography:40.0.0:GHSA-cf7p-gm2m-833m",
       "in_kev": false,
       "purl": "pkg:pypi/cryptography@40.0.0",
-      "raptor_risk_estimate": 14.925098369671872,
+      "raptor_risk_estimate": 21.770482160842434,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -472,7 +474,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "high",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -506,7 +509,7 @@
       "finding_id": "sca:vuln:PyPI:cryptography:40.0.0:GHSA-h4gh-qq45-vh27",
       "in_kev": false,
       "purl": "pkg:pypi/cryptography@40.0.0",
-      "raptor_risk_estimate": 14.552812499999998,
+      "raptor_risk_estimate": 11.669324999999997,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -575,7 +578,7 @@
       "finding_id": "sca:vuln:PyPI:cryptography:40.0.0:GHSA-jfhm-5ghh-2f97",
       "in_kev": false,
       "purl": "pkg:pypi/cryptography@40.0.0",
-      "raptor_risk_estimate": 13.088403599559747,
+      "raptor_risk_estimate": 17.366636978970565,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -602,7 +605,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "no"
     },
     {
       "advisory": {
@@ -638,7 +642,7 @@
       "finding_id": "sca:vuln:PyPI:cryptography:40.0.0:GHSA-jm77-qphf-c4w8",
       "in_kev": false,
       "purl": "pkg:pypi/cryptography@40.0.0",
-      "raptor_risk_estimate": 14.552812499999998,
+      "raptor_risk_estimate": 11.669324999999997,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -704,7 +708,7 @@
       "finding_id": "sca:vuln:PyPI:cryptography:40.0.0:GHSA-m959-cc7f-wv43",
       "in_kev": false,
       "purl": "pkg:pypi/cryptography@40.0.0",
-      "raptor_risk_estimate": 7.893718551374999,
+      "raptor_risk_estimate": 8.6828191962375,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -769,7 +773,7 @@
       "finding_id": "sca:vuln:PyPI:cryptography:40.0.0:GHSA-r6ph-v2qm-q3c2",
       "in_kev": false,
       "purl": "pkg:pypi/cryptography@40.0.0",
-      "raptor_risk_estimate": 7.44690429375,
+      "raptor_risk_estimate": 6.5530710915,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -829,7 +833,7 @@
       "finding_id": "sca:vuln:PyPI:cryptography:40.0.0:GHSA-v8gr-m533-ghj9",
       "in_kev": false,
       "purl": "pkg:pypi/cryptography@40.0.0",
-      "raptor_risk_estimate": 14.552812499999998,
+      "raptor_risk_estimate": 11.669324999999997,
       "reachability": {
         "confidence": {
           "level": "high",

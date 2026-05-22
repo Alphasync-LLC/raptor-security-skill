@@ -22,7 +22,8 @@
           "https://github.com/jonas-schievink/adler"
         ],
         "severity": null,
-        "summary": "adler crate is unmaintained, use adler2 instead"
+        "summary": "adler crate is unmaintained, use adler2 instead",
+        "informational": "unmaintained"
       },
       "cvss_score": null,
       "dep_name": "adler",
@@ -39,7 +40,7 @@
       "finding_id": "sca:vuln:Cargo:adler:1.0.2:RUSTSEC-2025-0056",
       "in_kev": false,
       "purl": "pkg:cargo/adler@1.0.2",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -98,7 +99,7 @@
       "finding_id": "sca:vuln:Cargo:anstream:0.3.2:GHSA-2rxc-gjrp-vjhx",
       "in_kev": false,
       "purl": "pkg:cargo/anstream@0.3.2",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -140,7 +141,8 @@
           "https://github.com/rust-cli/anstyle/issues/156"
         ],
         "severity": null,
-        "summary": "Unsoundness in anstream"
+        "summary": "Unsoundness in anstream",
+        "informational": "unsound"
       },
       "cvss_score": null,
       "dep_name": "anstream",
@@ -157,7 +159,7 @@
       "finding_id": "sca:vuln:Cargo:anstream:0.3.2:RUSTSEC-2024-0404",
       "in_kev": false,
       "purl": "pkg:cargo/anstream@0.3.2",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -217,7 +219,7 @@
       "finding_id": "sca:vuln:Cargo:array-init-cursor:0.2.0:GHSA-67r5-rqwv-9p9q",
       "in_kev": false,
       "purl": "pkg:cargo/array-init-cursor@0.2.0",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -259,7 +261,8 @@
           "https://github.com/planus-org/planus/issues/293"
         ],
         "severity": null,
-        "summary": "`array-init-cursor` in version 0.2.0 and below is unsound when used with types that implement `Drop`"
+        "summary": "`array-init-cursor` in version 0.2.0 and below is unsound when used with types that implement `Drop`",
+        "informational": "unsound"
       },
       "cvss_score": null,
       "dep_name": "array-init-cursor",
@@ -276,7 +279,7 @@
       "finding_id": "sca:vuln:Cargo:array-init-cursor:0.2.0:RUSTSEC-2025-0019",
       "in_kev": false,
       "purl": "pkg:cargo/array-init-cursor@0.2.0",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -332,7 +335,7 @@
       "finding_id": "sca:vuln:Cargo:arrow2:0.17.4:GHSA-wv8j-m3hx-924j",
       "in_kev": false,
       "purl": "pkg:cargo/arrow2@0.17.4",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -388,7 +391,7 @@
       "finding_id": "sca:vuln:Cargo:arrow2:0.17.4:RUSTSEC-2025-0038",
       "in_kev": false,
       "purl": "pkg:cargo/arrow2@0.17.4",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -426,7 +429,8 @@
           "https://github.com/embassy-rs/atomic-polyfill/commit/48e55c166684f37af0b00fbee5a0809b1a2bae8e"
         ],
         "severity": null,
-        "summary": "atomic-polyfill is unmaintained"
+        "summary": "atomic-polyfill is unmaintained",
+        "informational": "unmaintained"
       },
       "cvss_score": null,
       "dep_name": "atomic-polyfill",
@@ -443,7 +447,7 @@
       "finding_id": "sca:vuln:Cargo:atomic-polyfill:0.1.11:RUSTSEC-2023-0089",
       "in_kev": false,
       "purl": "pkg:cargo/atomic-polyfill@0.1.11",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -481,7 +485,8 @@
           "https://git.sr.ht/~stygianentity/bincode/tree/v3.0/item/README.md"
         ],
         "severity": null,
-        "summary": "Bincode is unmaintained"
+        "summary": "Bincode is unmaintained",
+        "informational": "unmaintained"
       },
       "cvss_score": null,
       "dep_name": "bincode",
@@ -498,7 +503,7 @@
       "finding_id": "sca:vuln:Cargo:bincode:1.3.3:RUSTSEC-2025-0141",
       "in_kev": false,
       "purl": "pkg:cargo/bincode@1.3.3",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -560,7 +565,7 @@
       "finding_id": "sca:vuln:Cargo:bytes:1.4.0:GHSA-434x-w66g-qw3r",
       "in_kev": false,
       "purl": "pkg:cargo/bytes@1.4.0",
-      "raptor_risk_estimate": 12.869813064512249,
+      "raptor_risk_estimate": 17.128591886303838,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -586,7 +591,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "no"
     },
     {
       "advisory": {
@@ -620,7 +626,7 @@
       "finding_id": "sca:vuln:Cargo:fast-float:0.2.0:GHSA-8655-xgh5-5vvq",
       "in_kev": false,
       "purl": "pkg:cargo/fast-float@0.2.0",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -679,7 +685,7 @@
       "finding_id": "sca:vuln:Cargo:fast-float:0.2.0:GHSA-x8jh-xj3x-gx3c",
       "in_kev": false,
       "purl": "pkg:cargo/fast-float@0.2.0",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -721,7 +727,8 @@
           "https://github.com/aldanor/fast-float-rust/issues/37"
         ],
         "severity": null,
-        "summary": "Multiple soundness issues"
+        "summary": "Multiple soundness issues",
+        "informational": "unsound"
       },
       "cvss_score": null,
       "dep_name": "fast-float",
@@ -738,7 +745,7 @@
       "finding_id": "sca:vuln:Cargo:fast-float:0.2.0:RUSTSEC-2024-0379",
       "in_kev": false,
       "purl": "pkg:cargo/fast-float@0.2.0",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -795,7 +802,7 @@
       "finding_id": "sca:vuln:Cargo:fast-float:0.2.0:RUSTSEC-2025-0003",
       "in_kev": false,
       "purl": "pkg:cargo/fast-float@0.2.0",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -833,7 +840,8 @@
           "https://github.com/cbreeden/fxhash/issues/20"
         ],
         "severity": null,
-        "summary": "fxhash - no longer maintained"
+        "summary": "fxhash - no longer maintained",
+        "informational": "unmaintained"
       },
       "cvss_score": null,
       "dep_name": "fxhash",
@@ -850,7 +858,7 @@
       "finding_id": "sca:vuln:Cargo:fxhash:0.2.1:RUSTSEC-2025-0057",
       "in_kev": false,
       "purl": "pkg:cargo/fxhash@0.2.1",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -911,7 +919,7 @@
       "finding_id": "sca:vuln:Cargo:git2:0.18.0:GHSA-j39j-6gw9-jw6h",
       "in_kev": false,
       "purl": "pkg:cargo/git2@0.18.0",
-      "raptor_risk_estimate": 14.552812499999998,
+      "raptor_risk_estimate": 11.669324999999997,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -955,7 +963,8 @@
           "https://github.com/rust-lang/git2-rs/pull/1213"
         ],
         "severity": null,
-        "summary": "Potential undefined behavior when dereferencing Buf struct"
+        "summary": "Potential undefined behavior when dereferencing Buf struct",
+        "informational": "unsound"
       },
       "cvss_score": null,
       "dep_name": "git2",
@@ -972,7 +981,7 @@
       "finding_id": "sca:vuln:Cargo:git2:0.18.0:RUSTSEC-2026-0008",
       "in_kev": false,
       "purl": "pkg:cargo/git2@0.18.0",
-      "raptor_risk_estimate": 14.552812499999998,
+      "raptor_risk_estimate": 11.669324999999997,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1036,7 +1045,7 @@
       "finding_id": "sca:vuln:Cargo:h2:0.3.20:GHSA-8r5v-vm4m-4g25",
       "in_kev": false,
       "purl": "pkg:cargo/h2@0.3.20",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1101,7 +1110,7 @@
       "finding_id": "sca:vuln:Cargo:h2:0.3.20:GHSA-q6cp-qfwq-4gcv",
       "in_kev": false,
       "purl": "pkg:cargo/h2@0.3.20",
-      "raptor_risk_estimate": 9.303409291874999,
+      "raptor_risk_estimate": 9.938726177193747,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1161,7 +1170,7 @@
       "finding_id": "sca:vuln:Cargo:h2:0.3.20:RUSTSEC-2024-0003",
       "in_kev": false,
       "purl": "pkg:cargo/h2@0.3.20",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1221,7 +1230,7 @@
       "finding_id": "sca:vuln:Cargo:h2:0.3.20:RUSTSEC-2024-0332",
       "in_kev": false,
       "purl": "pkg:cargo/h2@0.3.20",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1282,7 +1291,7 @@
       "finding_id": "sca:vuln:Cargo:idna:0.4.0:GHSA-h97m-ww89-6jmq",
       "in_kev": false,
       "purl": "pkg:cargo/idna@0.4.0",
-      "raptor_risk_estimate": 7.781336863277788,
+      "raptor_risk_estimate": 11.032781642277257,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1306,7 +1315,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "no"
     },
     {
       "advisory": {
@@ -1322,7 +1332,8 @@
           "https://github.com/sebcrozet/instant/issues/52"
         ],
         "severity": null,
-        "summary": "`instant` is unmaintained"
+        "summary": "`instant` is unmaintained",
+        "informational": "unmaintained"
       },
       "cvss_score": null,
       "dep_name": "instant",
@@ -1339,7 +1350,7 @@
       "finding_id": "sca:vuln:Cargo:instant:0.1.12:RUSTSEC-2024-0384",
       "in_kev": false,
       "purl": "pkg:cargo/instant@0.1.12",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1397,7 +1408,7 @@
       "finding_id": "sca:vuln:Cargo:lexical:6.1.1:GHSA-c2hm-mjxv-89r4",
       "in_kev": false,
       "purl": "pkg:cargo/lexical@6.1.1",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1441,7 +1452,8 @@
           "https://github.com/Alexhuszagh/rust-lexical/issues/95"
         ],
         "severity": null,
-        "summary": "Multiple soundness issues"
+        "summary": "Multiple soundness issues",
+        "informational": "unsound"
       },
       "cvss_score": null,
       "dep_name": "lexical",
@@ -1458,7 +1470,7 @@
       "finding_id": "sca:vuln:Cargo:lexical:6.1.1:RUSTSEC-2023-0055",
       "in_kev": false,
       "purl": "pkg:cargo/lexical@6.1.1",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1519,7 +1531,7 @@
       "finding_id": "sca:vuln:Cargo:lexical-core:0.8.5:GHSA-2326-pfpj-vx3h",
       "in_kev": false,
       "purl": "pkg:cargo/lexical-core@0.8.5",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1563,7 +1575,8 @@
           "https://github.com/Alexhuszagh/rust-lexical/issues/95"
         ],
         "severity": null,
-        "summary": "Multiple soundness issues"
+        "summary": "Multiple soundness issues",
+        "informational": "unsound"
       },
       "cvss_score": null,
       "dep_name": "lexical-core",
@@ -1580,7 +1593,7 @@
       "finding_id": "sca:vuln:Cargo:lexical-core:0.8.5:RUSTSEC-2023-0086",
       "in_kev": false,
       "purl": "pkg:cargo/lexical-core@0.8.5",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1644,7 +1657,7 @@
       "finding_id": "sca:vuln:Cargo:libgit2-sys:0.16.1+1.7.1:GHSA-22q8-ghmq-63vf",
       "in_kev": false,
       "purl": "pkg:cargo/libgit2-sys@0.16.1+1.7.1",
-      "raptor_risk_estimate": 15.096098096249996,
+      "raptor_risk_estimate": 16.126989646012497,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1708,7 +1721,7 @@
       "finding_id": "sca:vuln:Cargo:libgit2-sys:0.16.1+1.7.1:RUSTSEC-2024-0013",
       "in_kev": false,
       "purl": "pkg:cargo/libgit2-sys@0.16.1+1.7.1",
-      "raptor_risk_estimate": 15.096098096249996,
+      "raptor_risk_estimate": 16.126989646012497,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1767,7 +1780,7 @@
       "finding_id": "sca:vuln:Cargo:lru:0.11.0:GHSA-rhfx-m35p-ff5j",
       "in_kev": false,
       "purl": "pkg:cargo/lru@0.11.0",
-      "raptor_risk_estimate": 14.552812499999998,
+      "raptor_risk_estimate": 11.669324999999997,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1811,7 +1824,8 @@
           "https://github.com/jeromefroe/lru-rs/pull/224"
         ],
         "severity": null,
-        "summary": "`IterMut` violates Stacked Borrows by invalidating internal pointer"
+        "summary": "`IterMut` violates Stacked Borrows by invalidating internal pointer",
+        "informational": "unsound"
       },
       "cvss_score": null,
       "dep_name": "lru",
@@ -1828,7 +1842,7 @@
       "finding_id": "sca:vuln:Cargo:lru:0.11.0:RUSTSEC-2026-0002",
       "in_kev": false,
       "purl": "pkg:cargo/lru@0.11.0",
-      "raptor_risk_estimate": 14.552812499999998,
+      "raptor_risk_estimate": 11.669324999999997,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -1889,7 +1903,7 @@
       "finding_id": "sca:vuln:Cargo:mimalloc:0.1.37:GHSA-g23h-7vf9-xc25",
       "in_kev": false,
       "purl": "pkg:cargo/mimalloc@0.1.37",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -1931,7 +1945,8 @@
           "https://github.com/purpleprotocol/mimalloc_rust/issues/87"
         ],
         "severity": null,
-        "summary": "Mimalloc Can Allocate Memory with Bad Alignment"
+        "summary": "Mimalloc Can Allocate Memory with Bad Alignment",
+        "informational": "unsound"
       },
       "cvss_score": null,
       "dep_name": "mimalloc",
@@ -1948,7 +1963,7 @@
       "finding_id": "sca:vuln:Cargo:mimalloc:0.1.37:RUSTSEC-2022-0094",
       "in_kev": false,
       "purl": "pkg:cargo/mimalloc@0.1.37",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2014,7 +2029,7 @@
       "finding_id": "sca:vuln:Cargo:mio:0.8.8:GHSA-r8w9-5wcg-vfj7",
       "in_kev": false,
       "purl": "pkg:cargo/mio@0.8.8",
-      "raptor_risk_estimate": 8.974731514738677,
+      "raptor_risk_estimate": 13.959893095010312,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2038,7 +2053,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "high",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "yes"
     },
     {
       "advisory": {
@@ -2053,7 +2069,8 @@
           "https://github.com/ogham/rust-number-prefix/pull/8"
         ],
         "severity": null,
-        "summary": "number_prefix crate is unmaintained"
+        "summary": "number_prefix crate is unmaintained",
+        "informational": "unmaintained"
       },
       "cvss_score": null,
       "dep_name": "number_prefix",
@@ -2070,7 +2087,7 @@
       "finding_id": "sca:vuln:Cargo:number_prefix:0.4.0:RUSTSEC-2025-0119",
       "in_kev": false,
       "purl": "pkg:cargo/number_prefix@0.4.0",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2130,7 +2147,7 @@
       "finding_id": "sca:vuln:Cargo:openssl:0.10.55:GHSA-4fcv-w3qc-ppgg",
       "in_kev": false,
       "purl": "pkg:cargo/openssl@0.10.55",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2191,7 +2208,7 @@
       "finding_id": "sca:vuln:Cargo:openssl:0.10.55:GHSA-8c75-8mhr-p7r9",
       "in_kev": false,
       "purl": "pkg:cargo/openssl@0.10.55",
-      "raptor_risk_estimate": 4.495514324341873,
+      "raptor_risk_estimate": 4.215537835823534,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2252,7 +2269,7 @@
       "finding_id": "sca:vuln:Cargo:openssl:0.10.55:GHSA-ghm9-cr32-g9qj",
       "in_kev": false,
       "purl": "pkg:cargo/openssl@0.10.55",
-      "raptor_risk_estimate": 4.4952571436549995,
+      "raptor_risk_estimate": 4.2153404796884395,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2313,7 +2330,7 @@
       "finding_id": "sca:vuln:Cargo:openssl:0.10.55:GHSA-hppc-g8h3-xhp3",
       "in_kev": false,
       "purl": "pkg:cargo/openssl@0.10.55",
-      "raptor_risk_estimate": 4.495342870550624,
+      "raptor_risk_estimate": 4.215406265066805,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2374,7 +2391,7 @@
       "finding_id": "sca:vuln:Cargo:openssl:0.10.55:GHSA-pqf5-4pqq-29f5",
       "in_kev": false,
       "purl": "pkg:cargo/openssl@0.10.55",
-      "raptor_risk_estimate": 4.495600051237499,
+      "raptor_risk_estimate": 4.2156036212019,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2439,7 +2456,7 @@
       "finding_id": "sca:vuln:Cargo:openssl:0.10.55:GHSA-q445-7m23-qrmw",
       "in_kev": false,
       "purl": "pkg:cargo/openssl@0.10.55",
-      "raptor_risk_estimate": 11.409841584374998,
+      "raptor_risk_estimate": 12.189003802218748,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2501,7 +2518,7 @@
       "finding_id": "sca:vuln:Cargo:openssl:0.10.55:GHSA-rpmj-rpgj-qmpm",
       "in_kev": false,
       "purl": "pkg:cargo/openssl@0.10.55",
-      "raptor_risk_estimate": 4.5004007573925,
+      "raptor_risk_estimate": 4.219287602390339,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2562,7 +2579,7 @@
       "finding_id": "sca:vuln:Cargo:openssl:0.10.55:GHSA-xmgf-hq76-4vx2",
       "in_kev": false,
       "purl": "pkg:cargo/openssl@0.10.55",
-      "raptor_risk_estimate": 4.502886837365625,
+      "raptor_risk_estimate": 4.221195378362925,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2620,7 +2637,7 @@
       "finding_id": "sca:vuln:Cargo:openssl:0.10.55:GHSA-xp3w-r5p5-63rr",
       "in_kev": false,
       "purl": "pkg:cargo/openssl@0.10.55",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2680,7 +2697,7 @@
       "finding_id": "sca:vuln:Cargo:openssl:0.10.55:GHSA-xphf-cx8h-7q9g",
       "in_kev": false,
       "purl": "pkg:cargo/openssl@0.10.55",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2738,7 +2755,7 @@
       "finding_id": "sca:vuln:Cargo:openssl:0.10.55:GHSA-xv59-967r-8726",
       "in_kev": false,
       "purl": "pkg:cargo/openssl@0.10.55",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2780,7 +2797,8 @@
           "https://github.com/sfackler/rust-openssl/issues/2096"
         ],
         "severity": null,
-        "summary": "`openssl` `X509StoreRef::objects` is unsound"
+        "summary": "`openssl` `X509StoreRef::objects` is unsound",
+        "informational": "unsound"
       },
       "cvss_score": null,
       "dep_name": "openssl",
@@ -2797,7 +2815,7 @@
       "finding_id": "sca:vuln:Cargo:openssl:0.10.55:RUSTSEC-2023-0072",
       "in_kev": false,
       "purl": "pkg:cargo/openssl@0.10.55",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2856,7 +2874,7 @@
       "finding_id": "sca:vuln:Cargo:openssl:0.10.55:RUSTSEC-2024-0357",
       "in_kev": false,
       "purl": "pkg:cargo/openssl@0.10.55",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2915,7 +2933,7 @@
       "finding_id": "sca:vuln:Cargo:openssl:0.10.55:RUSTSEC-2025-0022",
       "in_kev": false,
       "purl": "pkg:cargo/openssl@0.10.55",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -2953,7 +2971,8 @@
           "https://github.com/dtolnay/paste"
         ],
         "severity": null,
-        "summary": "paste - no longer maintained"
+        "summary": "paste - no longer maintained",
+        "informational": "unmaintained"
       },
       "cvss_score": null,
       "dep_name": "paste",
@@ -2970,7 +2989,7 @@
       "finding_id": "sca:vuln:Cargo:paste:1.0.13:RUSTSEC-2024-0436",
       "in_kev": false,
       "purl": "pkg:cargo/paste@1.0.13",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3031,7 +3050,7 @@
       "finding_id": "sca:vuln:Cargo:rand:0.8.5:GHSA-cq8v-f236-94qc",
       "in_kev": false,
       "purl": "pkg:cargo/rand@0.8.5",
-      "raptor_risk_estimate": 14.552812499999998,
+      "raptor_risk_estimate": 11.669324999999997,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -3082,7 +3101,8 @@
           "https://github.com/rust-random/rand/pull/1763"
         ],
         "severity": null,
-        "summary": "Rand is unsound with a custom logger using `rand::rng()`"
+        "summary": "Rand is unsound with a custom logger using `rand::rng()`",
+        "informational": "unsound"
       },
       "cvss_score": null,
       "dep_name": "rand",
@@ -3099,7 +3119,7 @@
       "finding_id": "sca:vuln:Cargo:rand:0.8.5:RUSTSEC-2026-0097",
       "in_kev": false,
       "purl": "pkg:cargo/rand@0.8.5",
-      "raptor_risk_estimate": 14.552812499999998,
+      "raptor_risk_estimate": 11.669324999999997,
       "reachability": {
         "confidence": {
           "level": "high",
@@ -3174,7 +3194,7 @@
       "finding_id": "sca:vuln:Cargo:rustix:0.36.15:GHSA-c827-hfw6-qwvm",
       "in_kev": false,
       "purl": "pkg:cargo/rustix@0.36.15",
-      "raptor_risk_estimate": 7.771264309665737,
+      "raptor_risk_estimate": 11.021090760987551,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3198,7 +3218,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "no"
     },
     {
       "advisory": {
@@ -3243,7 +3264,7 @@
       "finding_id": "sca:vuln:Cargo:rustix:0.37.23:GHSA-c827-hfw6-qwvm",
       "in_kev": false,
       "purl": "pkg:cargo/rustix@0.37.23",
-      "raptor_risk_estimate": 7.771264309665737,
+      "raptor_risk_estimate": 11.021090760987551,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3267,7 +3288,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "no"
     },
     {
       "advisory": {
@@ -3312,7 +3334,7 @@
       "finding_id": "sca:vuln:Cargo:rustix:0.38.3:GHSA-c827-hfw6-qwvm",
       "in_kev": false,
       "purl": "pkg:cargo/rustix@0.38.3",
-      "raptor_risk_estimate": 7.771264309665737,
+      "raptor_risk_estimate": 11.021090760987551,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3336,7 +3358,8 @@
         "version_match_confidence": 0.95
       },
       "severity": "medium",
-      "ssvc_exploitation": "poc"
+      "ssvc_exploitation": "poc",
+      "ssvc_automatable": "no"
     },
     {
       "advisory": {
@@ -3378,7 +3401,7 @@
       "finding_id": "sca:vuln:Cargo:shlex:1.1.0:GHSA-r7qv-8r2h-pg27",
       "in_kev": false,
       "purl": "pkg:cargo/shlex@1.1.0",
-      "raptor_risk_estimate": 2.878281337056,
+      "raptor_risk_estimate": 3.3735354630153593,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3440,7 +3463,7 @@
       "finding_id": "sca:vuln:Cargo:time:0.3.22:GHSA-r6v5-fh4h-64xc",
       "in_kev": false,
       "purl": "pkg:cargo/time@0.3.22",
-      "raptor_risk_estimate": 4.491828067829999,
+      "raptor_risk_estimate": 4.21270906455384,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3501,7 +3524,7 @@
       "finding_id": "sca:vuln:Cargo:tokio:1.29.1:GHSA-rr8g-9fpq-6wmg",
       "in_kev": false,
       "purl": "pkg:cargo/tokio@1.29.1",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3546,7 +3569,8 @@
           "https://github.com/tokio-rs/tokio/pull/7232"
         ],
         "severity": null,
-        "summary": "Broadcast channel calls clone in parallel, but does not require `Sync`"
+        "summary": "Broadcast channel calls clone in parallel, but does not require `Sync`",
+        "informational": "unsound"
       },
       "cvss_score": null,
       "dep_name": "tokio",
@@ -3563,7 +3587,7 @@
       "finding_id": "sca:vuln:Cargo:tokio:1.29.1:RUSTSEC-2025-0023",
       "in_kev": false,
       "purl": "pkg:cargo/tokio@1.29.1",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3623,7 +3647,7 @@
       "finding_id": "sca:vuln:Cargo:unsafe-libyaml:0.2.8:GHSA-r24f-hg58-vfrw",
       "in_kev": false,
       "purl": "pkg:cargo/unsafe-libyaml@0.2.8",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
@@ -3665,7 +3689,8 @@
           "https://github.com/dtolnay/unsafe-libyaml/issues/21"
         ],
         "severity": null,
-        "summary": "Unaligned write of u64 on 32-bit and 16-bit platforms"
+        "summary": "Unaligned write of u64 on 32-bit and 16-bit platforms",
+        "informational": "unsound"
       },
       "cvss_score": null,
       "dep_name": "unsafe-libyaml",
@@ -3682,7 +3707,7 @@
       "finding_id": "sca:vuln:Cargo:unsafe-libyaml:0.2.8:RUSTSEC-2023-0075",
       "in_kev": false,
       "purl": "pkg:cargo/unsafe-libyaml@0.2.8",
-      "raptor_risk_estimate": 8.776801218749998,
+      "raptor_risk_estimate": 7.5009254167499995,
       "reachability": {
         "confidence": {
           "level": "medium",
