@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import pytest
 
 from packages.source_intel.aliases import (
     ALL_WUR_ALIASES,

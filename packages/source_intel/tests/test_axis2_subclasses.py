@@ -12,9 +12,7 @@ import shutil
 import pytest
 
 from packages.source_intel.analyze import (
-    NullGuardEvidence,
     SourceIntelResult,
-    WarnEvidence,
     analyze,
 )
 

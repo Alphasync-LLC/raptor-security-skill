@@ -2,12 +2,10 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 
 import pytest
 
 from packages.source_intel.conditional import (
-    ConditionalBlock,
     _index_file,
     clear_cache,
     enclosing_condition,

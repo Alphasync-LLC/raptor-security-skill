@@ -11,7 +11,6 @@ from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
-import pytest
 
 from packages.hypothesis_validation.adapters import SourceIntelAdapter
 from packages.source_intel.analyze import (

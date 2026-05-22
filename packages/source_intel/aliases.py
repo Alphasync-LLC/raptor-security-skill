@@ -22,7 +22,7 @@ Public API:
 from __future__ import annotations
 
 import re
-from typing import FrozenSet, Tuple
+from typing import Tuple
 
 
 #: Known macro / syntax spellings for warn_unused_result. Grouped by

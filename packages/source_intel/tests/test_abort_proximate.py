@@ -11,7 +11,6 @@ Covers:
 from __future__ import annotations
 
 import shutil
-from pathlib import Path
 from unittest.mock import patch
 
 import pytest
@@ -241,7 +240,8 @@ def test_abort_dominance_pure_helper():
     # Build a real file so _enclosing_function can derive the finding's
     # function name (Finding has no `function` field — derived from
     # sink (file, line) via the same heuristic both sides use).
-    import tempfile, os
+    import tempfile
+    import os
     src_dir = tempfile.mkdtemp()
     src_file = os.path.join(src_dir, "x.c")
     with open(src_file, "w") as fh:

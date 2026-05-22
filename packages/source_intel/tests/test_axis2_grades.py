@@ -8,9 +8,7 @@ per-grade proximity gate.
 
 from __future__ import annotations
 
-from pathlib import Path
 
-import pytest
 
 from packages.source_intel.analyze import (
     GRADE_DOMINATES,

@@ -6,7 +6,6 @@ as one prose line per finding when relevant sanitizers are active.
 
 from __future__ import annotations
 
-import pytest
 
 from core.build.build_flags import BuildFlagsContext
 from packages.source_intel.analyze import SourceIntelResult

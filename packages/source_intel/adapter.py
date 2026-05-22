@@ -45,12 +45,6 @@ from packages.source_intel.analyze import (
     KIND_NORETURN,
     KIND_RETURNS_NONNULL,
     KIND_WUR,
-    AbortEvidence,
-    AllocationEvidence,
-    AttributeEvidence,
-    CapabilityEvidence,
-    DoubleFreeEvidence,
-    HazardEvidence,
     SourceIntelResult,
     analyze,
 )

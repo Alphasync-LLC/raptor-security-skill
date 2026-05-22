@@ -3,7 +3,6 @@ per design strict invariant."""
 
 from __future__ import annotations
 
-import pytest
 
 from core.build.build_flags import BuildFlagsContext
 from packages.source_intel.analyze import (
@@ -16,7 +15,6 @@ from packages.source_intel.analyze import (
     SourceIntelResult,
 )
 from packages.source_intel.render import (
-    Mitigation,
     derive_mitigations_found,
 )
 

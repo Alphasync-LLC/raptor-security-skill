@@ -151,7 +151,7 @@ def test_double_free_irrelevant_for_other_cwe(tmp_path):
     ),))
     with patch("packages.source_intel.adapter.analyze",
                return_value=result):
-        v = SourceIntelValidator(repo_root=tmp_path)
+        SourceIntelValidator(repo_root=tmp_path)
         # Verdict shouldn't be EXPLOITABLE from axis-3 double-free —
         # but axis-7 hazard / axis-1 etc. might still fire. Just
         # assert that axis-3 helper says no.

@@ -14,7 +14,6 @@ from __future__ import annotations
 from pathlib import Path
 from unittest.mock import patch
 
-import pytest
 
 from core.dataflow.finding import Finding, Step
 from packages.source_intel.adapter import (

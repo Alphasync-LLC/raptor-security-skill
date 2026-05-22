@@ -8,7 +8,6 @@ a real-spatch E2E test that exercises the shipped
 from __future__ import annotations
 
 import shutil
-from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest

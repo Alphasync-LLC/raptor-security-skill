@@ -11,7 +11,6 @@ import shutil
 import pytest
 
 from packages.source_intel.analyze import (
-    PairedFreeEvidence,
     SourceIntelResult,
     analyze,
 )

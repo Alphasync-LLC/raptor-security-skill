@@ -12,10 +12,8 @@ BuildFlagsContext to attenuate findings:
 
 from __future__ import annotations
 
-from pathlib import Path
 from unittest.mock import patch
 
-import pytest
 
 from core.build.build_flags import BuildFlagsContext
 from core.dataflow.finding import Finding, Step

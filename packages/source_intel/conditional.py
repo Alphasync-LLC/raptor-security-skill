@@ -33,7 +33,7 @@ import re
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import List, Optional, Tuple
 
 
 # Match preprocessor directives. Group 1 is the directive name; group 2

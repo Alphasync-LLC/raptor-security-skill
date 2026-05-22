@@ -12,8 +12,6 @@ import shutil
 import pytest
 
 from packages.source_intel.analyze import (
-    BoundaryEvidence,
-    LsmEvidence,
     SourceIntelResult,
     analyze,
 )

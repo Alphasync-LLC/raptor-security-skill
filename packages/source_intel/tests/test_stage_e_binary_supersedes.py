@@ -16,7 +16,6 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 
-import pytest
 
 from core.security.prompt_envelope import UntrustedBlock
 from packages.source_intel.analyze import (

@@ -8,7 +8,6 @@ policy, and integration with the rest of the verdict chain.
 from __future__ import annotations
 
 import shutil
-from pathlib import Path
 from unittest.mock import patch
 
 import pytest

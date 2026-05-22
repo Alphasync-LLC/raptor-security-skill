@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 
 from packages.source_intel.analyze import SourceIntelResult
 from packages.source_intel.cache import SourceIntelCache

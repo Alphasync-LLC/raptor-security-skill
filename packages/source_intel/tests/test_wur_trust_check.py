@@ -10,7 +10,6 @@ meaningless values aren't detectable structurally.
 
 from __future__ import annotations
 
-import pytest
 
 from packages.source_intel.adapter import (
     _is_literal_const,

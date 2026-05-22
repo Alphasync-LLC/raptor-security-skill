@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 
 from packages.source_intel.discovery import (
     PER_FAMILY_ALIAS_CAP,
