@@ -56,6 +56,8 @@ from . import registry_metadata as _registry_metadata
 from . import sentinel as _sentinel
 from . import typosquat as _typosquat
 from . import typosquat_domain as _typosquat_domain
+from . import branch_protection as _branch_protection
+from . import workflow_signing as _workflow_signing
 
 logger = logging.getLogger(__name__)
 
@@ -149,6 +151,15 @@ def evaluate(
     for td in _typosquat_domain.scan_target(target, manifests_list):
         out.append(_typosquat_domain_to_finding(td))
 
+    for ws in _workflow_signing.scan_target(target, manifests_list):
+        out.append(_workflow_signing_to_finding(ws))
+
+    if github_actions_client is not None:
+        for bp in _branch_protection.scan_target(
+            target, manifests_list, client=github_actions_client,
+        ):
+            out.append(_branch_protection_to_finding(bp))
+
     if pypi_client is not None or npm_client is not None:
         for rm in _registry_metadata.scan_deps(
             deps_list,
@@ -234,6 +245,135 @@ def _explain_ref_kind(kind: str) -> str:
         "tag_or_branch": "pinned to a tag or branch",
         "none": "no explicit ref — resolves to default branch",
     }.get(kind, kind)
+
+
+def _workflow_signing_to_finding(
+    ws: _workflow_signing.WorkflowSigningFinding,
+) -> SupplyChainFinding:
+    """Convert a workflow-signing finding. Two shapes:
+
+      * per-commit anomaly — ``ws.unsigned_commit`` populated, the
+        repo's signing norm is high enough that this unsigned
+        commit reads as anomalous. Megalodon-attack-signature shape.
+      * summary hygiene — ``ws.stats`` populated, the repo's signing
+        rate is below the anomaly-detection threshold. One finding
+        per scan describing the rate.
+    """
+    if ws.unsigned_commit is not None:
+        hit = ws.unsigned_commit
+        short_sha = hit.commit_sha[:12]
+        return SupplyChainFinding(
+            finding_id=(
+                f"sca:supplychain:workflow_unsigned_commit:"
+                f"{hit.commit_sha}"
+            ),
+            kind="workflow_unsigned_commit",
+            dependency=ws.dependency,
+            detail=(
+                f"commit {short_sha} modifying .github/workflows/** "
+                f"is unsigned (author: {hit.author_name} "
+                f"<{hit.author_email}>, subject: "
+                f"{_truncate(hit.subject, limit=80)}). The repo's "
+                f"signing norm is high enough that this commit "
+                f"stands out — Megalodon-class attacks push forged-"
+                f"identity commits to ``main`` and would produce "
+                f"exactly this signal."
+            ),
+            evidence={
+                "commit_sha": hit.commit_sha,
+                "sig_status": hit.sig_status,
+                "author_name": hit.author_name,
+                "author_email": hit.author_email,
+                "subject": _truncate(hit.subject, limit=200),
+                "finding_shape": "anomaly",
+            },
+            severity=ws.severity,                 # type: ignore[arg-type]
+            confidence=ws.confidence,
+        )
+    if ws.stats is not None:
+        stats = ws.stats
+        rate_pct = round(stats.signing_rate * 100, 1)
+        return SupplyChainFinding(
+            finding_id=(
+                f"sca:supplychain:workflow_unsigned_commit:"
+                f"summary:{ws.dependency.declared_in}"
+            ),
+            kind="workflow_unsigned_commit",
+            dependency=ws.dependency,
+            detail=(
+                f"{stats.unsigned_count} of the last "
+                f"{stats.commits_walked} commits touching "
+                f".github/workflows/** are unsigned "
+                f"(signing rate {rate_pct}%). Below the "
+                f"anomaly-detection threshold — individual "
+                f"unsigned commits aren't flagged in this "
+                f"regime. Enabling 'Require signed commits' "
+                f"branch protection on ``main`` raises the "
+                f"signing rate to 100% and turns future unsigned "
+                f"pushes into hard blocks rather than hygiene "
+                f"warnings."
+            ),
+            evidence={
+                "commits_walked": stats.commits_walked,
+                "signed_count": stats.signed_count,
+                "unsigned_count": stats.unsigned_count,
+                "signing_rate": stats.signing_rate,
+                "finding_shape": "summary",
+            },
+            severity=ws.severity,                 # type: ignore[arg-type]
+            confidence=ws.confidence,
+        )
+    # Both fields None — should not happen but bail safely.
+    raise ValueError(
+        "workflow_signing finding has neither unsigned_commit "
+        "nor stats populated"
+    )
+
+
+def _branch_protection_to_finding(
+    bp: _branch_protection.BranchProtectionFinding,
+) -> SupplyChainFinding:
+    """Repo posture: branch protection missing or not requiring
+    signed commits. Companion to workflow_unsigned_commit — that
+    detector says what already happened; this says whether
+    anything can prevent it from happening again."""
+    if bp.finding_shape == "missing_protection":
+        detail = (
+            f"{bp.owner_repo}'s default branch ({bp.branch}) has no "
+            f"branch-protection rule at all — any account with write "
+            f"access can push directly to it, signed or not. This is "
+            f"the Megalodon (May 2026) exposure: attackers with "
+            f"compromised PATs forge-identity commits to default "
+            f"branches lacking review enforcement. Configure branch "
+            f"protection requiring PR review + signed commits on the "
+            f"default branch."
+        )
+    else:
+        detail = (
+            f"{bp.owner_repo}'s default branch ({bp.branch}) has a "
+            f"branch-protection rule but doesn't require signed "
+            f"commits. Enabling 'Require signed commits' on the rule "
+            f"raises the attacker's bar from credential compromise "
+            f"(stolen PAT alone) to credential + signing-key "
+            f"compromise — meaningfully harder for the Megalodon-"
+            f"class d-PPE attacks."
+        )
+    return SupplyChainFinding(
+        finding_id=(
+            f"sca:supplychain:branch_protection_missing_signed_commits:"
+            f"{bp.owner_repo}:{bp.branch}"
+        ),
+        kind="branch_protection_missing_signed_commits",
+        dependency=bp.dependency,
+        detail=detail,
+        evidence={
+            "owner_repo": bp.owner_repo,
+            "branch": bp.branch,
+            "finding_shape": bp.finding_shape,
+        },
+        severity=bp.severity,                  # type: ignore[arg-type]
+        confidence=bp.confidence,
+    )
 
 
 def _sentinel_to_finding(

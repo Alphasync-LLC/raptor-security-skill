@@ -120,5 +120,107 @@ class GitHubActionsClient:
             return None
         return f"{parts[0]}/{parts[1]}"
 
+    def get_repo_info(self, owner_repo: str) -> Optional[dict]:
+        """Return the ``GET /repos/{owner}/{repo}`` response, or None.
+
+        Used by the branch-protection detector to discover the
+        repo's default branch (most repos use ``main`` but
+        ``master``, ``develop``, ``trunk`` etc. are also in the
+        wild — the API tells us authoritatively).
+
+        Cached for 24h alongside the rest of this client's data.
+        """
+        if "/" not in owner_repo:
+            return None
+        cache_key = f"ghactions-repo:{owner_repo}"
+        if self._cache is not None:
+            cached = self._cache.try_get(cache_key, ttl_seconds=self._ttl)
+            if cached is not MISSING:
+                return cached if isinstance(cached, dict) else None
+        if self._offline:
+            return None
+        try:
+            data = self._http.get_json(
+                f"https://api.github.com/repos/{owner_repo}",
+            )
+        except Exception as e:                      # noqa: BLE001
+            logger.debug(
+                "sca.registries.github_actions: repo info failed for "
+                "%s: %s", owner_repo, e,
+            )
+            if self._cache is not None:
+                self._cache.put(cache_key, None, ttl_seconds=self._ttl)
+            return None
+        if not isinstance(data, dict):
+            return None
+        if self._cache is not None:
+            self._cache.put(cache_key, data, ttl_seconds=self._ttl)
+        return data
+
+    def get_branch_protection(
+        self, owner_repo: str, branch: str,
+    ) -> Optional[dict]:
+        """Return the ``GET /repos/{owner}/{repo}/branches/{branch}/
+        protection`` response, or None on any failure.
+
+        Returns:
+            * dict — branch has protection configured; the dict's
+              ``required_signatures.enabled`` key tells us whether
+              signed-commits is enforced.
+            * None — failures take three shapes that we don't
+              distinguish here:
+                - 404 Not Found: no protection rule for this branch
+                  (this is itself a finding — surfaced by the caller).
+                - 403: token lacks the ``administration:read`` scope
+                  for this repo. Genuine permission gap; we can't
+                  tell the operator's posture, so don't surface.
+                - network / rate-limit: same disposition as 403.
+              The caller layer treats None as "no answer available"
+              and emits no finding — better silent than wrong.
+
+        The branch-protection API requires Authenticated requests
+        with the ``administration:read`` scope (or
+        ``repo`` scope for legacy tokens). Anonymous requests
+        always return 404. The caller is expected to configure the
+        underlying ``HttpClient`` with a token; without one this
+        detector silently no-ops.
+        """
+        if "/" not in owner_repo or not branch:
+            return None
+        cache_key = f"ghactions-branch-prot:{owner_repo}:{branch}"
+        if self._cache is not None:
+            cached = self._cache.try_get(cache_key, ttl_seconds=self._ttl)
+            if cached is not MISSING:
+                return cached if isinstance(cached, dict) else None
+        if self._offline:
+            return None
+        try:
+            data = self._http.get_json(
+                f"https://api.github.com/repos/{owner_repo}"
+                f"/branches/{branch}/protection",
+            )
+        except Exception as e:                      # noqa: BLE001
+            # Surface 404 as a distinct sentinel so the caller can
+            # tell "no protection rule" from "couldn't ask." We
+            # encode it in the cache as the literal dict
+            # ``{"_sentinel": "not_found"}``.
+            err_str = str(e)
+            is_404 = "404" in err_str or "Not Found" in err_str
+            sentinel = {"_sentinel": "not_found"} if is_404 else None
+            logger.debug(
+                "sca.registries.github_actions: branch-protection "
+                "failed for %s/%s: %s", owner_repo, branch, e,
+            )
+            if self._cache is not None:
+                self._cache.put(
+                    cache_key, sentinel, ttl_seconds=self._ttl,
+                )
+            return sentinel
+        if not isinstance(data, dict):
+            return None
+        if self._cache is not None:
+            self._cache.put(cache_key, data, ttl_seconds=self._ttl)
+        return data
+
 
 __all__ = ["GitHubActionsClient"]
