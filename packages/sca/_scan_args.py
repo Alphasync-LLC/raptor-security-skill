@@ -36,6 +36,36 @@ from pathlib import Path
 from .pipeline import RunOptions
 
 
+_SCAN_HELP_EPILOG = """\
+Common invocations:
+
+  Run a scan with the default mechanical pipeline:
+    raptor-sca <path>
+
+  CI gate — exit 1 on any high-severity or KEV-listed CVE:
+    raptor-sca <path> --fail-on-severity high --fail-on-kev
+
+  Steady-state CI — only NEW findings since last week's baseline:
+    raptor-sca <path> --baseline last-week.json --pr-comment
+
+  Mechanical-only (no LLM, no API keys needed):
+    raptor-sca <path> --no-llm
+
+  Adversarial-audit mode — LLM verdicts on slopsquat + maintainer
+  signals; spends model budget but produces narrative verdicts:
+    raptor-sca <path> --review-slopsquats --review-maintainers
+
+  Air-gapped — local OSV daily-dump zip, no outbound network:
+    raptor-sca <path> --offline --use-offline-db
+
+Output (under ``--out``):
+  findings.json   canonical JSON; consumed by downstream tools
+  report.md       severity-sorted markdown for humans
+  findings.sarif  for GitHub code-scanning / GitLab SAST
+  sbom.cdx.json   CycloneDX 1.5 + VEX
+"""
+
+
 def add_scan_args(parser: argparse.ArgumentParser) -> None:
     """Register every scan-mode flag on ``parser``.
 
@@ -44,7 +74,19 @@ def add_scan_args(parser: argparse.ArgumentParser) -> None:
     shim makes it optional because it can fall back to
     ``$RAPTOR_CALLER_DIR``). Add ``target`` separately in each
     consumer, then call this for the rest.
+
+    Sets ``parser.epilog`` to the shared "common invocations"
+    block unless the caller already populated it. Both consumers
+    (``cli.py`` + ``libexec/raptor-sca-run``) get the same epilog
+    in their ``--help`` output without code duplication.
     """
+    if not parser.epilog:
+        parser.epilog = _SCAN_HELP_EPILOG
+        # Default argparse formatter swallows newlines in the
+        # epilog. Switch to ``RawDescriptionHelpFormatter`` so the
+        # invocation block above renders as written.
+        parser.formatter_class = argparse.RawDescriptionHelpFormatter
+
     parser.add_argument(
         "--out",
         help="output directory (default: ./out/sca-<UTC timestamp>/)",
@@ -208,7 +250,9 @@ def add_scan_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--review-maintainers", action="store_true",
         help="run LLM maintainer-trust review on all direct deps, "
-             "not just those with maintainer-churn findings",
+             "not just those with maintainer-churn findings "
+             "(default: off; even with this flag, ``--no-llm`` "
+             "disables the review)",
     )
     parser.add_argument(
         "--review-slopsquats", action="store_true",
@@ -222,13 +266,15 @@ def add_scan_args(parser: argparse.ArgumentParser) -> None:
     )
     parser.add_argument(
         "--llm-inline-installs", action="store_true",
-        help="run LLM pass over Dockerfile/shell/GHA to find deps "
-             "the mechanical parser missed (default: off)",
+        help="run LLM pass over Dockerfile / shell / GHA workflows "
+             "to find install commands the mechanical parser missed "
+             "(default: off)",
     )
     parser.add_argument(
         "--impact-analysis", action="store_true",
-        help="run LLM upgrade-impact analysis for proposed version bumps "
-             "(default: auto when --allow-major is set)",
+        help="run LLM upgrade-impact analysis for proposed version "
+             "bumps (default: auto-on when ``--allow-major`` is "
+             "set, off otherwise)",
     )
     parser.add_argument(
         "--cache-root",

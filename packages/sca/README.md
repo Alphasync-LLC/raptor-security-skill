@@ -3,8 +3,10 @@
 Mechanical dependency-vulnerability scanner. Walks a project's manifests,
 resolves dependencies (including transitives via cascade), queries OSV /
 KEV / EPSS for known vulnerabilities, runs supply-chain heuristics
-(typosquat, install hooks, low-bus-factor), and emits findings as
-markdown / SARIF / CycloneDX SBOM / SPDX SBOM.
+(typosquat, slopsquat / LLM-hallucinated-name bait, install hooks,
+low-bus-factor, orphan-commit deps, payload-size anomalies,
+workflow-signing posture, branch-protection posture), and emits
+findings as markdown / SARIF / CycloneDX SBOM / SPDX SBOM.
 
 The user-facing CLI is `bin/raptor-sca`. This README covers the
 behaviour: what it scans, what it produces, and what flags adjust.
@@ -49,7 +51,7 @@ with a `--no-*` flag:
 | Transitive resolution | on | `--no-resolve-transitive` | Run native resolvers (`pip-compile`, `npm install --dry-run`, `cargo metadata`, etc.) for manifests without lockfiles |
 | OSV + KEV + EPSS | on | `--no-kev` / `--no-epss` | Query OSV.dev for advisories, CISA KEV for in-the-wild exploitation, FIRST.org for EPSS scores |
 | Reachability | on | `--no-reachability` | Module-level + function-level: is the vulnerable code path imported / called? |
-| Supply-chain heuristics | on | `--no-supply-chain` | Typosquat similarity, install-hook content review, low-bus-factor detection, sentinel-package match |
+| Supply-chain heuristics | on | `--no-supply-chain` | Typosquat similarity, slopsquat (LLM-hallucinated-name shape), install-hook content review, low-bus-factor, recent-publish, maintainer-change, orphan-commit dep refs, payload-size spikes, workflow-signing posture, branch-protection posture, sentinel-package match |
 
 LLM-driven stages are off by default unless explicitly enabled. The
 umbrella switch is `--no-llm` (forces all off).
@@ -81,7 +83,7 @@ re-derives from it. External tools should consume that one.
 |---|---|---|
 | Vulnerable dependency | `sca:vulnerable_dependency` | OSV.dev (with KEV / EPSS / GH-PoC enrichment) |
 | Hygiene | `sca:hygiene:<kind>` | RAPTOR-internal heuristics (lockfile drift, pin too loose, unpinned, missing lockfile, dep declared in wrong scope, etc.) |
-| Supply-chain | `sca:supply_chain:<kind>` | RAPTOR-internal heuristics (typosquat, install-hook risky, sentinel package match, low-bus-factor, version_publish age, etc.) |
+| Supply-chain | `sca:supply_chain:<kind>` | RAPTOR-internal heuristics (typosquat, slopsquat, install-hook risky, sentinel package match, low-bus-factor, version_publish age, orphan-commit deps, payload-size spike, workflow-signing posture, branch-protection posture, etc.) |
 | License | `sca:license:<kind>` | License-policy violations (`license_restricted`, `license_mismatch`, etc.) |
 
 Each finding row carries a `severity` (`info` / `low` / `medium` /
@@ -104,24 +106,61 @@ Inline-installs emit deps tagged `Debian` / `Red Hat` / `Alpine` /
 (only OSV-queryable for the subset OSV indexes; others appear in
 the SBOM only).
 
+### Manifest formats — modern coverage
+
+Beyond the conventional one-file-per-project shapes
+(`requirements.txt`, `package.json`, `Cargo.toml`, `pom.xml`,
+`go.mod`, `Gemfile`, `composer.json`, etc.), the parsers handle
+the modern centralised-version layouts that broke earlier
+SCA tooling:
+
+- **NuGet Central Package Management** —
+  `Directory.Packages.props` + per-csproj versionless
+  `<PackageReference>` entries are resolved via the hierarchical
+  walk-up; `VersionOverride` and `GlobalPackageReference` shapes
+  carry source-origin attribution for the bumper. `.sln`-referenced
+  csproj files are pulled in from sibling subtrees the rglob walk
+  doesn't reach.
+- **MSBuild `Directory.Build.props`** inheritance — PackageReference
+  rows declared higher in the tree resolve correctly into csproj
+  files that don't redeclare them.
+- **Gradle version catalogs** —
+  `gradle/libs.versions.toml` is read for both `version.ref`
+  accessors and inline shorthand; the `gradle_dsl` parser
+  resolves `libs.foo.bar` references in `build.gradle.kts`.
+  Plugins via `[plugins]` table emit as Maven coordinates
+  (`<plugin_id>.gradle.plugin` marker artifact pattern).
+- **Bumper rewriters** cover every read-side surface above —
+  `raptor-sca bump` writes `Directory.Packages.props`
+  `<PackageVersion>` updates, csproj `VersionOverride` /
+  inline-version updates, and `libs.versions.toml` `[versions]`
+  / inline-library / plugin updates, all atomic + mode-preserving.
+
 ### Risk-scoring coverage caveats
 
-Findings are ranked by a calibrated risk score that combines
-KEV / EPSS / Exploit-DB / Metasploit / OSV-EVIDENCE signals.
-Coverage isn't uniform across ecosystems — three are
-**cold-start** today (per 2026-05-09 validation snapshot):
+Findings are ranked by a calibrated risk score combining
+KEV / EPSS / Exploit-DB / Metasploit / OSV-EVIDENCE / CISA
+Vulnrichment (SSVC) signals. Per the 2026-05-22 validation
+snapshot:
 
-- **Cargo** (Rust), **NuGet** (.NET), **Packagist** (PHP):
-  zero or near-zero signaled findings even with five
-  ground-truth signal sources combined. Findings still
-  surface; risk-ranking quality is reduced because the
-  underlying CVE-exploit-signal sources structurally
-  under-cover these ecosystems. Adopters relying heavily on
-  risk-ranked output for Rust/.NET/PHP projects should
-  treat the top-N selection as a starting point, not a
-  finished prioritisation.
-- Go / Maven / PyPI / npm have validated_v1 calibration
-  (Spearman ρ 0.50–0.56, top-20 precision 1.0 globally).
+- **All 8 ecosystems pass the per-eco Spearman-ρ threshold**
+  of 0.4. Global ρ across the 4,462-finding corpus is 0.634
+  (post the 2026-05-22 ρ-aware refit); top-20 precision is
+  saturated at 1.000.
+- The 2026-05 CISA Vulnrichment SSVC integration filled the
+  prior cold-start gap on **Cargo / NuGet / Packagist** —
+  those ecosystems now carry SSVC-derived exploitation
+  signals where their CVEs lacked KEV / EDB / MSF coverage.
+  Per-eco ρ on those three: Cargo 0.667, NuGet 0.586,
+  Packagist 0.554.
+
+Within those numbers, ρ ~0.6 means "a randomly picked
+exploited finding ranks higher than a randomly picked non-
+exploited one ~80% of the time" — meaningfully better than
+chance, but not "we know what we're doing." Treat top-of-list
+ranking as reliable; treat deep-list ranking as advisory.
+The risk score is one signal among many in each finding's
+JSON output; operators can sort by any other field.
 
 **C/C++ coverage** depends on OSV's `OSS-Fuzz` ecosystem
 which indexes ~700 widely-used projects (curl / openssl /
