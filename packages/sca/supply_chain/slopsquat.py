@@ -185,10 +185,28 @@ def scan_deps(deps: Iterable[Dependency]) -> List[SlopsquatFinding]:
     for d in deps:
         if not d.direct:
             continue
-        finding = _check_one(d)
+        finding = check_dep(d)
         if finding is not None:
             out.append(finding)
     return out
+
+
+def check_dep(dep: Dependency) -> Optional[SlopsquatFinding]:
+    """Run the slopsquat heuristic against a single dependency.
+
+    Returns the :class:`SlopsquatFinding` when at least one reason
+    fires AND the cumulative score clears the info-severity floor;
+    ``None`` otherwise. No network. Safe to call on a direct dep
+    or a transitive dep — the caller decides whether ``dep.direct``
+    matters (``scan_deps`` filters by it; per-dep query callers
+    like ``raptor-sca check`` typically don't have ``direct`` set
+    meaningfully and want the check regardless).
+
+    Public companion to :func:`scan_deps` for single-package
+    consumers — ``raptor-sca check`` for pre-install evaluation,
+    the bumper for candidate-name vetting, etc.
+    """
+    return _check_one(dep)
 
 
 # ---------------------------------------------------------------------------
@@ -332,4 +350,4 @@ def _confidence(reasons: List[str], score: float) -> Confidence:
     )
 
 
-__all__ = ["SlopsquatFinding", "scan_deps"]
+__all__ = ["SlopsquatFinding", "check_dep", "scan_deps"]

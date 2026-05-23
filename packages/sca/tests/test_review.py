@@ -268,6 +268,61 @@ def test_typosquat_distance_two_returns_review(tmp_path: Path, capsys) -> None:
     assert "**Verdict:** Review" in capsys.readouterr().out
 
 
+def test_slopsquat_high_severity_blocks(tmp_path: Path, capsys) -> None:
+    """Lookalike-collapse heuristic match is severity=high → Block.
+    The LLM-paste developer typing
+    ``raptor-sca check npm 1odash 1.0.0`` sees a Block verdict
+    on the visual-confusable name."""
+    http = StubHttp()
+    cache = JsonCache(root=tmp_path)
+    rc = review.main(["npm", "1odash", "1.0.0"],
+                     http=http, cache=cache)
+    assert rc == 2  # Block
+    out = capsys.readouterr().out
+    assert "Slopsquat candidate" in out
+    assert "**Verdict:** Block" in out
+
+
+def test_slopsquat_medium_severity_returns_review(
+    tmp_path: Path, capsys,
+) -> None:
+    """Generic-suffix heuristic alone is severity=medium →
+    Review. ``lodash-pro`` is the canonical LLM hallucination
+    shape; pre-install check surfaces it as Review so the
+    operator sees the warning before running ``npm install``."""
+    http = StubHttp()
+    cache = JsonCache(root=tmp_path)
+    rc = review.main(["npm", "lodash-pro", "1.0.0"],
+                     http=http, cache=cache)
+    assert rc == 1  # Review
+    out = capsys.readouterr().out
+    assert "Slopsquat candidate" in out
+    assert "**Verdict:** Review" in out
+    assert "popular_prefix_generic_suffix" in out
+
+
+def test_slopsquat_check_dep_public_api(tmp_path: Path) -> None:
+    """``check_dep`` is the canonical single-dep predicate. Smoke-
+    test it directly (not via the CLI) to pin the public API
+    shape — keeps external callers (bumper, harden, future
+    consumers) from drifting onto the private ``_check_one``."""
+    from packages.sca.supply_chain.slopsquat import check_dep
+    from packages.sca.models import (
+        Confidence, Dependency, PinStyle,
+    )
+    dep = Dependency(
+        ecosystem="npm", name="lodash-pro", version="1.0",
+        declared_in=Path("/x"), scope="main", is_lockfile=False,
+        pin_style=PinStyle.EXACT, direct=True,
+        purl="pkg:npm/lodash-pro@1.0",
+        parser_confidence=Confidence("high", reason="t"),
+    )
+    f = check_dep(dep)
+    assert f is not None
+    assert f.severity == "medium"
+    assert "popular_prefix_generic_suffix" in f.reasons
+
+
 def test_advisory_with_fix_returns_review(tmp_path: Path, capsys) -> None:
     """A high-sev CVE with an upgrade path is a review, not a block."""
     http = StubHttp(

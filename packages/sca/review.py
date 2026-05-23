@@ -49,6 +49,10 @@ from .models import (
     VulnFinding,
 )
 from .osv import OsvClient
+from .supply_chain.slopsquat import (
+    SlopsquatFinding,
+    check_dep as _slop_check,
+)
 from .supply_chain.typosquat import TyposquatFinding, scan_deps as _typo_scan
 
 logger = logging.getLogger(__name__)
@@ -102,6 +106,14 @@ def main(
     osv_results = osv.query_batch([dep])
     vuln_findings = build_vuln_findings([dep], osv_results, kev=kev, epss=epss)
     typo_findings = _typo_scan([dep])
+    # Slopsquat heuristic — the LLM-paste pre-install scenario is
+    # exactly the use case this subcommand is built for. Heuristic
+    # only (no LLM verdict here — that lives in the main scan
+    # pipeline behind ``--review-slopsquats``).
+    slop_finding = _slop_check(dep)
+    slop_findings: List[SlopsquatFinding] = (
+        [slop_finding] if slop_finding is not None else []
+    )
 
     # Probe whether the package + version actually exists in its
     # registry. This is a cheap one-call check that runs even when
@@ -160,6 +172,7 @@ def main(
     verdict = _compute_verdict(
         vuln_findings, typo_findings, transitive_findings,
         seed_metadata_unverifiable=seed_metadata_unverifiable,
+        slop_findings=slop_findings,
     )
     report = _render_review_markdown(
         dep, vuln_findings, typo_findings, verdict,
@@ -168,6 +181,7 @@ def main(
         transitive_walk_attempted=transitive_walk_attempted,
         transitive_walk_supported=transitive_walk_supported,
         seed_metadata_unverifiable=seed_metadata_unverifiable,
+        slop_findings=slop_findings,
     )
 
     if args.out:
@@ -249,6 +263,7 @@ def _compute_verdict(
     *,
     seed_metadata_unverifiable: bool = False,
     bump_supply_chain_findings: Optional[List[SupplyChainFinding]] = None,
+    slop_findings: Optional[List[SlopsquatFinding]] = None,
 ) -> int:
     """Map signals onto clean / review / block.
 
@@ -312,6 +327,19 @@ def _compute_verdict(
         if t.distance <= 1:
             return _VERDICT_BLOCK
         verdict = max(verdict, _VERDICT_REVIEW)
+    # Slopsquat verdict mapping. Pre-add review is the prime
+    # LLM-paste scenario — operator is literally typing a name
+    # they got from somewhere (paste / suggestion / autocomplete).
+    # Block on high-severity heuristic (lookalike-collapse hit
+    # OR multiple stacked signals scoring ≥ 0.7); Review on
+    # medium / low so the operator at least sees the warning
+    # before installing.
+    if slop_findings:
+        for s in slop_findings:
+            if severity_rank(s.severity) >= severity_rank("high"):
+                return _VERDICT_BLOCK
+            if severity_rank(s.severity) >= severity_rank("low"):
+                verdict = max(verdict, _VERDICT_REVIEW)
     if seed_metadata_unverifiable:
         verdict = max(verdict, _VERDICT_REVIEW)
     # Bump-tier supply-chain signals: evaluated by the bumper
@@ -362,6 +390,7 @@ def _render_review_markdown(
     transitive_walk_attempted: bool = False,
     transitive_walk_supported: bool = False,
     seed_metadata_unverifiable: bool = False,
+    slop_findings: Optional[List[SlopsquatFinding]] = None,
 ) -> str:
     label = {_VERDICT_CLEAN: "Clean",
              _VERDICT_REVIEW: "Review",
@@ -405,13 +434,22 @@ def _render_review_markdown(
     else:
         buf.write("## Vulnerabilities\n\nNo advisories found.\n\n")
 
-    if typo_findings:
+    if typo_findings or slop_findings:
         buf.write("## Supply-chain heuristics\n\n")
-        for t in typo_findings:
+        for t in typo_findings or []:
             buf.write(
                 f"- Typosquat candidate: distance-{t.distance} from "
                 f"popular **{t.nearest_popular}** "
                 f"({t.severity})\n"
+            )
+        for s in slop_findings or []:
+            root = s.suspected_root or "(unknown)"
+            reasons = ", ".join(s.reasons)
+            buf.write(
+                f"- Slopsquat candidate: heuristic score "
+                f"{s.score:.2f} ({s.severity}); suspected "
+                f"imitation of popular **{root}**; "
+                f"reasons: {reasons}\n"
             )
         buf.write("\n")
 

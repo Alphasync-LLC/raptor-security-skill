@@ -67,6 +67,7 @@ _RULE_NAMES: Dict[str, str] = {
     "sca:hygiene:loose_pin": "LoosePin",
     "sca:hygiene:cross_manifest_inconsistency": "CrossManifestInconsistency",
     "sca:supply_chain:typosquat_candidate": "TyposquatCandidate",
+    "sca:supply_chain:slopsquat_suspect": "SlopsquatSuspect",
     "sca:supply_chain:install_hook_suspicious": "InstallHookSuspicious",
     "sca:supply_chain:python_pth_file": "PythonPthFile",
     "sca:supply_chain:binary_in_tests": "BinaryInTests",
@@ -97,6 +98,13 @@ _RULE_DESCRIPTIONS: Dict[str, str] = {
     "sca:supply_chain:typosquat_candidate":
         "The dependency name is one or two edits away from a popular "
         "package and may be a typosquat targeting that package.",
+    "sca:supply_chain:slopsquat_suspect":
+        "The dependency name matches a shape that LLMs commonly "
+        "hallucinate (generic suffix on a popular prefix, lookalike-"
+        "character substitution, or untrusted scope). Attackers "
+        "pre-register these hallucinated names; combined with "
+        "registry-side recency or low-bus-factor signals this is "
+        "the canonical LLM-paste bait archetype.",
     "sca:supply_chain:install_hook_suspicious":
         "The package.json declares a lifecycle script that runs at install "
         "time and matches a pattern associated with malicious behaviour.",
