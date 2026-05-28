@@ -79,6 +79,23 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Typosquat candidate nudge
+        if: steps.diff.outputs.changed == 'true'
+        # Mechanical, LLM-FREE (CI has no LLM, and the data-refresh path must
+        # not depend on one). Lists near-names that rode the refreshed feeds in
+        # and are not yet classified — present in neither the denylist nor the
+        # reviewed-legit list. Written to RUNNER_TEMP (never committed to the
+        # repo) and appended to the PR body below as a triage nudge. The actual
+        # judgement — fetch evidence, LLM-triage, gate — runs OPERATOR-side via
+        # ``raptor-sca triage`` when reviewing this PR, where an LLM is
+        # available. continue-on-error: a flaky popularity feed must surface the
+        # data refresh, not redden it over an advisory nudge.
+        continue-on-error: true
+        run: |
+          set -eu
+          python -m packages.sca.supply_chain.typosquat_audit \
+            --format markdown --out "$RUNNER_TEMP/typosquat-candidates.md"
+
       - name: Commit + push to refresh branch
         if: steps.diff.outputs.changed == 'true'
         env:
@@ -140,6 +157,12 @@ jobs:
           - Tests pass.
           EOF
           )
+          # Append the typosquat candidate nudge if the audit produced one.
+          # The file lives in RUNNER_TEMP (not the repo); empty = no candidates.
+          CAND="$RUNNER_TEMP/typosquat-candidates.md"
+          if [ -s "$CAND" ]; then
+            BODY="$BODY"$'\n\n---\n\n'"$(cat "$CAND")"
+          fi
           if ! gh pr create \
                 --base main \
                 --head "$BRANCH" \
