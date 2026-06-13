@@ -455,3 +455,363 @@ def test_derive_domain_packs_detects_real_ai_project():
     }
     packs = _derive_domain_packs(context_map)
     assert "ai" in packs
+
+
+# ── Item 1: accepted-risk expiry ────────────────────────────────
+
+
+def test_lint_flags_expired_accepted_risk():
+    from core.threat_model import ThreatModel, lint_model
+    model = ThreatModel(
+        project_name="demo",
+        target="/x",
+        assets=["app"],
+        entry_points=["GET /"],
+        trust_boundaries=["boundary"],
+        threats=[{
+            "id": "T-001",
+            "title": "test threat",
+            "status": "accepted",
+            "risk_score": 50,
+            "control_ids": [],
+            "evidence_ids": [],
+        }],
+        controls=[{"id": "CTRL-001", "name": "c", "status": "expected"}],
+        accepted_risks=[{
+            "id": "AR-001",
+            "threat_id": "T-001",
+            "owner": "ops",
+            "accepted_until": "2020-01-01T00:00:00+00:00",
+            "reason": "low impact",
+        }],
+    )
+    issues = lint_model(model)
+    expired = [i for i in issues if "expired" in i.get("message", "")]
+    assert len(expired) == 1
+    assert "AR-001" in expired[0]["message"]
+    assert expired[0]["severity"] == "error"
+
+
+def test_lint_does_not_flag_future_accepted_risk():
+    from core.threat_model import ThreatModel, lint_model
+    model = ThreatModel(
+        project_name="demo",
+        target="/x",
+        assets=["app"],
+        entry_points=["GET /"],
+        trust_boundaries=["boundary"],
+        threats=[{
+            "id": "T-001",
+            "title": "test threat",
+            "status": "accepted",
+            "risk_score": 50,
+            "control_ids": [],
+            "evidence_ids": [],
+        }],
+        controls=[{"id": "CTRL-001", "name": "c", "status": "expected"}],
+        accepted_risks=[{
+            "id": "AR-001",
+            "threat_id": "T-001",
+            "owner": "ops",
+            "accepted_until": "2099-01-01T00:00:00+00:00",
+            "reason": "low impact",
+        }],
+    )
+    issues = lint_model(model)
+    expired = [i for i in issues if "expired" in i.get("message", "")]
+    assert len(expired) == 0
+
+
+def test_lint_expiry_handles_non_utc_timezone():
+    """An accepted_until in +05:30 that's genuinely expired must be caught."""
+    from core.threat_model import ThreatModel, lint_model
+    model = ThreatModel(
+        project_name="demo",
+        target="/x",
+        assets=["app"],
+        entry_points=["GET /"],
+        trust_boundaries=["boundary"],
+        threats=[{
+            "id": "T-001", "title": "t", "status": "accepted",
+            "risk_score": 50, "control_ids": [], "evidence_ids": [],
+        }],
+        controls=[{"id": "CTRL-001", "name": "c", "status": "expected"}],
+        accepted_risks=[{
+            "id": "AR-001", "threat_id": "T-001", "owner": "ops",
+            "accepted_until": "2020-06-01T00:00:00+05:30",
+            "reason": "expired regardless of tz",
+        }],
+    )
+    issues = lint_model(model)
+    expired = [i for i in issues if "expired" in i.get("message", "")]
+    assert len(expired) == 1
+
+
+def test_lint_expiry_handles_malformed_date():
+    """A garbage date string should warn, not crash."""
+    from core.threat_model import ThreatModel, lint_model
+    model = ThreatModel(
+        project_name="demo",
+        target="/x",
+        assets=["app"],
+        entry_points=["GET /"],
+        trust_boundaries=["boundary"],
+        threats=[{
+            "id": "T-001", "title": "t", "status": "accepted",
+            "risk_score": 50, "control_ids": [], "evidence_ids": [],
+        }],
+        controls=[{"id": "CTRL-001", "name": "c", "status": "expected"}],
+        accepted_risks=[{
+            "id": "AR-001", "threat_id": "T-001", "owner": "ops",
+            "accepted_until": "not-a-date",
+            "reason": "bad",
+        }],
+    )
+    issues = lint_model(model)
+    unparseable = [i for i in issues if "unparseable" in i.get("message", "")]
+    assert len(unparseable) == 1
+
+
+# ── Item 2: prompt_context sorts by risk_score ──────────────────
+
+
+def test_prompt_context_emits_highest_risk_threats_first():
+    from core.threat_model import ThreatModel, prompt_context
+    model = ThreatModel(
+        project_name="demo",
+        target="/x",
+        threats=[
+            {"id": "T-LOW", "title": "low", "status": "needs_evidence", "risk_score": 10},
+            {"id": "T-HIGH", "title": "high", "status": "needs_evidence", "risk_score": 90},
+            {"id": "T-MED", "title": "med", "status": "needs_evidence", "risk_score": 50},
+        ],
+    )
+    ctx = prompt_context(model, max_items=2)
+    assert "T-HIGH" in ctx
+    assert "T-MED" in ctx
+    # T-LOW should not appear (max_items=2, and it's the lowest)
+    assert "T-LOW" not in ctx
+    # T-HIGH should appear before T-MED
+    assert ctx.index("T-HIGH") < ctx.index("T-MED")
+
+
+def test_prompt_context_handles_non_numeric_risk_score():
+    from core.threat_model import ThreatModel, prompt_context
+    model = ThreatModel(
+        project_name="demo",
+        target="/x",
+        threats=[
+            {"id": "T-1", "title": "good", "risk_score": 80},
+            {"id": "T-2", "title": "bad score", "risk_score": "not-a-number"},
+            {"id": "T-3", "title": "missing score"},
+        ],
+    )
+    ctx = prompt_context(model)
+    assert "T-1" in ctx
+
+
+def test_prompt_context_sorts_string_risk_score_correctly():
+    """A risk_score stored as string "90" should sort above int 10."""
+    from core.threat_model import ThreatModel, prompt_context
+    model = ThreatModel(
+        project_name="demo",
+        target="/x",
+        threats=[
+            {"id": "T-LOW", "title": "low", "risk_score": 10},
+            {"id": "T-HIGH-STR", "title": "high str", "risk_score": "90"},
+        ],
+    )
+    ctx = prompt_context(model, max_items=1)
+    assert "T-HIGH-STR" in ctx
+    assert "T-LOW" not in ctx
+
+
+# ── Item 4: domain-pack → in-scope vuln class seeding ───────────
+
+
+def test_from_context_map_seeds_native_vuln_classes():
+    from core.threat_model import _vuln_classes_for_packs
+    classes = _vuln_classes_for_packs(["native"])
+    assert any("buffer" in c.lower() or "Buffer" in c for c in classes)
+    assert any("use-after-free" in c.lower() for c in classes)
+
+
+def test_from_context_map_seeds_web_vuln_classes():
+    from core.threat_model import _vuln_classes_for_packs
+    classes = _vuln_classes_for_packs(["web"])
+    assert any("xss" in c.lower() for c in classes)
+    assert any("csrf" in c.lower() for c in classes)
+
+
+def test_from_context_map_native_project_gets_native_classes(tmp_path):
+    context_map = {
+        "entry_points": [{"id": "E1", "name": "main", "file": "main.c"}],
+        "sink_details": [{"id": "S1", "name": "memcpy", "file": "util.c", "type": "memory"}],
+        "trust_boundaries": [],
+        "unchecked_flows": [],
+        "sinks": [],
+    }
+    project = SimpleNamespace(name="native-app", target=str(tmp_path), output_dir=str(tmp_path))
+    model = from_context_map(project, context_map)
+    assert any("buffer" in c.lower() or "Buffer" in c for c in model.in_scope_vuln_classes)
+
+
+def test_from_context_map_web_project_gets_web_classes(tmp_path):
+    context_map = {
+        "frameworks": ["django"],
+        "entry_points": [{"id": "E1", "name": "view", "file": "views.py"}],
+        "sink_details": [{"id": "S1", "name": "render", "file": "t.py", "type": "template"}],
+        "trust_boundaries": [],
+        "unchecked_flows": [],
+        "sinks": [],
+    }
+    project = SimpleNamespace(name="web-app", target=str(tmp_path), output_dir=str(tmp_path))
+    model = from_context_map(project, context_map)
+    assert any("xss" in c.lower() for c in model.in_scope_vuln_classes)
+
+
+def test_domain_classes_do_not_duplicate_existing(tmp_path):
+    from core.threat_model import _vuln_classes_for_packs
+    classes = _vuln_classes_for_packs(["web", "web"])
+    xss_count = sum(1 for c in classes if "xss" in c.lower())
+    assert xss_count == 1
+
+
+def test_unknown_domain_pack_produces_no_classes():
+    from core.threat_model import _vuln_classes_for_packs
+    classes = _vuln_classes_for_packs(["quantum_computing"])
+    assert classes == []
+
+
+# ── Item 5: CLI add/remove mutations ────────────────────────────
+
+
+def _setup_project_with_model(tmp_path):
+    """Helper: create a ProjectManager + project + saved threat model."""
+    from core.project.project import ProjectManager
+    proj_dir = tmp_path / "projects"
+    proj_dir.mkdir()
+    mgr = ProjectManager(projects_dir=proj_dir)
+    out_dir = tmp_path / "out"
+    out_dir.mkdir()
+    project = mgr.create(
+        name="test-cli",
+        target=str(tmp_path / "target"),
+        output_dir=str(out_dir),
+    )
+    model = blank_for_project(project)
+    json_path, md_path = project_threat_model_paths(project)
+    save_model(model, json_path, md_path)
+    project.threat_model_path = str(json_path)
+    from core.json import save_json as _sj
+    _sj(proj_dir / "test-cli.json", project.to_dict())
+    return mgr, project, json_path, md_path
+
+
+def _make_args(**kwargs):
+    """Create a minimal args namespace for _handle_threat_model."""
+    defaults = {
+        "action": "show",
+        "name": "test-cli",
+        "field": None,
+        "value": None,
+        "from_context_map": None,
+        "context_map": None,
+        "json_out": False,
+    }
+    defaults.update(kwargs)
+    return SimpleNamespace(**defaults)
+
+
+def test_cli_add_appends_to_list_field(tmp_path):
+    """The add action appends a value to a string-list field and persists."""
+    from core.project.cli import _handle_threat_model
+    mgr, project, json_path, md_path = _setup_project_with_model(tmp_path)
+    original = load_model(json_path)
+    original_count = len(original.focus_areas)
+
+    args = _make_args(action="add", field="focus_areas", value="Auth bypass in /api/admin")
+    _handle_threat_model(mgr, args)
+
+    updated = load_model(json_path)
+    assert "Auth bypass in /api/admin" in updated.focus_areas
+    assert len(updated.focus_areas) == original_count + 1
+
+
+def test_cli_remove_deletes_from_list_field(tmp_path):
+    """The remove action removes a value from a string-list field."""
+    from core.project.cli import _handle_threat_model
+    mgr, project, json_path, md_path = _setup_project_with_model(tmp_path)
+
+    original = load_model(json_path)
+    original.assets.append("Remove me")
+    save_model(original, json_path, md_path)
+
+    args = _make_args(action="remove", field="assets", value="Remove me")
+    _handle_threat_model(mgr, args)
+
+    updated = load_model(json_path)
+    assert "Remove me" not in updated.assets
+
+
+def test_cli_add_rejects_invalid_field(tmp_path, capsys):
+    """The add action refuses non-mutable fields like 'threats'."""
+    from core.project.cli import _handle_threat_model
+    mgr, project, json_path, md_path = _setup_project_with_model(tmp_path)
+
+    args = _make_args(action="add", field="threats", value="hacked")
+    _handle_threat_model(mgr, args)
+
+    captured = capsys.readouterr()
+    assert "not a mutable" in captured.out.lower()
+
+
+def test_cli_add_duplicate_value_warns(tmp_path, capsys):
+    """Adding a value that already exists warns rather than duplicating."""
+    from core.project.cli import _handle_threat_model
+    mgr, project, json_path, md_path = _setup_project_with_model(tmp_path)
+
+    original = load_model(json_path)
+    existing = original.assets[0]
+
+    args = _make_args(action="add", field="assets", value=existing)
+    _handle_threat_model(mgr, args)
+
+    captured = capsys.readouterr()
+    assert "already" in captured.out.lower()
+
+
+def test_cli_add_without_field_shows_usage(tmp_path, capsys):
+    """The add action with no --field shows usage help."""
+    from core.project.cli import _handle_threat_model
+    mgr, project, json_path, md_path = _setup_project_with_model(tmp_path)
+
+    args = _make_args(action="add", field=None, value="something")
+    _handle_threat_model(mgr, args)
+
+    captured = capsys.readouterr()
+    assert "usage" in captured.out.lower() or "--field" in captured.out.lower()
+
+
+def test_cli_remove_missing_value_warns(tmp_path, capsys):
+    """Removing a value that doesn't exist warns rather than erroring."""
+    from core.project.cli import _handle_threat_model
+    mgr, project, json_path, md_path = _setup_project_with_model(tmp_path)
+
+    args = _make_args(action="remove", field="assets", value="nonexistent-value-xyz")
+    _handle_threat_model(mgr, args)
+
+    captured = capsys.readouterr()
+    assert "not found" in captured.out.lower()
+
+
+def test_cli_add_updates_markdown(tmp_path):
+    """The add action also re-renders the markdown file."""
+    from core.project.cli import _handle_threat_model
+    mgr, project, json_path, md_path = _setup_project_with_model(tmp_path)
+
+    args = _make_args(action="add", field="focus_areas", value="New focus area XYZ")
+    _handle_threat_model(mgr, args)
+
+    md_content = md_path.read_text(encoding="utf-8")
+    assert "New focus area XYZ" in md_content

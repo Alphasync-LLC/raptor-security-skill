@@ -268,15 +268,22 @@ def main():
         "threat-model",
         help="Manage the project threat-model artefact",
         usage=("raptor project threat-model "
-               "[init|show|export|sync|lint|diff|report] "
-               "[<name>] [--from-context-map <path>] [--context-map <path>] "
+               "[init|show|export|sync|lint|diff|report|add|remove] "
+               "[<name>] [--field <field>] [--value <text>] "
+               "[--from-context-map <path>] [--context-map <path>] "
                "[--json]"),
         **_F,
     )
     p_tm.add_argument(
         "action", nargs="?", default="show",
-        help="Action: init, show, export, sync, or a project name")
+        help="Action: init, show, export, sync, add, remove, or a project name")
     p_tm.add_argument("name", nargs="?", default=None, help="Project name (default: active)")
+    p_tm.add_argument(
+        "--field", default=None, metavar="<field>",
+        help="Target field for add/remove (e.g. focus_areas, assets, trusted_inputs)")
+    p_tm.add_argument(
+        "--value", default=None, metavar="<text>",
+        help="Value to add or remove")
     p_tm.add_argument(
         "--from-context-map", default=None, metavar="<path>",
         help="Seed init from an /understand context-map.json")
@@ -1144,7 +1151,7 @@ def _handle_threat_model(mgr, args) -> None:
         save_report,
     )
 
-    valid_actions = {"init", "show", "export", "sync", "lint", "diff", "report"}
+    valid_actions = {"init", "show", "export", "sync", "lint", "diff", "report", "add", "remove"}
     if args.action not in valid_actions:
         if args.name is None:
             args.name = args.action
@@ -1203,6 +1210,58 @@ def _handle_threat_model(mgr, args) -> None:
     if not model:
         print(_yellow(f"Project '{name}' has no threat model yet."))
         print(f"Run: raptor project threat-model init {name}")
+        return
+
+    if args.action in ("add", "remove"):
+        from core.threat_model import _clip_str, _MAX_LIST_ENTRIES
+        _MUTABLE_LIST_FIELDS = {
+            "assets", "entry_points", "trust_boundaries",
+            "trusted_inputs", "untrusted_inputs",
+            "in_scope_vuln_classes", "out_of_scope_vuln_classes",
+            "focus_areas", "known_bug_shapes",
+            "verification_expectations", "patch_validation_expectations",
+            "methodology", "domain_packs",
+        }
+        field = args.field
+        value = args.value
+        if not field or not value:
+            print(_red(f"Usage: raptor project threat-model {args.action} --field <field> --value <text>"))
+            print(f"  Mutable fields: {', '.join(sorted(_MUTABLE_LIST_FIELDS))}")
+            return
+        if field not in _MUTABLE_LIST_FIELDS:
+            print(_red(f"Field '{field}' is not a mutable list field."))
+            print(f"  Mutable fields: {', '.join(sorted(_MUTABLE_LIST_FIELDS))}")
+            return
+        try:
+            load_mtime = json_path.stat().st_mtime
+        except OSError:
+            load_mtime = None
+        current: list[str] = getattr(model, field)
+        if args.action == "add":
+            sanitised = _clip_str(value)
+            if sanitised in current:
+                print(_yellow(f"'{sanitised}' already in {field}."))
+                return
+            if len(current) >= _MAX_LIST_ENTRIES:
+                print(_red(f"Field {field} already has {_MAX_LIST_ENTRIES} entries (cap reached)."))
+                return
+            current.append(sanitised)
+            print(_green(f"Added to {field}: {sanitised}"))
+        else:
+            if value not in current:
+                print(_yellow(f"'{value}' not found in {field}."))
+                return
+            current.remove(value)
+            print(_green(f"Removed from {field}: {value}"))
+        model.updated_at = datetime.now(timezone.utc).isoformat()
+        try:
+            save_model(model, json_path, markdown_path, expected_mtime=load_mtime)
+        except RuntimeError as e:
+            print(_red(f"Save refused (concurrent writer?): {e}"))
+            return
+        project.threat_model_updated = model.updated_at
+        save_json(mgr.projects_dir / f"{name}.json", project.to_dict())
+        print(f"  {field}: {len(current)} entries")
         return
 
     if args.action == "sync":

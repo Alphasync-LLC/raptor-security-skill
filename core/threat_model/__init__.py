@@ -435,6 +435,9 @@ def from_context_map(project: Any, context_map: dict[str, Any]) -> ThreatModel:
         default_label="sink",
     )
     model.domain_packs = _derive_domain_packs(context_map)
+    derived_classes = _vuln_classes_for_packs(model.domain_packs)
+    existing = set(model.in_scope_vuln_classes)
+    model.in_scope_vuln_classes.extend(c for c in derived_classes if c not in existing)
     model.focus_areas = derive_focus_areas(model.entry_points, sinks)
     unchecked_flows = _summaries_from_unchecked_flows(
         context_map.get("unchecked_flows") or [],
@@ -736,8 +739,15 @@ def prompt_context(model: ThreatModel, *, max_items: int = 8) -> str:
         if values:
             lines.append(f"- {label}: {escape_nonprintable('; '.join(values[:max_items]))}")
     if model.threats:
+        def _risk_key(t):
+            try:
+                return int(t.get("risk_score") or 0)
+            except (TypeError, ValueError):
+                return 0
+
+        by_risk = sorted(model.threats, key=_risk_key, reverse=True)
         rendered = []
-        for threat in model.threats[:max_items]:
+        for threat in by_risk[:max_items]:
             rendered.append(
                 "{id} {status} risk={risk}: {title}".format(
                     id=threat.get("id", "?"),
@@ -796,12 +806,23 @@ def lint_model(model: ThreatModel) -> list[dict[str, Any]]:
             risk = accepted_by_threat.get(tid)
             if not risk:
                 _issue(issues, "error", f"threats.{tid}", f"Threat {tid} is accepted but has no accepted-risk record.")
+    now_utc = datetime.now(timezone.utc)
     for risk in model.accepted_risks:
         rid = str(risk.get("id") or "?")
         if not risk.get("owner"):
             _issue(issues, "error", f"accepted_risks.{rid}", f"Accepted risk {rid} has no owner.")
-        if not risk.get("accepted_until"):
+        accepted_until = risk.get("accepted_until")
+        if not accepted_until:
             _issue(issues, "warning", f"accepted_risks.{rid}", f"Accepted risk {rid} has no review date.")
+        elif isinstance(accepted_until, str):
+            try:
+                expiry = datetime.fromisoformat(accepted_until)
+                if expiry.tzinfo is None:
+                    expiry = expiry.replace(tzinfo=timezone.utc)
+                if expiry < now_utc:
+                    _issue(issues, "error", f"accepted_risks.{rid}", f"Accepted risk {rid} expired on {accepted_until}.")
+            except (ValueError, TypeError):
+                _issue(issues, "warning", f"accepted_risks.{rid}", f"Accepted risk {rid} has unparseable review date: {_clip_str(accepted_until)}.")
     for assumption in model.assumptions:
         aid = str(assumption.get("id") or "?")
         status = str(assumption.get("status") or "active")
@@ -1040,6 +1061,49 @@ def _derive_domain_packs(context_map: dict[str, Any]) -> list[str]:
     if sum(1 for t in _ai_tokens if t in text) >= 2:
         packs.append("ai")
     return _dedup(packs)
+
+
+_DOMAIN_VULN_CLASSES: dict[str, list[str]] = {
+    "web": [
+        "Cross-site scripting (XSS)",
+        "Cross-site request forgery (CSRF)",
+        "Server-side request forgery (SSRF)",
+        "Open redirect",
+    ],
+    "api": [
+        "Broken authentication and session management",
+        "Insecure direct object reference (IDOR)",
+        "Mass assignment and parameter tampering",
+    ],
+    "native": [
+        "Buffer overflow and out-of-bounds access",
+        "Use-after-free and double-free",
+        "Format string vulnerabilities",
+        "Integer overflow leading to memory corruption",
+    ],
+    "cloud": [
+        "Overprivileged IAM roles and policies",
+        "Insecure storage bucket configuration",
+        "Metadata service abuse (SSRF to cloud metadata)",
+    ],
+    "ai": [
+        "Prompt injection and jailbreak",
+        "Training data poisoning",
+        "Insecure tool-use or agent action delegation",
+    ],
+    "sca": [
+        "Known-vulnerable dependency versions",
+        "Dependency confusion and typosquatting",
+    ],
+}
+
+
+def _vuln_classes_for_packs(packs: list[str]) -> list[str]:
+    """Return in-scope vulnerability classes implied by detected domain packs."""
+    out: list[str] = []
+    for pack in packs:
+        out.extend(_DOMAIN_VULN_CLASSES.get(pack, []))
+    return _dedup(out)
 
 
 def _data_flows_from_context_map(context_map: dict[str, Any]) -> list[dict[str, Any]]:

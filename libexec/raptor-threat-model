@@ -56,6 +56,8 @@ Commands:
   diff [project] --context-map <path>
                              Compare model against a fresh context-map
   report [project]           Write threat-model-report.md
+  add --field <f> --value <v>  Add a value to a list field
+  remove --field <f> --value <v>  Remove a value from a list field
   build [agentic args]       Run /understand-backed threat-model-only phase
   refresh [agentic args]     Rebuild and overwrite the project model
   use-stale [agentic args]   Build while allowing stale /understand fallback
@@ -64,6 +66,8 @@ Commands:
 Examples:
   libexec/raptor-threat-model show
   libexec/raptor-threat-model init
+  libexec/raptor-threat-model add --field focus_areas --value "Auth bypass in /api/admin"
+  libexec/raptor-threat-model remove --field out_of_scope_vuln_classes --value "DoS"
   libexec/raptor-threat-model build --repo /path/to/code
   libexec/raptor-threat-model refresh --repo /path/to/code
 EOF
@@ -81,7 +85,7 @@ case "$cmd" in
     show|status)
         exec "$RAPTOR_DIR/libexec/raptor-project-manager" threat-model show "$@"
         ;;
-    init|export|sync|lint|diff|report)
+    init|export|sync|lint|diff|report|add|remove)
         exec "$RAPTOR_DIR/libexec/raptor-project-manager" threat-model "$cmd" "$@"
         ;;
     build)

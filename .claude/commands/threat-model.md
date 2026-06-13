@@ -25,6 +25,8 @@ and `/validate`.
 | `lint [project]` | Run quality gates over the saved model |
 | `diff [project] --context-map <path>` | Compare the saved model against a fresh `/understand` map |
 | `report [project] [--context-map <path>]` | Write `threat-model-report.md` with threats, evidence, drift and quality gates |
+| `add --field <field> --value <text>` | Add a value to a string-list field (e.g. focus_areas, assets) |
+| `remove --field <field> --value <text>` | Remove a value from a string-list field |
 | `build [agentic args]` | Run the `/understand`-backed threat-model-only phase |
 | `refresh [agentic args]` | Rebuild and overwrite the project model |
 | `use-stale [agentic args]` | Build while explicitly allowing stale `/understand` fallback |
